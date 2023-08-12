@@ -1,13 +1,11 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace RPG.Core
+namespace RPG.Core.Character
 {
-    public abstract class Actor : MonoBehaviour, INavMeshAgent
+    public abstract class Actor : MonoBehaviour
     {
         [HideInInspector] public int ActorId;
         [HideInInspector] public int ActorName;
-
-        public abstract NavMeshAgent Agent { get; }
     }
 }

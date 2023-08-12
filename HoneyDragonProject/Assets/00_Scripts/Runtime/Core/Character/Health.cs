@@ -1,11 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-namespace RPG.Core.Character
+namespace RPG.Core
 {
     public class Health : MonoBehaviour, ITakeDamageable
     {
         public int MaxHp;
         public int CurrentHp;
+        private float ratio;
+
+        public event Action<float> OnHealthChanged;
+        public event Action OnDied;
 
         private void Awake()
         {
@@ -18,7 +23,11 @@ namespace RPG.Core.Character
             if(damagedHp <= 0)
             {
                 // DO SOMETHING
+                OnDied?.Invoke();
             }
+
+            ratio = CurrentHp / MaxHp;
+            OnHealthChanged?.Invoke(ratio);
             CurrentHp = damagedHp;
         }
     }
