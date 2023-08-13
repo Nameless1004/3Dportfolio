@@ -6,8 +6,12 @@ namespace RPG.Control
     {
         [SerializeField] private float moveSpeed;
         [SerializeField] private float smoothTime = 0.05f;
+        [SerializeField] private bool useGravity = true;
+        [SerializeField] private float gravity = 9.8f;
 
         private Vector3 direction;
+        private Vector3 moveVec;
+        private Vector3 gravityVec;
         private float currentVelocity;
         PlayerInput input;
         Animator animator;
@@ -18,18 +22,28 @@ namespace RPG.Control
             input = GetComponent<PlayerInput>();
             animator = GetComponentInChildren<Animator>();
             characterController = GetComponent<CharacterController>();
+            gravityVec = new Vector3(0, -gravity, 0);
         }
 
         private void Update()
         {
             UpdateDirection();
-            AnimationUpdate();
+            UpdateAnimationParameter();
+            UpdateGravity();
             if (input.MoveInput.sqrMagnitude == 0) return;
             Rotate();
             Move();
         }
 
-        private void AnimationUpdate()
+        private void UpdateGravity()
+        {
+            if (useGravity && characterController.isGrounded == false)
+            {
+                characterController.Move(gravityVec);
+            }
+        }
+
+        private void UpdateAnimationParameter()
         {
             float forwardSpeed = transform.InverseTransformDirection(direction).z;
             animator.SetFloat("ForwardSpeed", Mathf.Abs(forwardSpeed));
@@ -42,7 +56,8 @@ namespace RPG.Control
 
         private void Move()
         {
-            characterController.Move(moveSpeed * Time.deltaTime * direction);
+            moveVec = (moveSpeed * Time.deltaTime) * direction;
+            characterController.Move(moveVec);
         }
 
         private void Rotate()

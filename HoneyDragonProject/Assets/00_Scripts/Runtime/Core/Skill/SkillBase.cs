@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using RPG.Core.Character;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace RPG.Core.Skill

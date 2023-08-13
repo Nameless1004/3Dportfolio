@@ -14,6 +14,12 @@ namespace RPG.Core.Skill
         {
             skills.Add("BasicAttack", SkillManager.Instance.GetSkill("BasicAttack"));
         }
+
+        public List<ISkill> GetSkillList()
+        {
+            return skills.Values.ToList();
+        }
+
         private void Update()
         {
             if(Input.GetKeyDown(KeyCode.Space))
@@ -35,7 +41,7 @@ namespace RPG.Core.Skill
             }
         }
 
-        private void LevelUpSkill(string name)
+        public void LevelUpSkill(string name)
         {
             skills[name].LevelUp();
         }
