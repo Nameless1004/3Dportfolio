@@ -1,9 +1,7 @@
-﻿using System;
+﻿using RPG.Core.Creature;
 using System.Collections.Generic;
 using System.IO;
-using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace RPG.Core.Skill
 {
@@ -36,6 +34,7 @@ namespace RPG.Core.Skill
             var skill = Resources.Load<ActiveSkill>(name);
             Debug.Assert(skill != null, "Invalid skill name");
 
+            skill.Owner = GameObject.FindWithTag("Player").GetComponent<Player>();
             skill.Init();
             skills.Add(name, skill);
         }

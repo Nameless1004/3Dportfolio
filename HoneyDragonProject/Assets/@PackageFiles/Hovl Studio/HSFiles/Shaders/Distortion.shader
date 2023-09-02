@@ -4,7 +4,7 @@ Shader "Hovl/Particles/Distortion"
 	{
 		_NormalMap("Normal Map", 2D) = "bump" {}
 		_Distortionpower("Distortion power", Float) = 0.05
-		_InvFade ("Soft Particles Factor", Range(0.01,3.0)) = 1.0
+		_InvFade ("Soft Particles FCreature", Range(0.01,3.0)) = 1.0
 	}
 
 	Category 

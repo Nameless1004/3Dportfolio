@@ -1,4 +1,4 @@
-﻿using RPG.Core.Character;
+﻿using RPG.Core.Creature;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +6,7 @@ namespace RPG.Core.Skill
 {
     public abstract class SkillBase : MonoBehaviour, ISkill
     {
+        public Player Owner;
         public SkillData Data => data;
 
         protected Image icon;

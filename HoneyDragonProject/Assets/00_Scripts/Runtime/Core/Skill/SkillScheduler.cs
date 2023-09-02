@@ -36,7 +36,10 @@ namespace RPG.Core.Skill
                     {
                         active.Activate();
                     }
-                    active.SkillCoolTimer();
+                    else
+                    {
+                        active.SkillCoolTimeUpdate();
+                    }
                 }
             }
         }

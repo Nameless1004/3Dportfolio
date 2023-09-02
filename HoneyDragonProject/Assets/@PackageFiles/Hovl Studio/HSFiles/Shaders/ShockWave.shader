@@ -3,7 +3,7 @@ Shader "Hovl/Particles/ShockWave"
 	Properties
 	{
 		[MaterialToggle] _Usedepth ("Use depth?", Float ) = 0
-		_InvFade ("Soft Particles Factor", Range(0.01,3.0)) = 1.0
+		_InvFade ("Soft Particles FCreature", Range(0.01,3.0)) = 1.0
 		_MainTexture("Main Texture", 2D) = "white" {}
 		_Noise("Noise", 2D) = "white" {}
 		_Flow("Flow", 2D) = "white" {}

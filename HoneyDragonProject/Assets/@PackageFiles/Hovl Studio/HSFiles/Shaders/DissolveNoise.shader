@@ -14,7 +14,7 @@ Shader "Hovl/Particles/DissolveNoise"
 		[Toggle]_Usetexturedissolve("Use texture dissolve", Float) = 0
 		_Opacity("Opacity", Range( 0 , 1)) = 1
 		[Toggle] _Usedepth ("Use depth?", Float ) = 0
-		_InvFade ("Soft Particles Factor", Range(0.01,3.0)) = 1.0
+		_InvFade ("Soft Particles FCreature", Range(0.01,3.0)) = 1.0
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 	}
 

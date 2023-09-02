@@ -4,8 +4,10 @@ namespace RPG.Core.Skill
 {
     public abstract class ActiveSkill : SkillBase
     {
-        protected float elapsedTime;
+        private float remainingCoolTime;
+        private float elapsedTime;
 
+        public float RemainingCoolTime => remainingCoolTime;
 
         public abstract void Activate();
         
@@ -14,9 +16,10 @@ namespace RPG.Core.Skill
             return elapsedTime > data.SkillCoolTime;
         }
 
-        public void SkillCoolTimer()
+        public void SkillCoolTimeUpdate()
         {
             elapsedTime += Time.deltaTime;
+            remainingCoolTime = Mathf.Clamp(data.SkillCoolTime - elapsedTime, 0, data.SkillCoolTime);
         }
 
         public void ResetTimer()

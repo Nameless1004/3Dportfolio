@@ -143,7 +143,7 @@ SubShader {
             half3   rayDir          : TEXCOORD0;
         #else
             // as we dont need sun disk we need just rayDir.y (sky/ground threshold)
-            half    skyGroundFactor : TEXCOORD0;
+            half    skyGroundFCreature : TEXCOORD0;
         #endif
 
             // calculate sky colors in vprog
@@ -295,7 +295,7 @@ SubShader {
         #elif SKYBOX_SUNDISK == SKYBOX_SUNDISK_SIMPLE
             OUT.rayDir          = half3(-eyeRay);
         #else
-            OUT.skyGroundFactor = -eyeRay.y / SKY_GROUND_THRESHOLD;
+            OUT.skyGroundFCreature = -eyeRay.y / SKY_GROUND_THRESHOLD;
         #endif
 
             // if we want to calculate color in vprog:
@@ -356,7 +356,7 @@ SubShader {
             half3 ray = IN.rayDir.xyz;
             half y = ray.y / SKY_GROUND_THRESHOLD;
         #else
-            half y = IN.skyGroundFactor;
+            half y = IN.skyGroundFCreature;
         #endif
 
             // if we did precalculate color in vprog: just do lerp between them

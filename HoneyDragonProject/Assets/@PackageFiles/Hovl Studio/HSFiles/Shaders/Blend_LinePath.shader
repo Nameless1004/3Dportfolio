@@ -3,7 +3,7 @@ Shader "Hovl/Particles/Blend_LinePath"
 	Properties
 	{
 		[Toggle] _Usedepth ("Use depth?", Float ) = 0
-		_InvFade ("Soft Particles Factor", Range(0.01,3.0)) = 1.0
+		_InvFade ("Soft Particles FCreature", Range(0.01,3.0)) = 1.0
 		_MainTex("MainTex", 2D) = "white" {}
 		_Noise("Noise", 2D) = "white" {}
 		_Color("Color", Color) = (0.5,0.5,0.5,1)

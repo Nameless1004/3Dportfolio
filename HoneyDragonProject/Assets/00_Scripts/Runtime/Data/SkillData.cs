@@ -2,10 +2,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RPG.Core.Skill
+namespace RPG.Core
 {
     [Serializable]
-    public class SkillData
+    public class SkillData : Data
     {
         public string   IconPath;
         public string   Name;
@@ -14,5 +14,13 @@ namespace RPG.Core.Skill
         public int      Level;
         public int      MinDamage;
         public int      MaxDamage;
+
+        public override void Load()
+        {
+        }
+
+        public override void Save()
+        {
+        }
     }
 }

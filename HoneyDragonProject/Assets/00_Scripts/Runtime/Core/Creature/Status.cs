@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace RPG.Core.Character
+namespace RPG.Core.Creature
 {
     [Serializable]
     public class Status
