@@ -19,7 +19,7 @@ namespace RPG.Core.Creature.State
             owner = animator.GetComponent<Enemy>();
 
             controller.MoveTo(controller.Target.position);
-            controller.Agent.speed = owner.Data.MoveSpeed;
+            controller.Agent.speed = 1;
             controller.Agent.angularSpeed = 10000;
             controller.Agent.acceleration = 100;
         }
@@ -39,7 +39,7 @@ namespace RPG.Core.Creature.State
             }
 
             // 타겟이 공격 범위 이내이면 공격
-            if (owner.Data.AttackRange > GetDistanceToTarget(owner.transform.position, controller.Target.position))
+            if (1 > GetDistanceToTarget(owner.transform.position, controller.Target.position))
             {
                 Debug.Log("dd");
                 animator.ResetTrigger("Attack");

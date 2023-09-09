@@ -1,0 +1,35 @@
+{
+    "skillDatas": 
+    [
+    {
+        "Id" : "0000",
+        "IconPath" : "",
+        "Level" : "1",
+        "Name" : "BasicAttack",
+        "Description" : "",
+        "MinDamage" : "1",
+        "MaxDamage" : "2",
+        "coolTime" : "1.0"
+    },
+    {
+        "Id" : "0000",
+        "IconPath" : "",
+        "Level" : "2",
+        "Name" : "BasicAttack",
+        "Description" : "",
+        "MinDamage" : "2",
+        "MaxDamage" : "3",
+        "coolTime" : "0.9"
+    },
+    {
+        "Id" : "0000",
+        "IconPath" : "",
+        "Level" : "3",
+        "Name" : "BasicAttack",
+        "Description" : "",
+        "MinDamage" : "3",
+        "MaxDamage" : "4",
+        "coolTime" : "0.8"
+    }
+    ]
+}

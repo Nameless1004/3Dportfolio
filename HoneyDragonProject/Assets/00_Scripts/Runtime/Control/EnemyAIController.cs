@@ -9,7 +9,6 @@ namespace RPG.Control
     {
         public Creature Target;
 
-        private EnemyData data;
         public NavMeshAgent Agent { get; private set; }
         private Health health;
 
@@ -20,7 +19,6 @@ namespace RPG.Control
             Agent = GetComponent<NavMeshAgent>();
             Target = GameObject.FindWithTag("Player").GetComponent<Creature>();
             health = GetComponent<Health>();
-            data = GetComponent<Enemy>().Data;
 
             hit = new Collider[1];
         }
@@ -43,13 +41,13 @@ namespace RPG.Control
 
         private void HitCheck()
         {
-            int count = Physics.OverlapSphereNonAlloc(transform.position, data.AttackRange, hit, LayerMask.GetMask("Player"));
-            if (count != 0)
-            {
-                ITakeDamageable damageable = hit[0].GetComponent<ITakeDamageable>();
-                DamageInfo dmgInfo = new DamageInfo { Damage = data.AttackPower, Sender = gameObject };
-                damageable?.TakeDamage(dmgInfo);
-            }
+          //  int count = Physics.OverlapSphereNonAlloc(transform.position, data.AttackRange, hit, LayerMask.GetMask("Player"));
+            //if (count != 0)
+            //{
+            //    ITakeDamageable damageable = hit[0].GetComponent<ITakeDamageable>();
+            //    DamageInfo dmgInfo = new DamageInfo { Damage = 5, Sender = gameObject };
+            //    damageable?.TakeDamage(dmgInfo);
+            //}
         }
     }
 }

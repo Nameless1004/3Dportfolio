@@ -31,7 +31,7 @@ namespace RPG.Core.Creature.State
                 return;
             }
 
-            if(GetDistanceToTarget(controller.Target.position, controller.transform.position) > owner.Data.AttackRange)
+            if(GetDistanceToTarget(controller.Target.position, controller.transform.position) > 1)
             {
                 animator.ResetTrigger("Chase");
                 animator.SetTrigger("Chase");

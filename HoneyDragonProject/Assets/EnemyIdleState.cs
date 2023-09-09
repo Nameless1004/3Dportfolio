@@ -20,7 +20,7 @@ namespace RPG.Core.Creature.State
         {
             if (controller.Target is null) return;
 
-            if (GetDistanceToTarget(controller.transform.position, controller.Target.position) > owner.Data.AttackRange)
+            if (GetDistanceToTarget(controller.transform.position, controller.Target.position) > 1)
             {
                 animator.ResetTrigger("Chase");
                 animator.SetTrigger("Chase");
