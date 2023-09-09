@@ -16,14 +16,26 @@ public class SkillData
 }
 
 [Serializable]
-public class SkillDataSet : ILoader<int, SkillData>
+public class SkillDataSet : ILoader<int, Dictionary<int, SkillData>>
 {
     public List<SkillData> SkillDatas = new List<SkillData>();
 
-    public Dictionary<int, SkillData> MakeDict()
+    public Dictionary<int, Dictionary<int, SkillData>> MakeDict()
     {
-        Dictionary<int, SkillData> dic = new Dictionary<int, SkillData>();
-        SkillDatas.ForEach(x => dic.Add(x.Id, x));
+        Dictionary<int, Dictionary<int, SkillData>> dic = new Dictionary<int, Dictionary<int, SkillData>>();
+        SkillDatas.ForEach(x =>
+        {
+            if(dic.ContainsKey(x.Id) == true)
+            {
+                dic[x.Id].Add(x.Level, x);
+            }
+            else
+            {
+                dic.Add(x.Id, new Dictionary<int, SkillData>());
+                dic[x.Id].Add(x.Level, x);
+            }
+        }
+        );
         return dic;
     }
 }

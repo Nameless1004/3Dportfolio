@@ -14,10 +14,13 @@ public interface ILoader<Key, Value>
 
 public class DataManager
 {
-    public Dictionary<int, SkillData> SkillDataDict { get; private set; }
+    public Dictionary<int, Dictionary<int, SkillData>> SkillDataDict { get; private set; }
+    public Dictionary<int, EnemyData> EnemyDataDict { get; private set; }
+
     public void Init()
     {
-        SkillDataDict = LoadJson<SkillDataSet, int, SkillData>("Skill/BasicAttack").MakeDict();
+        SkillDataDict = LoadJson<SkillDataSet, int, Dictionary<int, SkillData>>("Skill/BasicAttack").MakeDict();
+        EnemyDataDict = LoadJson<EnemyDataSet, int, EnemyData>("Enemy/Enemies").MakeDict();
     }
     
     Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value> 
