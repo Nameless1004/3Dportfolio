@@ -2,30 +2,30 @@
     "SkillDatas": 
     [
     {
-        "Id" : "0000",
+        "Id" : "0001",
         "IconPath" : "",
         "Level" : "1",
-        "Name" : "BasicAttack",
+        "Name" : "FireBall",
         "Description" : "",
         "MinDamage" : "1",
         "MaxDamage" : "2",
         "CoolTime" : "1.0"
     },
     {
-        "Id" : "0000",
+        "Id" : "0001",
         "IconPath" : "",
         "Level" : "2",
-        "Name" : "BasicAttack",
+        "Name" : "FireBall",
         "Description" : "",
         "MinDamage" : "2",
         "MaxDamage" : "3",
         "CoolTime" : "0.9"
     },
     {
-        "Id" : "0000",
+        "Id" : "0001",
         "IconPath" : "",
         "Level" : "3",
-        "Name" : "BasicAttack",
+        "Name" : "FireBall",
         "Description" : "",
         "MinDamage" : "3",
         "MaxDamage" : "4",

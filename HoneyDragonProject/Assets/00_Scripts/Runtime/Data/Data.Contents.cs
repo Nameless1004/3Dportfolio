@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using RPG.Core;
 
 #region SkillStat
 [Serializable]
@@ -23,6 +24,7 @@ public class SkillDataSet : ILoader<int, Dictionary<int, SkillData>>
     public Dictionary<int, Dictionary<int, SkillData>> MakeDict()
     {
         Dictionary<int, Dictionary<int, SkillData>> dic = new Dictionary<int, Dictionary<int, SkillData>>();
+
         SkillDatas.ForEach(x =>
         {
             if(dic.ContainsKey(x.Id) == true)

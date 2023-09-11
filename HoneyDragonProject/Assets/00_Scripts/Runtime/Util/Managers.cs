@@ -2,7 +2,9 @@
 {
     public class Managers : Singleton<Managers>
     {
-        DataManager Data;
+        public DataManager Data { get; private set; }
+        public SkillManager Skill { get; private set; }
+
 
         private void Awake()
         {
@@ -13,11 +15,13 @@
         private void CreateInstance()
         {
             Data = new DataManager();
+            Skill = new SkillManager();
         }
 
         private void Init()
         {
             Data.Init();
+            Skill.Init(Data);
         }
     }
 }
