@@ -2,7 +2,7 @@
     "EnemyDatas": 
     [
     {
-        "Id" : "0000",
+        "Id" : "1000",
         "IconPath" : "",
         "Level" : "1",
         "Name" : "BasicAttack",

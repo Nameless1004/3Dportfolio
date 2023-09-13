@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using RPG.Core.Data;
+using RPG.Core.Manager;
+using System.Collections;
 using UnityEngine;
 
 namespace RPG.Core.Skill
@@ -10,23 +12,18 @@ namespace RPG.Core.Skill
 
         private void Start()
         {
-            currentSkill = new BasicAttack();
-            currentSkill.Data = Managers.Instance.Skill.GetSkillData(0000, 1);
-            currentSkillData = currentSkill.Data;
-        }
-
-        private void Update()
-        {
-            if(Input.GetMouseButtonDown(0))
-            {
-                Use();
-            }
+            Holding(new BasicAttack());
         }
 
         public void Holding(ActiveSkill skill)
         {
             this.currentSkill = skill;
+
+            // Temp
+            currentSkill.Data = Managers.Instance.Skill.GetSkillData(0000, 1);
+
             currentSkillData = currentSkill.Data;
+            Use();
         }
 
         public void Use()

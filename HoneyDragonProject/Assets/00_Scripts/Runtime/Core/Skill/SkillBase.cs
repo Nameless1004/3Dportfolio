@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using RPG.Core.Data;
+using UnityEngine;
 
 namespace RPG.Core.Skill
 {
