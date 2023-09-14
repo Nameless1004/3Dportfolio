@@ -17,6 +17,8 @@ namespace RPG.Core.Data
         public int MinDamage;
         public int MaxDamage;
         public float CoolTime;
+        public int SpawnCount;
+        public float ProjectileSpeed;
     }
 
     [Serializable]

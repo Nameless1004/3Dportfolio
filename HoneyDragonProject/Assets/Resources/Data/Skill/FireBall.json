@@ -9,7 +9,9 @@
         "Description" : "",
         "MinDamage" : "1",
         "MaxDamage" : "2",
-        "CoolTime" : "1.0"
+        "CoolTime" : "1.0",
+        "SpawnCount" : "1",
+        "ProjectileSpeed" : ""
     },
     {
         "Id" : "0001",
@@ -19,7 +21,9 @@
         "Description" : "",
         "MinDamage" : "2",
         "MaxDamage" : "3",
-        "CoolTime" : "0.9"
+        "CoolTime" : "0.9",
+        "SpawnCount" : "1",
+        "ProjectileSpeed" : ""
     },
     {
         "Id" : "0001",
@@ -29,7 +33,9 @@
         "Description" : "",
         "MinDamage" : "3",
         "MaxDamage" : "4",
-        "CoolTime" : "0.8"
+        "CoolTime" : "0.8",
+        "SpawnCount" : "1",
+        "ProjectileSpeed" : ""
     }
     ]
 }
