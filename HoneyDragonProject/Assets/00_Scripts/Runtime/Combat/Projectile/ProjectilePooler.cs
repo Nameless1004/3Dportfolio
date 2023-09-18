@@ -27,8 +27,14 @@ namespace RPG.Combat.Projectile
             return cl; 
         }
 
-        public void GetAction(ProjectileBase get) { }
-        public void ReleaseAction(ProjectileBase release) { }
+        public void GetAction(ProjectileBase get) 
+        {
+            get.gameObject.SetActive(true);
+        }
+        public void ReleaseAction(ProjectileBase release) 
+        {
+            release.gameObject.SetActive(false);
+        }
         public void DestroyAction(ProjectileBase destroy) { }
     }
 }

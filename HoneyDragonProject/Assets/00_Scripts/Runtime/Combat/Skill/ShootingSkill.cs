@@ -1,22 +1,27 @@
 ﻿using RPG.Combat.Projectile;
+using RPG.Core.Data;
 using UnityEngine;
 
 namespace RPG.Combat.Skill
 {
-    public class ShootingSkill : ActiveSkill
+    public abstract class ShootingSkill : ActiveSkill
     {
-        public ShootingSkill() 
+        public ShootingSkill(SkillData data) : base(data) 
         {
-            projectiles = new ProjectilePooler(Resources.Load<ProjectileBase>("test"));
+            projectilePrefabPath = data.ProjectilePath;
+            projectiles = CreatePool();
         }
 
+        protected string projectilePrefabPath;
         ProjectilePooler projectiles;
+
+        public abstract ProjectilePooler CreatePool();
 
 
         public override void Activate(Transform initiator)
         {
             var get = projectiles.Pool.Get();
-            get.Fire(new DamageInfo() { Damage = 5}, initiator.position, initiator.position, 5f, initiator);
+            get.Fire(new DamageInfo() { Damage = 5}, initiator.position, initiator.forward, Data.ProjectileSpeed, initiator);
         }
     }
 }

@@ -2,8 +2,9 @@
     "SkillDatas": 
     [
     {
-        "Id" : "0001",
+        "Id" : "1001",
         "IconPath" : "",
+        "ProjectilePath" : "Prefab/Projectile/1001",
         "Level" : "1",
         "Name" : "FireBall",
         "Description" : "",
@@ -11,11 +12,12 @@
         "MaxDamage" : "2",
         "CoolTime" : "1.0",
         "SpawnCount" : "1",
-        "ProjectileSpeed" : ""
+        "ProjectileSpeed" : "20"
     },
     {
-        "Id" : "0001",
+        "Id" : "1001",
         "IconPath" : "",
+        "ProjectilePath" : "Prefab/Projectile/1001",
         "Level" : "2",
         "Name" : "FireBall",
         "Description" : "",
@@ -23,11 +25,12 @@
         "MaxDamage" : "3",
         "CoolTime" : "0.9",
         "SpawnCount" : "1",
-        "ProjectileSpeed" : ""
+        "ProjectileSpeed" : "20"
     },
     {
-        "Id" : "0001",
+        "Id" : "1001",
         "IconPath" : "",
+        "ProjectilePath" : "Prefab/Projectile/1001",
         "Level" : "3",
         "Name" : "FireBall",
         "Description" : "",
@@ -35,7 +38,7 @@
         "MaxDamage" : "4",
         "CoolTime" : "0.8",
         "SpawnCount" : "1",
-        "ProjectileSpeed" : ""
+        "ProjectileSpeed" : "20"
     }
     ]
 }

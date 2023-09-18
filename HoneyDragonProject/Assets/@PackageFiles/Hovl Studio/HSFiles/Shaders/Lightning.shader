@@ -13,7 +13,7 @@ Shader "Hovl/Particles/Lightning"
 		_ShinnySpeed("Shinny Speed", Float) = 30
 		[Toggle]_UseShinny("Use Shinny", Float) = 0
 		[MaterialToggle] _Usedepth ("Use depth?", Float ) = 0
-		_InvFade ("Soft Particles FCreature", Range(0.01,3.0)) = 1.0
+		_InvFade ("Soft Particles Factor", Range(0.01,3.0)) = 1.0
 	}
 
 

@@ -11,4 +11,11 @@ static class Extensions
 			MonoBehaviour.Destroy(transform.GetChild(i).gameObject);
 		}
 	}
+
+	public static bool IsSameLayer(this GameObject go, string layerName)
+	{
+		int a = 1 << go.layer ;
+		
+		return (a & LayerMask.GetMask(layerName)) != 0;
+	}
 }

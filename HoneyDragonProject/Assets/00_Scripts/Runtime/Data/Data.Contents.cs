@@ -11,6 +11,7 @@ namespace RPG.Core.Data
     {
         public int Id;
         public string IconPath;
+        public string ProjectilePath;
         public int Level;
         public string Name;
         public string Description;

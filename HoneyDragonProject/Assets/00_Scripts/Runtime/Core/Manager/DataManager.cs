@@ -15,15 +15,31 @@ namespace RPG.Core.Manager
 
         public void Init()
         {
-            SkillDataDict = LoadJson<SkillDataSet, int, Dictionary<int, SkillData>>("Skill/BasicAttack").MakeDict();
+            SkillDataDict = LoadJsonAll<SkillDataSet, int, Dictionary<int, SkillData>>("Skill/");
             EnemyDataDict = LoadJson<EnemyDataSet, int, EnemyData>("Enemy/Enemies").MakeDict();
             StageDataDict = LoadJson<StageDataSet, int, StageData>("Stage/Stage").MakeDict();
         }
+
+        // 스킬 데이터 -> 스킬 id, (스킬 레벨, 스킬 데이터)
 
         Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
         {
             var textAsset = Resources.Load<TextAsset>($"Data/{path}");
             return JsonUtility.FromJson<Loader>(textAsset.text);
+        }
+
+        Dictionary<Key, Value> LoadJsonAll<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
+        {
+            var textAsset = Resources.LoadAll<TextAsset>($"Data/{path}");
+            List<Dictionary<Key, Value>> dicts = new List<Dictionary<Key, Value>>();
+
+            foreach(var i in textAsset)
+            {
+                dicts.Add(JsonUtility.FromJson<Loader>(i.text).MakeDict());
+            }
+
+            var mergedDictionary = dicts.Aggregate((dict1, dict2) => dict1.Concat(dict2).ToDictionary(kvp => kvp.Key, kvp => kvp.Value));
+            return mergedDictionary;
         }
     }
 }

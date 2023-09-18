@@ -13,16 +13,14 @@ namespace RPG.Combat.Skill
 
         private void Start()
         {
-            Holding(new BasicAttack());
+            Holding(Managers.Instance.Skill.GetSkill<ActiveSkill>(1001));
         }
 
         public void Holding(ActiveSkill skill)
         {
-            this.currentSkill = skill;
+            currentSkill = skill;
 
             // Temp
-            currentSkill.Data = Managers.Instance.Skill.GetSkillData(0000, 1);
-
             currentSkillData = currentSkill.Data;
             Use();
         }

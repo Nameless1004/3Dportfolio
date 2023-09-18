@@ -1,15 +1,21 @@
-using RPG.Core;
+using RPG.Combat.Skill;
 using RPG.Core.Data;
 using System.Collections.Generic;
-using System.Diagnostics;
+using UnityEngine;
 
 namespace RPG.Core.Manager
 {
     public class SkillManager
     {
 
-        public Dictionary<int, Dictionary<int, SkillData>> skillData;
+        private Dictionary<int, Dictionary<int, SkillData>> skillData;
+        public Dictionary<int, Skill> SkillDict;
 
+
+        public T GetSkill<T>(int id) where T : Skill
+        {
+            return (T)SkillDict[id];
+        }
 
         public SkillData GetSkillData(int id, int level)
         {
@@ -22,11 +28,21 @@ namespace RPG.Core.Manager
             return skillData[id][level];
         }
 
+        private void InitSkill()
+        {
+            SkillBase skill = null;
+
+            skill = new FireBall(GetSkillData(1001, 1));
+            SkillDict.Add(skill.Id, skill);
+        }
+
         // 스킬 세팅
         public void Init(DataManager data)
         {
+            SkillDict = new Dictionary<int, Skill>();
             skillData = data.SkillDataDict;
             Debug.Assert(skillData is not null);
+            InitSkill();
             // GetSkillPrefabs
             // SkillDataSetting
         }
