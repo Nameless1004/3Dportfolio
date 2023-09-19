@@ -51,7 +51,8 @@ namespace RPG.Core.Manager
         {
             if (DataValidationCheck(id, currentLevel + 1) == false)
             {
-                Debug.Assert(true, $"SkillData Invalid ; Skill ID : {id}, Request Level : {currentLevel + 1}");
+                // Debug.Log(true, $"SkillData Invalid ; Skill ID : {id}, Request Level : {currentLevel + 1}");
+                return null;
             }
 
             return GetSkillData(id, currentLevel + 1); ;

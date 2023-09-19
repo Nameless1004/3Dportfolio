@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RPG.Core.Creature.State
+namespace RPG.Core.State
 {
     public class EnemyIdleState : StateMachineBehaviour
     {

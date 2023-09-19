@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace RPG.Core.Creature.State
+namespace RPG.Core.State
 {
     public class EnemyChaseState : StateMachineBehaviour
     {

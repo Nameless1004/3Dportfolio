@@ -1,4 +1,4 @@
-using RPG.Core.Creature;
+using RPG.Core;
 using RPG.Core.Data;
 using System.Collections;
 using System.Collections.Generic;

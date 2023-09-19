@@ -1,4 +1,5 @@
-﻿using RPG.Core.Data;
+﻿using RPG.Core;
+using RPG.Core.Data;
 using RPG.Core.Manager;
 using System.Collections;
 using UnityEngine;
@@ -7,7 +8,7 @@ namespace RPG.Combat.Skill
 {
     public class SkillHolder : MonoBehaviour
     {
-        [SerializeField] Transform owner;
+        [SerializeField] Creature owner;
         private ActiveSkill currentSkill;
         private SkillData currentSkillData;
 
@@ -24,6 +25,13 @@ namespace RPG.Combat.Skill
             currentSkillData = currentSkill.Data;
             Use();
         }
+
+        public void LevelUp()
+        {
+            currentSkill.Levelup();
+            Debug.Log("LevelUp!!");
+        }
+
 
         public void Use()
         {

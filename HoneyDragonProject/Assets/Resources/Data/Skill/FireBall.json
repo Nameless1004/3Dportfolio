@@ -24,7 +24,7 @@
         "MinDamage" : "2",
         "MaxDamage" : "3",
         "CoolTime" : "0.9",
-        "SpawnCount" : "1",
+        "SpawnCount" : "2",
         "ProjectileSpeed" : "20"
     },
     {
@@ -37,7 +37,7 @@
         "MinDamage" : "3",
         "MaxDamage" : "4",
         "CoolTime" : "0.8",
-        "SpawnCount" : "1",
+        "SpawnCount" : "3",
         "ProjectileSpeed" : "20"
     }
     ]

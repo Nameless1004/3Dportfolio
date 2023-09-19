@@ -3,7 +3,7 @@ using RPG.Core.Data;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace RPG.Core.Creature
+namespace RPG.Core
 {
     [RequireComponent(typeof(CombatTarget))]
     public class Enemy : Creature

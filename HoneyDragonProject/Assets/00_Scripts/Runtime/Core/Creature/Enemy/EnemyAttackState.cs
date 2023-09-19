@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace RPG.Core.Creature.State
+namespace RPG.Core.State
 {
     public class EnemyAttackState : StateMachineBehaviour
     {

@@ -1,3 +1,4 @@
+using RPG.Core;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -20,7 +21,7 @@ namespace RPG.Combat.Projectile
         protected bool IsAlive;
 
         protected Rigidbody rig;
-        protected Transform target;
+        protected Creature target;
         protected ObjectPool<ProjectileBase> pool;
 
 
@@ -52,15 +53,8 @@ namespace RPG.Combat.Projectile
             ApplyPosition();
         }
 
-        public void Fire(DamageInfo dmgInfo, Vector3 startPos, Vector3 dir, float speed, Transform target = null) 
+        public void Fire(DamageInfo dmgInfo, Vector3 startPos, Vector3 dir, float speed, Creature target = null) 
         {
-
-            IsAlive = true;
-
-            mainVfx.gameObject.SetActive(true);
-            muzzleVfx.gameObject.SetActive(true);
-            hitVfx.gameObject.SetActive(true);
-            rig.isKinematic = false;
             this.transform.forward = direction = dir;
             this.transform.position = startPos;
             this.startPos = startPos;
@@ -68,17 +62,21 @@ namespace RPG.Combat.Projectile
             this.dmgInfo = dmgInfo;
             this.target = target;
 
-            muzzleVfx.transform.position = startPos;
-            hitVfx.transform.position = startPos;
+            Reset();
 
-            if (muzzleVfx is not null)
-            {
-                muzzleVfx.gameObject.SetActive(true);
-                muzzleVfx.transform.forward = gameObject.transform.forward;
-                ParticleSystem ps = muzzleVfx.GetComponentInChildren<ParticleSystem>();
-                if(ps is not null)
-                    StartCoroutine(DelayDisable(ps.gameObject, ps.main.duration));
-            }
+            muzzleVfx.gameObject.SetActive(true);
+            muzzleVfx.transform.forward = gameObject.transform.forward;
+            ParticleSystem ps = muzzleVfx.GetComponentInChildren<ParticleSystem>(true);
+            StartCoroutine(DelayDisable(muzzleVfx, ps.main.duration));
+        }
+
+        protected virtual void Reset()
+        {
+            IsAlive = true;
+
+            mainVfx.SetActive(true);
+            muzzleVfx.SetActive(true);
+            hitVfx.SetActive(false);
         }
 
         protected IEnumerator DelayDisable(UnityEngine.GameObject obj, float time)
@@ -91,10 +89,11 @@ namespace RPG.Combat.Projectile
         {
             Debug.Log("DestroyParticle");
 
-            mainVfx.gameObject.SetActive(false);
+            mainVfx.SetActive(false);
             yield return new WaitForSeconds(waitTime);
-            muzzleVfx.gameObject.SetActive(false);
-            hitVfx.gameObject.SetActive(false);
+
+            muzzleVfx.SetActive(false);
+            hitVfx.SetActive(false);
             pool.Release(this);
         }
 

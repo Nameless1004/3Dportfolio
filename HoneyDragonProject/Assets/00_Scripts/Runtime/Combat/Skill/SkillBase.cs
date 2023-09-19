@@ -1,4 +1,5 @@
-﻿using RPG.Core.Data;
+﻿using RPG.Core;
+using RPG.Core.Data;
 using UnityEngine;
 
 namespace RPG.Combat.Skill
@@ -17,7 +18,12 @@ namespace RPG.Combat.Skill
         }
         public int Id;
         public Sprite Icon;
-        public SkillData Data { get; private set; }
+        public int CurrentLevel;
+
+        public SkillData Data { get; protected set; }
+        
+
+        public abstract void Levelup();
     }
 
     public abstract class ActiveSkill : SkillBase
@@ -25,7 +31,7 @@ namespace RPG.Combat.Skill
         public ActiveSkill(SkillData data) : base(data)
         {
         }
-        public abstract void Activate(Transform initiator);
+        public abstract void Activate(Creature initiator);
         public float currentCoolTime = float.MaxValue;
     }
 

@@ -26,16 +26,24 @@ namespace RPG.Combat
         public void TakeDamage(DamageInfo damageInfo)
         {
             int damagedHp = Mathf.Clamp(CurrentHp - damageInfo.Damage, 0, MaxHp);
-            if(damagedHp <= 0)
-            {
-                // DO SOMETHING
-                OnDie?.Invoke();
-            }
 
             ratio = CurrentHp / MaxHp;
             OnHealthChanged?.Invoke(ratio);
             CurrentHp = damagedHp;
             OnHit?.Invoke();
+
+            if (damagedHp <= 0)
+            {
+                // DO SOMETHING
+                OnDie?.Invoke();
+                return;
+            }
+            
+            if(damageInfo.IsKnockback)
+            {
+                var knockbackable = GetComponent<Knockbackable>();
+                knockbackable?.Knockback(damageInfo.knockbackInfo);
+            }
         }
     }
 }

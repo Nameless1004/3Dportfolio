@@ -16,6 +16,8 @@ namespace RPG.Combat.Projectile
 
         protected override void OnTriggerEnter(Collider other)
         {
+            if (IsAlive == false) return;
+
             GameObject go = other.gameObject;
 
             if (go.IsSameLayer("Enemy") || go.IsSameLayer("Obstacle"))
@@ -23,16 +25,15 @@ namespace RPG.Combat.Projectile
                 // 적이면 
                 Debug.Log("적이랑 충돌됨");
                 Debug.Log($"{other.name}");
-                var ps = hitVfx.GetComponentInChildren<ParticleSystem>();
-                ps.Play();
+                var ps = hitVfx.GetComponentInChildren<ParticleSystem>(true);
                 IsAlive = false;
-
+                hitVfx.SetActive(true);
                 StartCoroutine(DestroyParticle(ps.main.duration));
 
                 if(go.IsSameLayer("Enemy"))
                 {
-                    var rd = go.GetComponent<Rigidbody>();
-                    rd.AddForce(transform.forward * 5f, ForceMode.Impulse);
+                    var takedamageable = go.GetComponent<ITakeDamageable>();
+                    takedamageable?.TakeDamage(dmgInfo);
                 }
             }
         }
