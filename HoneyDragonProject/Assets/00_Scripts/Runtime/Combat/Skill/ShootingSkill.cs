@@ -14,8 +14,8 @@ namespace RPG.Combat.Skill
         }
 
         protected string projectilePrefabPath;
-        protected ProjectilePooler projectiles;
+        protected ObjectPooler<ProjectileBase> projectiles;
 
-        public abstract ProjectilePooler CreatePool();
+        public abstract ObjectPooler<ProjectileBase> CreatePool();
     }
 }

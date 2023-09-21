@@ -13,16 +13,16 @@ namespace RPG.Combat.Skill
             CurrentLevel = 1;
         }
 
-        public override ProjectilePooler CreatePool()
+        public override ObjectPooler<ProjectileBase> CreatePool()
         {
-            return new ProjectilePooler(Resources.Load<ProjectileBase>(projectilePrefabPath));
+            return new ObjectPooler<ProjectileBase>(Resources.Load<ProjectileBase>(projectilePrefabPath), Managers.Instance.PoolingTransform);
         }
 
         public override void Activate(Creature initiator)
         {
             for(int i = 0; i < Data.SpawnCount; ++i)
             {
-                var get = projectiles.Pool.Get();
+                var get = projectiles.Get<Bullet>();
                 float randZ = Random.Range(-1f, 1f);
                 float randX = Random.Range(-1f, 1f);
                 Vector3 dir = new Vector3(randX, 0f, randZ).normalized;

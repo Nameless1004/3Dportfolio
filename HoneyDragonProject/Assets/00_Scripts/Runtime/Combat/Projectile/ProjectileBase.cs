@@ -7,8 +7,7 @@ using UnityEngine.Pool;
 
 namespace RPG.Combat.Projectile
 {
-    // TODO Projectile ¼öÁ¤
-    public abstract class ProjectileBase : MonoBehaviour
+    public abstract class ProjectileBase : MonoBehaviour, IPoolable<ProjectileBase>
     {
         [SerializeField] protected float speed;
         [SerializeField] protected float acceleration;
@@ -40,6 +39,8 @@ namespace RPG.Combat.Projectile
         {
             this.pool = pool;
         }
+
+        public ProjectileBase GetPooledObject() => this;
 
         private void Update()
         {
@@ -101,5 +102,20 @@ namespace RPG.Combat.Projectile
         protected abstract void ApplyPosition();
 
         protected abstract void OnTriggerEnter(Collider other);
+
+        public void OnGetAction()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void OnReleaseAction()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public void OnDestroyAction()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

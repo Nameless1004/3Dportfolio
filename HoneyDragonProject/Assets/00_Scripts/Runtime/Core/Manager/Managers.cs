@@ -1,10 +1,15 @@
-﻿namespace RPG.Core.Manager
+﻿using UnityEngine;
+
+namespace RPG.Core.Manager
 {
     public class Managers : Singleton<Managers>
     {
         public DataManager Data { get; private set; }
         public SkillManager Skill { get; private set; }
         public StageManager Stage { get; private set; }
+
+        [field: SerializeField]
+        public Transform PoolingTransform { get; private set; }
 
 
         private void Awake()
