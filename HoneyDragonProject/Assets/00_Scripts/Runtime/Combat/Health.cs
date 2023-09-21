@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DamageNumbersPro;
+using RPG.Core.Manager;
+using System;
 using UnityEngine;
 
 namespace RPG.Combat
@@ -13,9 +15,12 @@ namespace RPG.Combat
         public event Action OnHit;
         public event Action OnDie;
 
+        public DamageNumber FloatingDamage;
+
         private void Awake()
         {
             CurrentHp = MaxHp;
+            FloatingDamage.enablePooling = true;
         }
 
         public void SetHp(int hp)
@@ -25,6 +30,7 @@ namespace RPG.Combat
 
         public void TakeDamage(DamageInfo damageInfo)
         {
+            DamageNumber damageNumber = FloatingDamage.Spawn(transform.position, damageInfo.Damage, Managers.Instance.Game.PoolTransform); 
             int damagedHp = Mathf.Clamp(CurrentHp - damageInfo.Damage, 0, MaxHp);
 
             ratio = CurrentHp / MaxHp;

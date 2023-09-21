@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace RPG.Core.Manager
 {
-    public class DataManager
+    public class DataManager : IManager
     {
         public Dictionary<int, Dictionary<int, SkillData>> SkillDataDict { get; private set; }
         public Dictionary<int, EnemyData> EnemyDataDict { get; private set; }
@@ -19,6 +19,7 @@ namespace RPG.Core.Manager
             EnemyDataDict = LoadJson<EnemyDataSet, int, EnemyData>("Enemy/Enemies").MakeDict();
             StageDataDict = LoadJson<StageDataSet, int, StageData>("Stage/Stage").MakeDict();
         }
+
 
         // 스킬 데이터 -> 스킬 id, (스킬 레벨, 스킬 데이터)
 

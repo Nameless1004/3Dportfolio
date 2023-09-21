@@ -2,48 +2,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
 {
-    #region Singleton Implementation
-    private static bool shuttingDown = false;
-    private static T instance;
-
+    [SerializeField]
+    private bool dontDestroy = true;
+    private static T instance = null;
     public static T Instance
     {
         get
         {
-            if(shuttingDown)
+            if(instance is null)
             {
-                Debug.LogWarning("[Singleton] Instance '" + typeof(T) +
-                     "' already destroyed. Returning null.");
-                return null;
-            }
-            if(instance == null)
-            {
-                instance = (T)FindObjectOfType(typeof(T));
-
-                if(instance == null)
+                instance = FindObjectOfType<T>(); ;
+                if(instance is null)
                 {
-                    var singletonObject = new GameObject();
-                    instance = singletonObject.AddComponent<T>();
-                    singletonObject.name = typeof(T).ToString() + "(Singleton)";
-
-                    DontDestroyOnLoad(singletonObject);
+                    GameObject go = new GameObject(nameof(T));
+                    instance = go.AddComponent<T>();
                 }
+
+                DontDestroyOnLoad(instance);
             }
 
             return instance;
         }
     }
 
-    private void OnApplicationQuit()
+    private void Awake()
     {
-        shuttingDown = true;
+        if(instance is null)
+        {
+            if(dontDestroy)
+            {
+                Instance.Init();
+            }
+            else
+            {
+                instance = GetComponent<T>();
+                Init();
+            }
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    private void OnDestroy()
-    {
-        shuttingDown = true;
-    }
-    #endregion
+    protected abstract void Init();
 }

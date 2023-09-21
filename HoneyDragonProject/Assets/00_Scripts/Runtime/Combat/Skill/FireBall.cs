@@ -15,7 +15,7 @@ namespace RPG.Combat.Skill
 
         public override ObjectPooler<ProjectileBase> CreatePool()
         {
-            return new ObjectPooler<ProjectileBase>(Resources.Load<ProjectileBase>(projectilePrefabPath), Managers.Instance.PoolingTransform);
+            return new ObjectPooler<ProjectileBase>(Resources.Load<ProjectileBase>(projectilePrefabPath), Managers.Instance.Game.PoolTransform);
         }
 
         public override void Activate(Creature initiator)
@@ -26,6 +26,8 @@ namespace RPG.Combat.Skill
                 float randZ = Random.Range(-1f, 1f);
                 float randX = Random.Range(-1f, 1f);
                 Vector3 dir = new Vector3(randX, 0f, randZ).normalized;
+                var enem = GameObject.FindWithTag("Enemy");
+                dir = (enem.transform.position - initiator.position).normalized;
                 get.Fire(new DamageInfo(null, 5, new KnockbackInfo(dir, 5f)), initiator.center, dir, Data.ProjectileSpeed, initiator);
             }
         }

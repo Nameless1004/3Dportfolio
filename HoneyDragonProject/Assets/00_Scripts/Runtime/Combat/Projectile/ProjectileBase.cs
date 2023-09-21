@@ -42,15 +42,16 @@ namespace RPG.Combat.Projectile
 
         public ProjectileBase GetPooledObject() => this;
 
-        private void Update()
-        {
-            if (!IsAlive) return;
-            CalculatePosition();
-        }
+        //private void Update()
+        //{
+        //    if (!IsAlive) return;
+        //    CalculatePosition();
+        //}
 
         void FixedUpdate()
         {
             if (!IsAlive) return;
+            CalculatePosition();
             ApplyPosition();
         }
 

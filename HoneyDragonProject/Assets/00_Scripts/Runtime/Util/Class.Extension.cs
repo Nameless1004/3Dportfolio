@@ -12,7 +12,7 @@ static class Extensions
 		}
 	}
 
-	public static bool IsSameLayer(this GameObject go, string layerName)
+    public static bool IsSameLayer(this GameObject go, string layerName)
 	{
 		int a = 1 << go.layer ;
 		

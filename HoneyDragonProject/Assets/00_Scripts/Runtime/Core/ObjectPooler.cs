@@ -18,6 +18,11 @@ namespace RPG.Core
         public Transform Parent { get; protected set; }
         protected ObjectPool<T> pool { get; }
 
+        public void OnDestroy()
+        {
+            pool.Clear();
+        }
+
         public T CreateFunc()
         {
             IPoolable<T> cl = MonoBehaviour.Instantiate(Prefab, Parent).GetComponent<IPoolable<T>>();

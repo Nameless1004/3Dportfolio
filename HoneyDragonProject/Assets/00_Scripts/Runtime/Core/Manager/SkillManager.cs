@@ -5,9 +5,8 @@ using UnityEngine;
 
 namespace RPG.Core.Manager
 {
-    public class SkillManager
+    public class SkillManager : IManager
     {
-
         private Dictionary<int, Dictionary<int, SkillData>> skillData;
         public Dictionary<int, Skill> SkillDict;
 
@@ -36,17 +35,6 @@ namespace RPG.Core.Manager
             SkillDict.Add(skill.Id, skill);
         }
 
-        // 스킬 세팅
-        public void Init(DataManager data)
-        {
-            SkillDict = new Dictionary<int, Skill>();
-            skillData = data.SkillDataDict;
-            Debug.Assert(skillData is not null);
-            InitSkill();
-            // GetSkillPrefabs
-            // SkillDataSetting
-        }
-
         public SkillData LevelupSkill(int id, int currentLevel)
         {
             if (DataValidationCheck(id, currentLevel + 1) == false)
@@ -67,6 +55,17 @@ namespace RPG.Core.Manager
             }
 
             return false;
+        }
+
+        public void Init()
+        {
+            DataManager dataManager = Managers.Instance.Data;
+            SkillDict = new Dictionary<int, Skill>();
+            skillData = dataManager.SkillDataDict;
+            Debug.Assert(skillData is not null);
+            InitSkill();
+            // GetSkillPrefabs
+            // SkillDataSetting
         }
     }
 }
