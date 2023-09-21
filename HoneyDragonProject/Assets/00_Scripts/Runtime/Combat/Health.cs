@@ -30,7 +30,7 @@ namespace RPG.Combat
 
         public void TakeDamage(DamageInfo damageInfo)
         {
-            DamageNumber damageNumber = FloatingDamage.Spawn(transform.position, damageInfo.Damage, Managers.Instance.Game.PoolTransform); 
+            DamageNumber damageNumber = FloatingDamage.Spawn(transform.position, damageInfo.Damage); 
             int damagedHp = Mathf.Clamp(CurrentHp - damageInfo.Damage, 0, MaxHp);
 
             ratio = CurrentHp / MaxHp;

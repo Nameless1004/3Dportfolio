@@ -15,7 +15,7 @@ namespace RPG.Combat.Skill
 
         public override ObjectPooler<ProjectileBase> CreatePool()
         {
-            return new ObjectPooler<ProjectileBase>(Resources.Load<ProjectileBase>(projectilePrefabPath), Managers.Instance.Game.PoolTransform);
+            return new ObjectPooler<ProjectileBase>(Resources.Load<ProjectileBase>(projectilePrefabPath));
         }
 
         public override void Activate(Creature initiator)
