@@ -15,9 +15,8 @@ namespace RPG.Core.State
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            controller = animator.GetComponent<EnemyAIController>();
             owner = animator.GetComponent<Enemy>();
-
+            controller = owner.Controller;
             controller.MoveTo(controller.Target.position);
             controller.Agent.speed = 1;
             controller.Agent.angularSpeed = 10000;
@@ -39,9 +38,12 @@ namespace RPG.Core.State
             }
 
             // 타겟이 공격 범위 이내이면 공격
-            if (1 > GetDistanceToTarget(owner.transform.position, controller.Target.position))
+            if (owner.Data.AttackRange >= GetDistanceToTarget(owner.transform.position, controller.Target.position))
             {
                 Debug.Log("dd");
+                Vector3 targetPos = controller.Target.position;
+                targetPos.y = owner.transform.position.y;
+                owner.transform.LookAt(targetPos);
                 animator.ResetTrigger("Attack");
                 animator.SetTrigger("Attack");
                 controller.Agent.isStopped = true;

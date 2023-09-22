@@ -3,13 +3,12 @@
     [
     {
         "Id" : "1000",
-        "IconPath" : "",
-        "Level" : "1",
-        "Name" : "BasicAttack",
-        "Description" : "",
-        "MinDamage" : "1",
-        "MaxDamage" : "2",
-        "coolTime" : "1.0"
+        "PrefabPath" : "Prefab/Enemy/1000",
+        "Name" : "test",
+        "Hp" : "4",
+        "AttackPower" : "5",
+        "AttackRange" : "3",
+        "AttackRate" : "1.0"
     }
     ]
 }

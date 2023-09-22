@@ -17,7 +17,7 @@ namespace RPG.Core.Manager
         {
             SkillDataDict = LoadJsonAll<SkillDataSet, int, Dictionary<int, SkillData>>("Skill/");
             EnemyDataDict = LoadJson<EnemyDataSet, int, EnemyData>("Enemy/Enemies").MakeDict();
-            StageDataDict = LoadJson<StageDataSet, int, StageData>("Stage/Stage").MakeDict();
+            StageDataDict = LoadJson<StageDataSet, int, StageData>("Stage/Stages").MakeDict();
         }
 
 

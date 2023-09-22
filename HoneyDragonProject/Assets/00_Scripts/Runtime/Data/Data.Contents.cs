@@ -50,16 +50,18 @@ namespace RPG.Core.Data
     #endregion
 
     #region Enemy
+    [Serializable]
     public class EnemyData
     {
         public int Id;
+        public string PrefabPath;
         public string Name;
         public int Hp;
         public int AttackPower;
         public int AttackRange;
         public float AttackRate;
     }
-
+    [Serializable]
     public class EnemyDataSet : ILoader<int, EnemyData>
     {
         public List<EnemyData> EnemyDatas = new List<EnemyData>();
@@ -74,25 +76,28 @@ namespace RPG.Core.Data
 
     #region Stage
     [Serializable]
-    public class SpawnEnemyInfo
+    public struct SpawnEnemyInfo
     {
         // type 0 : normal, 1 : boss
         public int Type;
+        // 0 : Outside, 1: voids
+        public int SpawnType;
         public int Id;
-        public int Hp;
     }
 
     [Serializable]
     public class StageData
     {
         public int StageNum;
+        public int MaxSpawnCount;
+        public float SpawnRate;
         public List<SpawnEnemyInfo> EnemyInfoList;
     }
 
     [Serializable]
     public class StageDataSet : ILoader<int, StageData>
     {
-        List<StageData> StageDatas = new List<StageData>();
+        public List<StageData> StageDatas = new List<StageData>();
 
         public Dictionary<int, StageData> MakeDict()
         {

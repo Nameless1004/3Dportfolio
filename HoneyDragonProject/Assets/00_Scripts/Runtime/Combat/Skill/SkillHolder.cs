@@ -44,7 +44,7 @@ namespace RPG.Combat.Skill
             {
                 if(currentSkill.currentCoolTime > currentSkillData.CoolTime) 
                 {
-                    currentSkill.Activate(owner);
+                    StartCoroutine(currentSkill.Activate(owner));
                     currentSkill.currentCoolTime = 0f;
                 }
                 else

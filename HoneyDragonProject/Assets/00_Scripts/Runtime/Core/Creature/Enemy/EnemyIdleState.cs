@@ -12,8 +12,8 @@ namespace RPG.Core.State
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            controller = animator.GetComponent<EnemyAIController>();
             owner = animator.GetComponent<Enemy>();
+            controller = owner.Controller;
         }
 
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

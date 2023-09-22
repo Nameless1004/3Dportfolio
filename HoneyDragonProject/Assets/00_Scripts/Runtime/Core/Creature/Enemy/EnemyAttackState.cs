@@ -11,8 +11,8 @@ namespace RPG.Core.State
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            controller = animator.GetComponent<EnemyAIController>();
             owner = animator.GetComponent<Enemy>();
+            controller = owner.Controller;
 
             controller.Agent.isStopped = true;
         }
@@ -31,7 +31,7 @@ namespace RPG.Core.State
                 return;
             }
 
-            if(GetDistanceToTarget(controller.Target.position, controller.transform.position) > 1)
+            if(owner.Data.AttackRange < GetDistanceToTarget(controller.Target.position, controller.transform.position))
             {
                 animator.ResetTrigger("Chase");
                 animator.SetTrigger("Chase");

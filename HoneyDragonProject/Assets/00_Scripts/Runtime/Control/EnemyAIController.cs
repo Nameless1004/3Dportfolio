@@ -1,5 +1,6 @@
 using RPG.Combat;
 using RPG.Core;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,11 +18,12 @@ namespace RPG.Control
         private void Awake()
         {
             Agent = GetComponent<NavMeshAgent>();
-            Target = GameObject.FindWithTag("Player").GetComponent<Creature>();
             health = GetComponent<Health>();
 
             hit = new Collider[1];
         }
+
+        public void SetTarget(Creature target) => Target = target;
 
         private void Update()
         {
@@ -48,6 +50,15 @@ namespace RPG.Control
             //    DamageInfo dmgInfo = new DamageInfo { Damage = 5, Sender = gameObject };
             //    damageable?.TakeDamage(dmgInfo);
             //}
+        }
+
+        public void Die()
+        {
+            StopAgent();
+            Target = null;
+            GetComponent<Collider>().enabled = false;
+            Destroy(gameObject);
+            //GetComponent<Animator>().SetTrigger("Dead");
         }
     }
 }

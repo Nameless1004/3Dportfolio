@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RPG.Core.Manager
 {
-    public class StageManager : MonoBehaviour, IManager
+    public class StageManager : IManager
     {
         List<Enemy> enemies = new List<Enemy>();
         Dictionary<int, StageData> stageDataDict;
@@ -41,7 +41,6 @@ namespace RPG.Core.Manager
         public void SetEnemies(List<SpawnEnemyInfo> enemyInfoList) 
         {
             if (enemyInfoList.Count == 0) return;
-
 
         }
 

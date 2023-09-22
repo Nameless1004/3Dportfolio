@@ -1,5 +1,6 @@
 ﻿using RPG.Core;
 using RPG.Core.Data;
+using System.Collections;
 using UnityEngine;
 
 namespace RPG.Combat.Skill
@@ -31,7 +32,7 @@ namespace RPG.Combat.Skill
         public ActiveSkill(SkillData data) : base(data)
         {
         }
-        public abstract void Activate(Creature initiator);
+        public abstract IEnumerator Activate(Creature initiator);
         public float currentCoolTime = float.MaxValue;
     }
 
