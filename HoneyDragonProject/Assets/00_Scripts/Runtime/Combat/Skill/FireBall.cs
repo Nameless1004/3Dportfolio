@@ -1,8 +1,10 @@
-﻿using RPG.Combat.Projectile;
+﻿using Cysharp.Threading.Tasks;
+using RPG.Combat.Projectile;
 using RPG.Core;
 using RPG.Core.Data;
 using RPG.Core.Manager;
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 namespace RPG.Combat.Skill
@@ -14,12 +16,7 @@ namespace RPG.Combat.Skill
             CurrentLevel = 1;
         }
 
-        public override ObjectPooler<ProjectileBase> CreatePool()
-        {
-            return new ObjectPooler<ProjectileBase>(Resources.Load<ProjectileBase>(projectilePrefabPath));
-        }
-
-        public override IEnumerator Activate(Creature initiator)
+        public override async UniTaskVoid Activate(Creature initiator, CancellationToken token)
         {
             for(int i = 0; i < 5; ++i)
             {
@@ -33,7 +30,7 @@ namespace RPG.Combat.Skill
                     dir = (enem.transform.position - initiator.position).normalized;
                 }
                 get.Fire(new DamageInfo(null, Random.Range(Data.MinDamage, Data.MaxDamage + 1), new KnockbackInfo(dir, 5f)), initiator.center, dir, Data.ProjectileSpeed, initiator);
-                yield return new WaitForSeconds(0.1f);
+                await UniTask.Delay(Data.SpawnRateMilliSecond, false, PlayerLoopTiming.Update, token);
             }
         }
 

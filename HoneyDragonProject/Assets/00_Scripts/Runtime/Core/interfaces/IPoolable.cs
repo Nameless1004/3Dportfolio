@@ -7,9 +7,9 @@ using UnityEngine.Pool;
 
 namespace RPG.Core
 {
-    public interface IPoolable<T> where T : class
+    public interface IPoolable<T> where T : UnityEngine.Object, IPoolable<T>
     {
-        public void SetPool(ObjectPool<T> pool);
+        public void SetPool(ObjectPooler<T> pool);
         public T GetPooledObject();
         public void OnGetAction();
         public void OnReleaseAction();

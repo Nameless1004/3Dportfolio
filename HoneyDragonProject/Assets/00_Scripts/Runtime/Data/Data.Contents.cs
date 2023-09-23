@@ -11,7 +11,7 @@ namespace RPG.Core.Data
     {
         public int Id;
         public string IconPath;
-        public string ProjectilePath;
+        public string PrefabPath;
         public int Level;
         public string Name;
         public string Description;
@@ -20,6 +20,8 @@ namespace RPG.Core.Data
         public float CoolTime;
         public int SpawnCount;
         public float ProjectileSpeed;
+        public int SpawnRateMilliSecond;
+        public int SpawnLifeTimeMilliSecond;
     }
 
     [Serializable]

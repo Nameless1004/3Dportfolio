@@ -1,5 +1,6 @@
 using RPG.Combat.Skill;
 using RPG.Core.Data;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,9 +30,13 @@ namespace RPG.Core.Manager
 
         private void InitSkill()
         {
-            SkillBase skill = null;
+            AddSkill<FireBall>(2000, 1);
+            AddSkill<LightningBolt>(2001, 1);
+        }
 
-            skill = new FireBall(GetSkillData(1001, 1));
+        private void AddSkill<T>(int skillId, int level) where T : Skill
+        {
+            SkillBase skill = (SkillBase)Activator.CreateInstance(typeof(T), GetSkillData(skillId, level));
             SkillDict.Add(skill.Id, skill);
         }
 

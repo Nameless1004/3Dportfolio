@@ -1,4 +1,5 @@
-﻿using RPG.Core;
+﻿using Cysharp.Threading.Tasks;
+using RPG.Core;
 using RPG.Core.Data;
 using RPG.Core.Manager;
 using System.Collections;
@@ -9,12 +10,15 @@ namespace RPG.Combat.Skill
     public class SkillHolder : MonoBehaviour
     {
         [SerializeField] Creature owner;
+        [Tooltip("Test용 입니다: 스킬 id 입력")]
+        public int skillId;
+
         private ActiveSkill currentSkill;
         private SkillData currentSkillData;
 
         private void Start()
         {
-            Holding(Managers.Instance.Skill.GetSkill<ActiveSkill>(1001));
+            Holding(Managers.Instance.Skill.GetSkill<ActiveSkill>(skillId));
         }
 
         public void Holding(ActiveSkill skill)
@@ -35,16 +39,17 @@ namespace RPG.Combat.Skill
 
         public void Use()
         {
-            StartCoroutine(SkillUse());
+            SkillUse().Forget();
         }
 
-        private IEnumerator SkillUse()
+        private async UniTaskVoid SkillUse()
         {
             while(true)
             {
-                if(currentSkill.currentCoolTime > currentSkillData.CoolTime) 
+                var cancelToken = this.GetCancellationTokenOnDestroy();
+                if (currentSkill.currentCoolTime > currentSkillData.CoolTime) 
                 {
-                    StartCoroutine(currentSkill.Activate(owner));
+                    currentSkill.Activate(owner, cancelToken).Forget();
                     currentSkill.currentCoolTime = 0f;
                 }
                 else
@@ -52,7 +57,7 @@ namespace RPG.Combat.Skill
                     currentSkill.currentCoolTime += Time.deltaTime;
                 }
 
-                yield return null;
+                await UniTask.Yield(cancelToken);
             }
         }
     }

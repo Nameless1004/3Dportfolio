@@ -1,0 +1,50 @@
+{
+    "SkillDatas": 
+    [
+    {
+        "Id" : "2001",
+        "IconPath" : "",
+        "PrefabPath" : "Prefab/Skill/2001",
+        "Level" : "1",
+        "Name" : "FireBall",
+        "Description" : "",
+        "MinDamage" : "1",
+        "MaxDamage" : "2",
+        "CoolTime" : "1.0",
+        "SpawnCount" : "3",
+        "ProjectileSpeed" : "20",
+        "SpawnRateMilliSecond" : "100",
+        "SpawnLifeTimeMilliSecond" : "2000"
+    },
+    {
+        "Id" : "2001",
+        "IconPath" : "",
+        "PrefabPath" : "Prefab/Skill/2001",
+        "Level" : "2",
+        "Name" : "FireBall",
+        "Description" : "",
+        "MinDamage" : "2",
+        "MaxDamage" : "3",
+        "CoolTime" : "0.9",
+        "SpawnCount" : "2",
+        "ProjectileSpeed" : "20",
+        "SpawnRateMilliSecond" : "100",
+        "SpawnLifeTimeMilliSecond" : "2000"
+    },
+    {
+        "Id" : "2001",
+        "IconPath" : "",
+        "PrefabPath" : "Prefab/Skill/2001",
+        "Level" : "3",
+        "Name" : "FireBall",
+        "Description" : "",
+        "MinDamage" : "3",
+        "MaxDamage" : "4",
+        "CoolTime" : "0.8",
+        "SpawnCount" : "3",
+        "ProjectileSpeed" : "20",
+        "SpawnRateMilliSecond" : "100",
+        "SpawnLifeTimeMilliSecond" : "2000"
+    }
+    ]
+}

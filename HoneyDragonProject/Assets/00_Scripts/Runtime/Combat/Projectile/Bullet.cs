@@ -28,7 +28,8 @@ namespace RPG.Combat.Projectile
                 var ps = hitVfx.GetComponentInChildren<ParticleSystem>(true);
                 IsAlive = false;
                 hitVfx.SetActive(true);
-                StartCoroutine(DestroyParticle(ps.main.duration));
+                int durationMilliSec = (int)(ps.main.duration * 1000);
+                DestroyParticle(durationMilliSec).Forget();
 
                 if(go.IsSameLayer("Enemy"))
                 {

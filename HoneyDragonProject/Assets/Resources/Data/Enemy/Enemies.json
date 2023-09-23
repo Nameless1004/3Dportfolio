@@ -5,7 +5,7 @@
         "Id" : "1000",
         "PrefabPath" : "Prefab/Enemy/1000",
         "Name" : "test",
-        "Hp" : "4",
+        "Hp" : "10",
         "AttackPower" : "5",
         "AttackRange" : "3",
         "AttackRate" : "1.0"

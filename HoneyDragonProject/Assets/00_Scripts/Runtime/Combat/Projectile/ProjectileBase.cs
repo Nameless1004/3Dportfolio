@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using RPG.Core;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace RPG.Combat.Projectile
 
         protected Rigidbody rig;
         protected Creature target;
-        protected ObjectPool<ProjectileBase> pool;
+        protected ObjectPooler<ProjectileBase> pool;
 
 
         [SerializeField] protected GameObject mainVfx;
@@ -35,7 +36,7 @@ namespace RPG.Combat.Projectile
             rig.useGravity = false;
         }
 
-        public void SetPool(ObjectPool<ProjectileBase> pool)
+        public void SetPool(ObjectPooler<ProjectileBase> pool)
         {
             this.pool = pool;
         }
@@ -69,7 +70,7 @@ namespace RPG.Combat.Projectile
             muzzleVfx.gameObject.SetActive(true);
             muzzleVfx.transform.forward = gameObject.transform.forward;
             ParticleSystem ps = muzzleVfx.GetComponentInChildren<ParticleSystem>(true);
-            StartCoroutine(DelayDisable(muzzleVfx, ps.main.duration));
+            DelayDisable(muzzleVfx, (int)(ps.main.duration * 1000f)).Forget();
         }
 
         protected virtual void Reset()
@@ -81,18 +82,18 @@ namespace RPG.Combat.Projectile
             hitVfx.SetActive(false);
         }
 
-        protected IEnumerator DelayDisable(UnityEngine.GameObject obj, float time)
+        protected async UniTaskVoid DelayDisable(UnityEngine.GameObject obj, int milliTime)
         {
-            yield return new WaitForSeconds(time);
+            await UniTask.Delay(milliTime, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
             obj.SetActive(false);
         }
 
-        protected IEnumerator DestroyParticle(float waitTime)
+        protected async UniTaskVoid DestroyParticle(int milliTime)
         {
             Debug.Log("DestroyParticle");
 
             mainVfx.SetActive(false);
-            yield return new WaitForSeconds(waitTime);
+            await UniTask.Delay(milliTime, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
 
             muzzleVfx.SetActive(false);
             hitVfx.SetActive(false);
