@@ -30,6 +30,9 @@ namespace RPG.Combat.Projectile
         [SerializeField] protected GameObject hitVfx;
         [SerializeField] protected List<UnityEngine.GameObject> trails;
 
+        protected bool isDestroyed = false;
+        public bool IsDestroyed => isDestroyed;
+
         private void Awake()
         {
             rig = GetComponent<Rigidbody>();
@@ -105,8 +108,15 @@ namespace RPG.Combat.Projectile
 
         protected abstract void OnTriggerEnter(Collider other);
 
+        private void OnDestroy()
+        {
+            isDestroyed = true;
+        }
+
         public void OnGetAction()
         {
+            if (IsDestroyed == true) return;
+
             gameObject.SetActive(true);
         }
 

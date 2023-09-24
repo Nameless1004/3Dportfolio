@@ -47,6 +47,7 @@ namespace RPG.Combat.Skill
             while(true)
             {
                 var cancelToken = this.GetCancellationTokenOnDestroy();
+                await UniTask.Yield(cancelToken);
                 if (currentSkill.currentCoolTime > currentSkillData.CoolTime) 
                 {
                     currentSkill.Activate(owner, cancelToken).Forget();
@@ -56,8 +57,6 @@ namespace RPG.Combat.Skill
                 {
                     currentSkill.currentCoolTime += Time.deltaTime;
                 }
-
-                await UniTask.Yield(cancelToken);
             }
         }
     }

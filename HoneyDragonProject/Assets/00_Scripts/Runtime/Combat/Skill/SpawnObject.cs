@@ -12,6 +12,7 @@ namespace RPG.Combat.Skill
         private float lifeTime = 0f;
         private float elapsedTime = 0f;
 
+
         private void Awake()
         {
             collider = GetComponent<Collider>();
@@ -30,7 +31,6 @@ namespace RPG.Combat.Skill
 
         public void OnGetAction()
         {
-            if (gameObject is null) return;
             gameObject.SetActive(true);
             elapsedTime = 0f;
             isSpawned = true;

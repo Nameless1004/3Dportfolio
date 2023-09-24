@@ -37,7 +37,7 @@ namespace RPG.Combat.Skill
         }
 
 
-        public abstract UniTaskVoid Activate(Creature initiator, CancellationToken token = default);
+        public abstract UniTaskVoid Activate(Creature initiator, CancellationToken token);
         public float currentCoolTime = float.MaxValue;
 
         public Transform FindNearestEnemy(Creature initiator, int layerMask)

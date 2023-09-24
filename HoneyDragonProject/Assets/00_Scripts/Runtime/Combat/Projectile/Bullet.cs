@@ -22,9 +22,6 @@ namespace RPG.Combat.Projectile
 
             if (go.IsSameLayer("Enemy") || go.IsSameLayer("Obstacle"))
             {
-                // 적이면 
-                Debug.Log("적이랑 충돌됨");
-                Debug.Log($"{other.name}");
                 var ps = hitVfx.GetComponentInChildren<ParticleSystem>(true);
                 IsAlive = false;
                 hitVfx.SetActive(true);
