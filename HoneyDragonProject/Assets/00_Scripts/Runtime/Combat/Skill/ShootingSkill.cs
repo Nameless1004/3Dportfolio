@@ -2,24 +2,25 @@
 using RPG.Core;
 using RPG.Core.Data;
 using RPG.Util;
+using UnityEngine;
 
 namespace RPG.Combat.Skill
 {
     public abstract class ShootingSkill : ActiveSkill
     {
-        public ShootingSkill(SkillData data) : base(data) 
+        [SerializeField]
+        protected ProjectileBase prefab;
+        protected ObjectPooler<ProjectileBase> projectiles;
+
+        public override void SetData(SkillData data)
         {
-            projectilePrefabPath = data.PrefabPath;
+            base.SetData(data);
             projectiles = CreatePool();
         }
 
-        protected string projectilePrefabPath;
-        protected ObjectPooler<ProjectileBase> projectiles;
-
-        
         public virtual ObjectPooler<ProjectileBase> CreatePool()
         {
-            return new ObjectPooler<ProjectileBase>(Utility.ResourceLoad<ProjectileBase>(projectilePrefabPath));
+            return new ObjectPooler<ProjectileBase>(prefab);
         }
 
     }

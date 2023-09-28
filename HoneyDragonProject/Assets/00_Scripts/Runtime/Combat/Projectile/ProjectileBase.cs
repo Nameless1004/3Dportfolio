@@ -18,17 +18,18 @@ namespace RPG.Combat.Projectile
         protected Vector3 startPos;
         protected Vector3 direction;
         protected Vector3 calculatedPosition;
+        protected const float LIFE_TIME = 5f;
+        protected float elapsedTime;
         protected bool IsAlive;
 
         protected Rigidbody rig;
         protected Creature target;
         protected ObjectPooler<ProjectileBase> pool;
 
-
+        [SerializeField] protected TrailRenderer trailRenderer;
         [SerializeField] protected GameObject mainVfx;
         [SerializeField] protected GameObject muzzleVfx;
         [SerializeField] protected GameObject hitVfx;
-        [SerializeField] protected List<UnityEngine.GameObject> trails;
 
         protected bool isDestroyed = false;
         public bool IsDestroyed => isDestroyed;
@@ -36,6 +37,7 @@ namespace RPG.Combat.Projectile
         private void Awake()
         {
             rig = GetComponent<Rigidbody>();
+            trailRenderer = mainVfx.GetComponentInChildren<TrailRenderer>(true);
             rig.useGravity = false;
         }
 
@@ -46,20 +48,15 @@ namespace RPG.Combat.Projectile
 
         public ProjectileBase GetPooledObject() => this;
 
-        //private void Update()
-        //{
-        //    if (!IsAlive) return;
-        //    CalculatePosition();
-        //}
-
         void FixedUpdate()
         {
             if (!IsAlive) return;
             CalculatePosition();
             ApplyPosition();
+            UpdateLifeTime();
         }
 
-        public void Fire(DamageInfo dmgInfo, Vector3 startPos, Vector3 dir, float speed, Creature target = null) 
+        public void Fire(DamageInfo dmgInfo, Vector3 startPos, Vector3 dir, float speed, Creature target = null)
         {
             this.transform.forward = direction = dir;
             this.transform.position = startPos;
@@ -68,17 +65,24 @@ namespace RPG.Combat.Projectile
             this.dmgInfo = dmgInfo;
             this.target = target;
 
-            Reset();
+            ResetProjectile();
 
-            muzzleVfx.gameObject.SetActive(true);
             muzzleVfx.transform.forward = gameObject.transform.forward;
             ParticleSystem ps = muzzleVfx.GetComponentInChildren<ParticleSystem>(true);
             DelayDisable(muzzleVfx, (int)(ps.main.duration * 1000f)).Forget();
         }
 
-        protected virtual void Reset()
+        protected virtual void ResetProjectile()
         {
             IsAlive = true;
+            elapsedTime = 0f;
+
+            // 트레일 초기화
+            if (trailRenderer != null)
+            {
+                trailRenderer.Clear();
+                Debug.Log($"TrailRender is null ? {trailRenderer == null}");
+            }
 
             mainVfx.SetActive(true);
             muzzleVfx.SetActive(true);
@@ -96,36 +100,50 @@ namespace RPG.Combat.Projectile
             Debug.Log("DestroyParticle");
 
             mainVfx.SetActive(false);
-            await UniTask.Delay(milliTime, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
 
+            await UniTask.Delay(milliTime, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
+            IsAlive = false;
             muzzleVfx.SetActive(false);
             hitVfx.SetActive(false);
             pool.Release(this);
         }
 
+        protected void DestroyParticleImmediately()
+        {
+            Debug.Log("DestroyParticle");
+            IsAlive = false;
+            mainVfx.SetActive(false);
+            muzzleVfx.SetActive(false);
+            hitVfx.SetActive(false);
+            pool.Release(this);
+        }
+
+        private void UpdateLifeTime()
+        {
+            elapsedTime += Time.fixedDeltaTime;
+            if (elapsedTime > LIFE_TIME)
+            {
+                DestroyParticleImmediately();
+                elapsedTime = 0f;
+                return;
+            }
+        }
         protected abstract void CalculatePosition();
         protected abstract void ApplyPosition();
 
         protected abstract void OnTriggerEnter(Collider other);
 
-        private void OnDestroy()
+        public virtual void OnGetAction()
         {
-            isDestroyed = true;
-        }
-
-        public void OnGetAction()
-        {
-            if (IsDestroyed == true) return;
-
             gameObject.SetActive(true);
         }
 
-        public void OnReleaseAction()
+        public virtual void OnReleaseAction()
         {
             gameObject.SetActive(false);
         }
 
-        public void OnDestroyAction()
+        public virtual void OnDestroyAction()
         {
             gameObject.SetActive(false);
         }

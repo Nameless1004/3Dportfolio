@@ -3,35 +3,48 @@ using RPG.Combat.Projectile;
 using RPG.Core;
 using RPG.Core.Data;
 using RPG.Core.Manager;
+using RPG.Util;
 using System.Collections;
 using System.Threading;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace RPG.Combat.Skill
 {
     public class FireBall : ShootingSkill
     {
-        public FireBall(SkillData data) : base(data)
+        public override void SetData(SkillData data)
         {
+            base.SetData(data);
             CurrentLevel = 1;
         }
 
-        public override async UniTaskVoid Activate(Creature initiator, CancellationToken token)
+        public override async UniTaskVoid UseSkill()
         {
-            for (int i = 0; i < 5; ++i)
+            while (true)
             {
-                if (projectiles.TryGet(out var get) == false) break;
+                Activate(owner).Forget();
+                await UniTask.Delay((int)(Data.CoolTime * 1000), false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
+            }
+        }
+
+        protected override async UniTaskVoid Activate(Creature initiator)
+        {
+            for (int i = 0; i < Data.SpawnCount; ++i)
+            {
+                Debug.Log($"Active {i}");
+                var get = projectiles.Get();
                 float randZ = Random.Range(-1f, 1f);
                 float randX = Random.Range(-1f, 1f);
                 Vector3 dir = new Vector3(randX, 0f, randZ).normalized;
-                var enem = FindNearestEnemy(initiator, LayerMask.GetMask("Enemy"));
+                var enem = Utility.FindNearestObject(initiator.transform, 50f, LayerMask.GetMask("Enemy"));
                 if (enem != null)
                 {
                     dir = (enem.transform.position - initiator.position).normalized;
                 }
                 get.Fire(new DamageInfo(null, Random.Range(Data.MinDamage, Data.MaxDamage + 1), new KnockbackInfo(dir, 5f)), initiator.center, dir, Data.ProjectileSpeed, initiator);
 
-                await UniTask.Delay(Data.SpawnRateMilliSecond, false, PlayerLoopTiming.Update, token);
+                await UniTask.Delay(Data.SpawnRateMilliSecond, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
             }
         }
 

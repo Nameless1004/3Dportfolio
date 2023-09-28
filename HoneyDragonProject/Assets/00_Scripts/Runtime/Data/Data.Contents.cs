@@ -5,6 +5,40 @@ using RPG.Core.Manager;
 
 namespace RPG.Core.Data
 {
+
+    #region PlayerStat
+    [Serializable]
+    public class PlayerExpData
+    {
+        public int Level;
+        public int NeedExp;
+    }
+
+    [Serializable]
+    public class PlayerExpDataSet : ILoader<int, PlayerExpData>
+    {
+        public List<PlayerExpData> PlayerExpData = new List<PlayerExpData>();
+        public Dictionary<int, PlayerExpData> MakeDict()
+        {
+            Dictionary<int, PlayerExpData> dict = new Dictionary<int, PlayerExpData>();
+            PlayerExpData.ForEach(x => dict.Add(x.Level, x));
+            return dict;
+        }
+    }
+
+    [Serializable]
+    public class PlayerData
+    {
+        public string PrefabPath;
+        public int Level;
+        public int Exp;
+        public float MoveSpeed;
+        public float AttackPower;
+        public float Defense;
+    }
+
+
+    #endregion
     #region SkillStat
     [Serializable]
     public class SkillData
@@ -27,13 +61,13 @@ namespace RPG.Core.Data
     [Serializable]
     public class SkillDataSet : ILoader<int, Dictionary<int, SkillData>>
     {
-        public List<SkillData> SkillDatas = new List<SkillData>();
+        public List<SkillData> SkillData = new List<SkillData>();
 
         public Dictionary<int, Dictionary<int, SkillData>> MakeDict()
         {
             Dictionary<int, Dictionary<int, SkillData>> dic = new Dictionary<int, Dictionary<int, SkillData>>();
 
-            SkillDatas.ForEach(x =>
+            SkillData.ForEach(x =>
             {
                 if (dic.ContainsKey(x.Id) == true)
                 {
@@ -66,11 +100,11 @@ namespace RPG.Core.Data
     [Serializable]
     public class EnemyDataSet : ILoader<int, EnemyData>
     {
-        public List<EnemyData> EnemyDatas = new List<EnemyData>();
+        public List<EnemyData> EnemyData = new List<EnemyData>();
         public Dictionary<int, EnemyData> MakeDict()
         {
             var dict = new Dictionary<int, EnemyData>();
-            EnemyDatas.ForEach(x => dict.Add(x.Id, x));
+            EnemyData.ForEach(x => dict.Add(x.Id, x));
             return dict;
         }
     }
@@ -99,12 +133,12 @@ namespace RPG.Core.Data
     [Serializable]
     public class StageDataSet : ILoader<int, StageData>
     {
-        public List<StageData> StageDatas = new List<StageData>();
+        public List<StageData> StageData = new List<StageData>();
 
         public Dictionary<int, StageData> MakeDict()
         {
             Dictionary<int, StageData> dict = new Dictionary<int, StageData>();
-            StageDatas.ForEach(x => dict.Add(x.StageNum, x));
+            StageData.ForEach(x => dict.Add(x.StageNum, x));
             return dict;
         }
     }

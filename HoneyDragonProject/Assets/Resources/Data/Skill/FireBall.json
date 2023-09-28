@@ -1,10 +1,10 @@
 {
-    "SkillDatas": 
+    "SkillData": 
     [
     {
         "Id" : "2000",
         "IconPath" : "",
-        "PrefabPath" : "Prefab/Projectile/2000",
+        "PrefabPath" : "Prefab/Skill/2000",
         "Level" : "1",
         "Name" : "FireBall",
         "Description" : "",
@@ -19,7 +19,7 @@
     {
         "Id" : "2000",
         "IconPath" : "",
-        "PrefabPath" : "Prefab/Projectile/2000",
+        "PrefabPath" : "Prefab/Skill/2000",
         "Level" : "2",
         "Name" : "FireBall",
         "Description" : "",
@@ -34,7 +34,7 @@
     {
         "Id" : "2000",
         "IconPath" : "",
-        "PrefabPath" : "Prefab/Projectile/2000",
+        "PrefabPath" : "Prefab/Skill/2000",
         "Level" : "3",
         "Name" : "FireBall",
         "Description" : "",

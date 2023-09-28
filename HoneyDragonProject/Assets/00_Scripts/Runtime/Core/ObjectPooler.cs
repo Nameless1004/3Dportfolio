@@ -28,11 +28,7 @@ namespace RPG.Core
 
         public void ActionOnGet(T element)
         {
-            // 파괴된 오브젝트 접근 시 오류나서 아래와 같이 처리
-            if( element != null && element.gameObject != null)
-            {
                 element.OnGetAction();
-            }
         }
         public  void ActionOnRelease(T element) => element.OnReleaseAction();
         public  void ActionOnDestroy(T element) => element.OnDestroyAction();
@@ -51,6 +47,8 @@ namespace RPG.Core
 
             return true;
         }
+
+        public T Get() => Pool.Get();
         public U Get<U>() where U : T => (U)Pool.Get();
         public void Release(T element) => Pool.Release(element);
         

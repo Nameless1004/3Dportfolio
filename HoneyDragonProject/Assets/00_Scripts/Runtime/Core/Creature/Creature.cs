@@ -23,11 +23,5 @@ namespace RPG.Core
         }
         
         protected CapsuleCollider collider;
-
-
-        private void Awake()
-        {
-            collider = GetComponentInChildren<CapsuleCollider>();
-        }
     }
 }

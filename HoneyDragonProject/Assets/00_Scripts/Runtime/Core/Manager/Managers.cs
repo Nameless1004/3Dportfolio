@@ -20,6 +20,7 @@ namespace RPG.Core.Manager
 
         public SkillManager Skill { get; private set; }
         public StageManager Stage { get; private set; }
+        public LootSpawManager Loot { get; private set; }
 
         private List<IManager> managers = new List<IManager>();
 

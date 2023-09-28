@@ -13,18 +13,21 @@ namespace RPG.Combat.Skill
 {
     public abstract class SpawnSkill : ActiveSkill
     {
-        public SpawnSkill(SkillData data) : base(data) 
+        public override void SetData(SkillData data)
         {
-            spawnObjectPrefabPath = data.PrefabPath;
+            base.SetData(data);
+
             spawnObjects = CreatePool();
         }
-        protected string spawnObjectPrefabPath;
+
+        [SerializeField]
+        protected SpawnObject spawnObjectPrefab;
         protected ObjectPooler<SpawnObject> spawnObjects;
 
         public virtual ObjectPooler<SpawnObject> CreatePool()
         {
          
-            return new ObjectPooler<SpawnObject>(Utility.ResourceLoad<SpawnObject>(spawnObjectPrefabPath));
+            return new ObjectPooler<SpawnObject>(spawnObjectPrefab);
         }
     }
 }

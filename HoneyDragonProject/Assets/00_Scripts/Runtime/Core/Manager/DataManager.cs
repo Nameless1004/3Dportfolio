@@ -13,16 +13,26 @@ namespace RPG.Core.Manager
         public Dictionary<int, EnemyData> EnemyDataDict { get; private set; }
         public Dictionary<int, StageData> StageDataDict { get; private set; }
 
+        public PlayerData PlayerData { get; private set; }
+        public Dictionary<int, PlayerExpData> PlayerExpDataDict { get; private set; }
+
         public void Init()
         {
             SkillDataDict = LoadJsonAll<SkillDataSet, int, Dictionary<int, SkillData>>("Skill/");
             EnemyDataDict = LoadJson<EnemyDataSet, int, EnemyData>("Enemy/Enemies").MakeDict();
             StageDataDict = LoadJson<StageDataSet, int, StageData>("Stage/Stages").MakeDict();
+            PlayerExpDataDict = LoadJson<PlayerExpDataSet, int, PlayerExpData>("Player/Exp").MakeDict();
+            PlayerData = SimpleLoadJson<PlayerData>("Player/Default");
         }
 
 
-        // 스킬 데이터 -> 스킬 id, (스킬 레벨, 스킬 데이터)
+        private T SimpleLoadJson<T>(string path)
+        {
+            var textAsset = Resources.Load<TextAsset>($"Data/{path}");
+            return JsonUtility.FromJson<T>(textAsset.text);
+        }
 
+        // 스킬 데이터 -> 스킬 id, (스킬 레벨, 스킬 데이터)
         Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
         {
             var textAsset = Resources.Load<TextAsset>($"Data/{path}");
@@ -34,7 +44,7 @@ namespace RPG.Core.Manager
             var textAsset = Resources.LoadAll<TextAsset>($"Data/{path}");
             List<Dictionary<Key, Value>> dicts = new List<Dictionary<Key, Value>>();
 
-            foreach(var i in textAsset)
+            foreach (var i in textAsset)
             {
                 dicts.Add(JsonUtility.FromJson<Loader>(i.text).MakeDict());
             }

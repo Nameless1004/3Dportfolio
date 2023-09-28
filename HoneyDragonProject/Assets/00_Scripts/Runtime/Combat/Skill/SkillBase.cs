@@ -12,19 +12,22 @@ namespace RPG.Combat.Skill
         public SkillData Data { get;}
     }
 
-    public abstract class SkillBase : Skill
+    public abstract class SkillBase : MonoBehaviour, Skill
     {
-        public SkillBase(SkillData data)
-        {
-            Data = data;
-            Id = data.Id;
-        }
-
+        protected Creature owner;
         public int Id;
         public Sprite Icon;
         public int CurrentLevel;
 
+        [field: SerializeField]
         public SkillData Data { get; protected set; }
+
+        public void SetOwner(Creature owner) => this.owner = owner;
+        public virtual void SetData(SkillData data)
+        {
+            Data = data;
+            Id = data.Id;
+        }
         
 
         public abstract void Levelup();
@@ -32,39 +35,9 @@ namespace RPG.Combat.Skill
 
     public abstract class ActiveSkill : SkillBase
     {
-        public ActiveSkill(SkillData data) : base(data)
-        {
-        }
-
-
-        public abstract UniTaskVoid Activate(Creature initiator, CancellationToken token);
-        public float currentCoolTime = float.MaxValue;
-
-        public Transform FindNearestEnemy(Creature initiator, int layerMask)
-        {
-            var collided = Physics.OverlapSphere(initiator.position, 10f, layerMask);
-            Collider nearest = null;
-            if (collided.Length > 0)
-            {
-                nearest = collided[0];
-                float minDist = float.MaxValue;
-
-                foreach (var enemy in collided)
-                {
-                    float dist = (initiator.position - enemy.transform.position).sqrMagnitude;
-                    if (minDist > dist)
-                    {
-                        nearest = enemy;
-                        minDist = dist;
-                    }
-                }
-                return nearest.transform;
-            }
-            else
-            {
-                return null;
-            }
-        }
+        public abstract UniTaskVoid UseSkill();
+        protected abstract UniTaskVoid Activate(Creature initiator);
+    
     }
 
 

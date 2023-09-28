@@ -8,9 +8,12 @@ namespace RPG.Combat.Skill
 {
     public class LightningBolt : SpawnSkill
     {
-        public LightningBolt(SkillData data) : base(data) { }
+        public override void SetData(SkillData data)
+        {
+            base.SetData(data);
+        }
 
-        public override async UniTaskVoid Activate(Creature initiator, CancellationToken token)
+        protected override async UniTaskVoid Activate(Creature initiator)
         {
             for (int i = 0; i < 3; ++i)
             {
@@ -25,13 +28,22 @@ namespace RPG.Combat.Skill
                 spawnPos.y = 0f;
                 get.Spawn(spawnPos, 1f);
 
-                await UniTask.Delay(Data.SpawnRateMilliSecond * 2, false, PlayerLoopTiming.Update, token);
+                await UniTask.Delay(Data.SpawnRateMilliSecond * 2, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
             }
         }
 
 
         public override void Levelup()
         {
+        }
+
+        public override async UniTaskVoid UseSkill()
+        {
+            while(true)
+            {
+                Activate(owner).Forget();
+                await UniTask.Delay((int)(Data.CoolTime * 1000), false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
+            }
         }
     }
 }

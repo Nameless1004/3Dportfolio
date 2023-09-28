@@ -9,12 +9,14 @@ namespace RPG.Core.Manager
     public class SkillManager : IManager
     {
         private Dictionary<int, Dictionary<int, SkillData>> skillData;
-        public Dictionary<int, Skill> SkillDict;
 
-
-        public T GetSkill<T>(int id) where T : Skill
+        public T GetSkill<T>(Creature owner, int id, int level, Transform parent = null) where T : SkillBase
         {
-            return (T)SkillDict[id];
+            var skillData = GetSkillData(id, level);
+            SkillBase skill = MonoBehaviour.Instantiate(Resources.Load<SkillBase>(skillData.PrefabPath), parent);
+            skill.SetData(skillData);
+            skill.SetOwner(owner);
+            return (T)skill;
         }
 
         public SkillData GetSkillData(int id, int level)
@@ -28,23 +30,11 @@ namespace RPG.Core.Manager
             return skillData[id][level];
         }
 
-        private void InitSkill()
-        {
-            AddSkill<FireBall>(2000, 1);
-            AddSkill<LightningBolt>(2001, 1);
-        }
-
-        private void AddSkill<T>(int skillId, int level) where T : Skill
-        {
-            SkillBase skill = (SkillBase)Activator.CreateInstance(typeof(T), GetSkillData(skillId, level));
-            SkillDict.Add(skill.Id, skill);
-        }
-
         public SkillData LevelupSkill(int id, int currentLevel)
         {
             if (DataValidationCheck(id, currentLevel + 1) == false)
             {
-                // Debug.Log(true, $"SkillData Invalid ; Skill ID : {id}, Request Level : {currentLevel + 1}");
+                Debug.Assert(true, $"SkillData Invalid ; Skill ID : {id}, Request Level : {currentLevel + 1}");
                 return null;
             }
 
@@ -65,12 +55,8 @@ namespace RPG.Core.Manager
         public void Init()
         {
             DataManager dataManager = Managers.Instance.Data;
-            SkillDict = new Dictionary<int, Skill>();
             skillData = dataManager.SkillDataDict;
-            Debug.Assert(skillData is not null);
-            InitSkill();
-            // GetSkillPrefabs
-            // SkillDataSetting
+            Debug.Assert(skillData != null);
         }
     }
 }

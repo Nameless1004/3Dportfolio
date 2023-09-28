@@ -1,0 +1,8 @@
+{
+    "PrefabPath": "Prefab/Player/Player",
+    "Level": "1",
+    "Exp": "0.0",
+    "MoveSpeed": "1",
+    "AttackPower": "1",
+    "Defense": "1"
+}

@@ -2,6 +2,6 @@
 {
     public static class StaticPath
     {
-        public static readonly string SkillDataPath = "Assets/Datas/Skill/";
+        public static readonly string SkillDataPath = "Assets/Data/Skill/";
     }
 }

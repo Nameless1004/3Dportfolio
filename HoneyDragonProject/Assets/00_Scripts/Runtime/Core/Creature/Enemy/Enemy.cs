@@ -20,6 +20,7 @@ namespace RPG.Core
             Health = GetComponent<Health>();
             Brain = GetComponent<EnemyBrain>();
             Controller = GetComponent<EnemyAIController>();
+            collider = GetComponentInChildren<CapsuleCollider>();
         }
 
         private void Start()
@@ -41,6 +42,7 @@ namespace RPG.Core
         public void OnDie()
         {
             Controller.Die();
+            Managers.Instance.Loot.Spawn(LootSpawManager.LootType.Exp, Controller.transform.position);
         }
 
         public void SetData(EnemyData data)
