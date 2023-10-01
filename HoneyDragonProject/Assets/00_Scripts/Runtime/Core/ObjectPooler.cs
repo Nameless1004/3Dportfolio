@@ -1,4 +1,6 @@
 ﻿using RPG.Combat.Projectile;
+using RPG.Util;
+using System;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -15,15 +17,16 @@ namespace RPG.Core
             Parent = parent;
         }
 
+
         public T Prefab { get; protected set; }
         public Transform Parent { get; protected set; }
         public ObjectPool<T> Pool { get; private set; }
 
         public T CreateFunc()
         {
-            IPoolable<T> cl = MonoBehaviour.Instantiate(Prefab, Parent).GetComponent<IPoolable<T>>();
-            cl.SetPool(this);
-            return cl.GetPooledObject();
+            T cl = MonoBehaviour.Instantiate<T>(Prefab, Parent);
+            cl.SetPool(this.Pool);
+            return cl;
         }
 
         public void ActionOnGet(T element)

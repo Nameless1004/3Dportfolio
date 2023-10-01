@@ -118,6 +118,7 @@ namespace RPG.Core.Data
         public int Type;
         // 0 : Outside, 1: voids
         public int SpawnType;
+        public int SpawnCount;
         public int Id;
     }
 

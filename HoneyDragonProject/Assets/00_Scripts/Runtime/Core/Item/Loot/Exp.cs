@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace RPG.Core.Item
 {
@@ -82,7 +83,7 @@ namespace RPG.Core.Item
                 if(elapsedTime > arriveTime)
                 {
                     player.GetExp(Amount);
-                    pool.Release(this);
+                    owner.Release(this);
                     break;
                 }
                 else
@@ -100,8 +101,6 @@ namespace RPG.Core.Item
             }
         }
 
-        public override Loot GetPooledObject() => this;
-
         public override void OnDestroyAction()
         {
            
@@ -118,9 +117,9 @@ namespace RPG.Core.Item
             gameObject.SetActive(false);
         }
 
-        public override void SetPool(ObjectPooler<Loot> pool)
+        public override void SetPool(ObjectPool<Loot> owner)
         {
-            this.pool = pool;
+            this.owner = owner;
         }
     }
 }

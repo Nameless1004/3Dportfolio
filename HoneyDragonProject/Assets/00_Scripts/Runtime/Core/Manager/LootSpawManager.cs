@@ -31,7 +31,7 @@ namespace RPG.Core.Manager
 
         public void Init()
         {
-            Exp = new ObjectPooler<Loot>(Utility.ResourceLoad<Loot>("Prefab/Loot/Exp"));
+            Exp = new ObjectPooler<Loot>(ResourceCache.Load<Loot>("Prefab/Loot/Exp"));
         }
     }
 }

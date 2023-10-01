@@ -9,7 +9,7 @@ using UnityEngine;
 namespace RPG.Core.State
 {
     public class EnemyChaseState : StateMachineBehaviour
-    {
+    {   
         EnemyAIController controller;
         Enemy owner;
 

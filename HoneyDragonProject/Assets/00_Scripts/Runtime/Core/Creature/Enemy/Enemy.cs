@@ -1,15 +1,19 @@
-﻿using RPG.Combat;
+﻿using Cysharp.Threading.Tasks;
+using RPG.Combat;
 using RPG.Control;
 using RPG.Core.Data;
 using RPG.Core.Manager;
+using RPG.Util;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Pool;
 
 namespace RPG.Core
 {
     [RequireComponent(typeof(CombatTarget))]
-    public class Enemy : Creature
+    public class Enemy : Creature, IPoolable<Enemy>
     {
+        public ObjectPool<Enemy> Owner { get; private set; }
         public EnemyData Data { get; private set; }
         public EnemyBrain Brain { get; private set; }
         public EnemyAIController Controller { get; private set; }
@@ -20,12 +24,6 @@ namespace RPG.Core
             Health = GetComponent<Health>();
             Brain = GetComponent<EnemyBrain>();
             Controller = GetComponent<EnemyAIController>();
-            collider = GetComponentInChildren<CapsuleCollider>();
-        }
-
-        private void Start()
-        {
-            Controller.SetTarget(Brain.Target);
         }
 
         private void OnEnable()
@@ -41,8 +39,15 @@ namespace RPG.Core
 
         public void OnDie()
         {
-            Controller.Die();
+            Controller.OnDie();
             Managers.Instance.Loot.Spawn(LootSpawManager.LootType.Exp, Controller.transform.position);
+            DelayDestroy(2000).Forget();
+        }
+
+        public async UniTaskVoid DelayDestroy(int delayTime)
+        {
+            await UniTask.Delay(delayTime, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
+            Owner.Release(this);
         }
 
         public void SetData(EnemyData data)
@@ -59,6 +64,27 @@ namespace RPG.Core
             }
 
             Health.SetHp(hp);
+        }
+
+        public void SetPool(ObjectPool<Enemy> owner)
+        {
+            this.Owner = owner;
+        }
+
+        public void OnGetAction()
+        {
+            gameObject.SetActive(true);
+            Controller.SetTarget(Brain.Target);
+        }
+
+        public void OnReleaseAction()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public void OnDestroyAction()
+        {
+            Destroy(gameObject);
         }
     }
 }

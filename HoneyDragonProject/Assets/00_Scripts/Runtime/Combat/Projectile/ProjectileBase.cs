@@ -24,7 +24,7 @@ namespace RPG.Combat.Projectile
 
         protected Rigidbody rig;
         protected Creature target;
-        protected ObjectPooler<ProjectileBase> pool;
+        protected ObjectPool<ProjectileBase> owner;
 
         [SerializeField] protected TrailRenderer trailRenderer;
         [SerializeField] protected GameObject mainVfx;
@@ -41,12 +41,10 @@ namespace RPG.Combat.Projectile
             rig.useGravity = false;
         }
 
-        public void SetPool(ObjectPooler<ProjectileBase> pool)
+        public void SetPool(ObjectPool<ProjectileBase> owner)
         {
-            this.pool = pool;
+            this.owner = owner;
         }
-
-        public ProjectileBase GetPooledObject() => this;
 
         void FixedUpdate()
         {
@@ -105,7 +103,7 @@ namespace RPG.Combat.Projectile
             IsAlive = false;
             muzzleVfx.SetActive(false);
             hitVfx.SetActive(false);
-            pool.Release(this);
+            owner.Release(this);
         }
 
         protected void DestroyParticleImmediately()
@@ -115,7 +113,7 @@ namespace RPG.Combat.Projectile
             mainVfx.SetActive(false);
             muzzleVfx.SetActive(false);
             hitVfx.SetActive(false);
-            pool.Release(this);
+            owner.Release(this);
         }
 
         private void UpdateLifeTime()

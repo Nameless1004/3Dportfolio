@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace RPG.Core.Item
 {
@@ -14,10 +15,6 @@ namespace RPG.Core.Item
             player.GetGold(Amount);
         }
 
-        public override Loot GetPooledObject()
-        {
-            throw new NotImplementedException();
-        }
 
         public override void OnDestroyAction()
         {
@@ -34,7 +31,7 @@ namespace RPG.Core.Item
             throw new NotImplementedException();
         }
 
-        public override void SetPool(ObjectPooler<Loot> pool)
+        public override void SetPool(ObjectPool<Loot> owner)
         {
             throw new NotImplementedException();
         }

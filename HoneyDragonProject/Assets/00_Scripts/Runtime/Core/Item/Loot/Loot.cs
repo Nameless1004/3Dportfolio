@@ -1,4 +1,5 @@
 using   UnityEngine;
+using UnityEngine.Pool;
 
 namespace RPG.Core.Item
 {
@@ -7,16 +8,15 @@ namespace RPG.Core.Item
         public int Amount;
         public abstract void Get(Player player);
 
-        protected ObjectPooler<Loot> pool;
+        protected ObjectPool<Loot> owner;
 
 
         // Pooling ฐüทร
         public abstract void Spawn(Vector3 position);
 
-        public abstract Loot GetPooledObject();
         public abstract void OnDestroyAction();
         public abstract void OnGetAction();
         public abstract void OnReleaseAction();
-        public abstract void SetPool(ObjectPooler<Loot> pool);
+        public abstract void SetPool(ObjectPool<Loot> owner);
     }
 }

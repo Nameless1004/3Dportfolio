@@ -3,19 +3,15 @@
     [   
         {
             "StageNum" : "1",
-            "MaxSpawnCount" : "100",
+            "MaxSpawnCount" : "50",
             "SpawnRate" : "0.5",
             "EnemyInfoList" : 
             [
                 {
                     "Type" : "0",
                     "SpawnType" : "0",
-                    "Id" : "1000"
-                },
-                {
-                    "Type" : "0",
-                    "SpawnType" : "0",
-                    "Id" : "1000"
+                    "SpawnCount" : "1",
+                    "Id" : "1001"
                 }
             ]
         }

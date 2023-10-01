@@ -6,7 +6,7 @@ namespace RPG.Combat.Skill
 {
     public class SpawnObject : MonoBehaviour, IPoolable<SpawnObject>
     {
-        ObjectPooler<SpawnObject> pool;
+        ObjectPool<SpawnObject> owner;
         Collider collider;
         private bool isSpawned = false;
         private float lifeTime = 0f;
@@ -16,11 +16,6 @@ namespace RPG.Combat.Skill
         private void Awake()
         {
             collider = GetComponent<Collider>();
-        }
-
-        public SpawnObject GetPooledObject()
-        {
-            return this;
         }
 
         public void OnDestroyAction()
@@ -42,9 +37,9 @@ namespace RPG.Combat.Skill
             isSpawned = false;
         }
 
-        public void SetPool(ObjectPooler<SpawnObject> pool)
+        public void SetPool(ObjectPool<SpawnObject> owner)
         {
-            this.pool = pool;
+            this.owner = owner;
         }
 
         private void Update()
@@ -54,7 +49,7 @@ namespace RPG.Combat.Skill
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= lifeTime)
             {
-                pool.Release(this);
+                owner.Release(this);
                 return;
             }
         }

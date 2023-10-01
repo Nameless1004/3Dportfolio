@@ -22,10 +22,14 @@ namespace RPG.Core.Manager
 
             if(playerPrefab == null)
             {
-                playerPrefab = Utility.ResourceLoad<Player>(data.PlayerData.PrefabPath);    
+                playerPrefab = ResourceCache.Load<Player>(data.PlayerData.PrefabPath);    
             }
 
-            CurrentPlayer = MonoBehaviour.Instantiate(playerPrefab);
+            // 플레이어 시작 위치
+            var startPosition = GameObject.FindWithTag("StartPosition");
+
+
+            CurrentPlayer = MonoBehaviour.Instantiate(playerPrefab, startPosition.transform.position, Quaternion.identity);
             CurrentPlayer.InitializePlayer(data);
             mainCamera = Camera.main;
             var vcams = MonoBehaviour.FindObjectsOfType<CinemachineVirtualCamera>(true);

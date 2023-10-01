@@ -9,6 +9,15 @@
         "AttackPower" : "5",
         "AttackRange" : "3",
         "AttackRate" : "1.0"
+    },
+    {
+        "Id" : "1001",
+        "PrefabPath" : "Prefab/Enemy/1001",
+        "Name" : "test",
+        "Hp" : "10",
+        "AttackPower" : "5",
+        "AttackRange" : "3",
+        "AttackRate" : "1.0"
     }
     ]
 }
