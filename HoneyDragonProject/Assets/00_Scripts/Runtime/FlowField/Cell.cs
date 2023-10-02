@@ -18,6 +18,7 @@ public class Cell
     public byte Cost;
     public ushort BestCost;
     public GridDirection BestDirection;
+    public List<Cell> Neighbors;
 
     public void IncreaseCost(int amt)
     {

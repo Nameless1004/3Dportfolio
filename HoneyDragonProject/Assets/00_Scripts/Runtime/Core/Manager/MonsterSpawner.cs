@@ -122,7 +122,6 @@ public class MonsterSpawner : MonoBehaviour
     public Vector3 GetRandomPositionFromSpawnArea()
     {
         int random = Random.Range(1, 5);
-        Debug.Log(random);
 
         Vector3 topLeft, topRight;
         Vector3 bottomLeft, bottomRight;
@@ -157,9 +156,8 @@ public class MonsterSpawner : MonoBehaviour
             2 => new Vector3(Random.Range(topRight.x, topRight.x + spawnAreaWidth),          0,  Random.Range(bottomRight.z - spawnAreaWidth, topRight.z + spawnAreaWidth)),
             4 => new Vector3(Random.Range(topLeft.x - spawnAreaWidth, topLeft.x),          0,  Random.Range(bottomRight.z - spawnAreaWidth, topRight.z + spawnAreaWidth)),
             _ => Vector3.zero
-        };;
+        };
 
-        Debug.Log($"RandomPos : {randomPos}");
         return randomPos;
     }
 

@@ -13,13 +13,17 @@ namespace RPG.Control
         public Animator Animator { get; private set; }
         public Rigidbody RigidBody{ get; private set; }
         public Creature Target;
+        private Health health;
         public NavMeshAgent Agent { get; private set; }
         private new Collider collider;
+
+        private Vector3 direction;
 
         private void Awake()
         {
             Agent = GetComponent<NavMeshAgent>();
             enemy = GetComponent<Enemy>();
+            health = GetComponent<Health>();
             collider = GetComponentInChildren<Collider>();
             RigidBody = GetComponentInChildren<Rigidbody>();    
             Animator = GetComponentInChildren<Animator>();
@@ -28,34 +32,48 @@ namespace RPG.Control
             gridController = FindObjectOfType<GridController>();
         }
 
+        private void OnEnable()
+        {
+            health.OnDie -= OnDie;
+            health.OnDie += OnDie;
+        }
+
+        private void OnDisable()
+        {
+            health.OnDie -= OnDie;
+        }
+
         public void SetTarget(Creature target)
         {
             Target = target;
-            MoveTo(target.position);
+            MoveUseFlowField();
             collider.enabled = true;
             Animator.ResetTrigger("Chase");
             Animator.SetTrigger("Chase");
-            Debug.Log("SetTarget");
-        }
-
-        public void MoveTo(Vector3 destination)
-        {
-            Agent.isStopped = false;
-            Agent.destination = destination;
         }
 
         private void MoveUseFlowField()
         {
             Cell cellBlow = gridController.CurFlowField.GetCellFromWorldPos(transform.position);
-            Vector3 moveDir = new Vector3(cellBlow.BestDirection.Vector.x, 0, cellBlow.BestDirection.Vector.y);
-            RigidBody.velocity = moveDir * 2f;
-            transform.forward = moveDir;
-            Debug.DrawRay(transform.position, moveDir * 5f, Color.yellow);
+            direction = new Vector3(cellBlow.BestDirection.Vector.x, 0, cellBlow.BestDirection.Vector.y);
+            RigidBody.velocity = direction * 2f;
+            //transform.forward = direction;
+            Debug.DrawRay(transform.position, direction * 5f, Color.yellow);
+        }
+
+        float currentVelocity;
+        float smoothTime = 0.05f;
+        private void Rotate()
+        {
+            var targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref currentVelocity, smoothTime);
+            transform.rotation = Quaternion.Euler(0, angle, 0);
         }
 
         public void StopAgent()
         {
-            Agent.isStopped = true;
+            //Agent.isStopped = true;
+            RigidBody.velocity = Vector3.zero;
         }
 
         private void Update()
@@ -64,6 +82,7 @@ namespace RPG.Control
 
             // MoveTo(Target.position);
             MoveUseFlowField();
+            Rotate();
         }
 
         public void OnDie()

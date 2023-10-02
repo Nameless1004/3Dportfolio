@@ -32,7 +32,6 @@ namespace RPG.Combat.Skill
         {
             for (int i = 0; i < Data.SpawnCount; ++i)
             {
-                Debug.Log($"Active {i}");
                 var get = projectiles.Get();
                 float randZ = Random.Range(-1f, 1f);
                 float randX = Random.Range(-1f, 1f);

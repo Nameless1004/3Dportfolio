@@ -21,7 +21,6 @@ namespace RPG.Core
             collider = GetComponentInChildren<CapsuleCollider>();
             Status = new PlayerStat();
             health = GetComponent<Health>();
-            Debug.Log("Player Awake");
         }
 
         private void OnEnable()
@@ -48,7 +47,6 @@ namespace RPG.Core
 
         public void GetExp(int amount)
         {
-            Debug.Log($"Player Get Exp : {amount}");
             int resultExp = Status.Exp + amount;
             if(resultExp > 0) 
             {
@@ -67,7 +65,6 @@ namespace RPG.Core
                 Loot loot = other.GetComponent<Loot>();
                 if(loot != null)
                 {
-                    Debug.Log("Loot");
                     loot.Get(this);
                 }
             }

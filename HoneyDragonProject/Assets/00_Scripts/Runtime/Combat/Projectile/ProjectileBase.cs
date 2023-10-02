@@ -79,7 +79,6 @@ namespace RPG.Combat.Projectile
             if (trailRenderer != null)
             {
                 trailRenderer.Clear();
-                Debug.Log($"TrailRender is null ? {trailRenderer == null}");
             }
 
             mainVfx.SetActive(true);
@@ -95,7 +94,6 @@ namespace RPG.Combat.Projectile
 
         protected async UniTaskVoid DestroyParticle(int milliTime)
         {
-            Debug.Log("DestroyParticle");
 
             mainVfx.SetActive(false);
 
@@ -108,7 +106,6 @@ namespace RPG.Combat.Projectile
 
         protected void DestroyParticleImmediately()
         {
-            Debug.Log("DestroyParticle");
             IsAlive = false;
             mainVfx.SetActive(false);
             muzzleVfx.SetActive(false);

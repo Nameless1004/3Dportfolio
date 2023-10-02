@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class GridController : MonoBehaviour
 {
+    public Vector2Int GridStartPoint;
     public Vector2Int GridSize;
     public float CellRadius = 0.5f;
     public FlowField CurFlowField;
+    public Cell prevDestCell;
     private GridDebug gridDebug;
 
     private void Awake()
@@ -17,25 +19,39 @@ public class GridController : MonoBehaviour
     private void Start()
     {
         Test().Forget();
+        //InitializedFlowField();
     }
 
     private void InitializedFlowField()
     {
-        CurFlowField = new FlowField(CellRadius, GridSize);
+        CurFlowField = new FlowField(CellRadius, GridSize, GridStartPoint);
         CurFlowField.CreateGrid();
-        gridDebug.SetFlowField(CurFlowField);
+        gridDebug.SetFlowField(CurFlowField, GridStartPoint);
     }
 
+    //private void Update()
+    //{
+    //    if (Input.GetMouseButtonDown(0))
+    //    {
+    //        CurFlowField.CreateCostField();
+    //        Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //        Cell destinationCell = CurFlowField.GetCellFromWorldPos(worldMousePos);
+    //        gridDebug.SelectedCell = destinationCell;
+    //        Debug.Log(worldMousePos);
+    //        CurFlowField.CreateIntegrationField(destinationCell);
+    //        CurFlowField.CreateFlowField();
+    //    }
+    //}
 
     private void UpdateField(Vector3 targetPos)
     {
-        CurFlowField.ResetBestCost();
+        Cell destinationCell = CurFlowField.GetCellFromWorldPos(targetPos);
+        if(prevDestCell == destinationCell) return;
+
         CurFlowField.CreateCostField();
         Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Debug.Log(worldMousePos);
-        Cell destinationCell = CurFlowField.GetCellFromWorldPos(targetPos);
-        Debug.Log(targetPos);
-        Debug.Log(destinationCell == null);
+        prevDestCell = destinationCell;
+        gridDebug.SelectedCell = destinationCell;
         CurFlowField.CreateIntegrationField(destinationCell);
         CurFlowField.CreateFlowField();
     }
@@ -45,12 +61,15 @@ public class GridController : MonoBehaviour
         InitializedFlowField();
         while (true)
         {
-            if(Managers.Instance.Game.CurrentPlayer != null)
+            if (Managers.Instance.Game.CurrentPlayer != null)
             {
-                InitializedFlowField();
                 UpdateField(Managers.Instance.Game.CurrentPlayer.position);
+                await UniTask.Delay(200, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
             }
-            await UniTask.Delay(100, false, PlayerLoopTiming.EarlyUpdate, this.GetCancellationTokenOnDestroy());
+            else
+            {
+                await UniTask.Yield();
+            }
         }
     }
 }

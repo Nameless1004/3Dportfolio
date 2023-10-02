@@ -15,18 +15,22 @@ public class GridDebug : MonoBehaviour
    // [Tooltip(" 0 : Left\n1 : Right\n2 : Top\n3 : Bottom\n4 : TopLeft\n5 : TopRight\n6 : BottomLeft\n7 : BottomRight\n")]
    // public Texture[] directionTexture;
 
-    private bool displayGrid;
+    public bool displayGrid;
+    public bool displayFlowField;
     public FlowFieldDisplayType CurDisplayType;
     public FlowField CurFlowField;
     private Vector2Int gridSize;
+    private Vector2Int gridStartPoint;
     private float cellRadius;
     private GridController gridController;
+    public Cell SelectedCell;
 
-    public void SetFlowField(FlowField flowField) {
+    public void SetFlowField(FlowField flowField, Vector2Int _gridStartPoint) {
         CurFlowField = flowField;
-        displayGrid = true;
+        //displayGrid = true;
         gridSize = CurFlowField.GridSize;
         cellRadius = CurFlowField.CellRadius;
+        gridStartPoint = _gridStartPoint;
     }
 
     private void Awake()
@@ -50,31 +54,36 @@ public class GridDebug : MonoBehaviour
 
         if (CurFlowField == null) return;
 
-        GUIStyle style = new GUIStyle(GUI.skin.label);
-        style.alignment = TextAnchor.MiddleCenter;
-
-        switch(CurDisplayType)
+        if (displayFlowField)
         {
-            case FlowFieldDisplayType.CostField:
-                foreach(Cell curCell in CurFlowField.Grid)
-                {
-                    Handles.Label(curCell.WorldPos, curCell.Cost.ToString(), style);
-                }
-                break;
-            case FlowFieldDisplayType.IntegrationField:
-                foreach (Cell curCell in CurFlowField.Grid)
-                {
-                    Handles.Label(curCell.WorldPos, curCell.BestCost.ToString(), style);
-                }
-                break;
-            case FlowFieldDisplayType.FlowField:
-                foreach (Cell curCell in CurFlowField.Grid)
-                {
-                    string name = GetDirectionIconName(curCell.BestDirection);
-                    Vector3 pos = Camera.main.WorldToScreenPoint(curCell.WorldPos);
-                    Gizmos.DrawIcon(curCell.WorldPos, name+".png");
-                }
-                break;
+            GUIStyle style = new GUIStyle(GUI.skin.label);
+            style.alignment = TextAnchor.MiddleCenter;
+
+            switch (CurDisplayType)
+            {
+                case FlowFieldDisplayType.CostField:
+                    foreach (Cell curCell in CurFlowField.Grid)
+                    {
+                        Handles.Label(curCell.WorldPos, curCell.Cost.ToString(), style);
+                    }
+                    break;
+                case FlowFieldDisplayType.IntegrationField:
+                    foreach (Cell curCell in CurFlowField.Grid)
+                    {
+                        Handles.Label(curCell.WorldPos, curCell.BestCost.ToString(), style);
+                    }
+                    break;
+                case FlowFieldDisplayType.FlowField:
+                    foreach (Cell curCell in CurFlowField.Grid)
+                    {
+                        string name = GetDirectionIconName(curCell.BestDirection);
+                        if (name == null) continue;
+
+                        Vector3 pos = curCell.WorldPos + Vector3.up;
+                        Gizmos.DrawIcon(pos, name + ".png");
+                    }
+                    break;
+            }
         }
     }
 
@@ -85,8 +94,17 @@ public class GridDebug : MonoBehaviour
         {
             for(int y = 0; y < drawGridSize.y; y++)
             {
-                Vector3 center = new Vector3(drawCellRadius * 2 * x + drawCellRadius, 0, drawCellRadius * 2 * y + drawCellRadius);
+                Vector3 center = new Vector3(gridStartPoint.x + drawCellRadius * 2 * x + drawCellRadius, 0, gridStartPoint.y + drawCellRadius * 2 * y + drawCellRadius);
                 Vector3 size = Vector3.one * drawCellRadius * 2;
+                if(SelectedCell != null)
+                {
+                    if(SelectedCell.GridIndex.x == x && SelectedCell.GridIndex.y == y)
+                    {
+                        Gizmos.color = Color.red;
+                    }
+                    else
+                        Gizmos.color = drawColor;
+                }
                 Gizmos.DrawWireCube(center, size);
             }
         }

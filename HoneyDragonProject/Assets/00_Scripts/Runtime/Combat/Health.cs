@@ -11,6 +11,7 @@ namespace RPG.Combat
         public int CurrentHp;
         private float ratio;
 
+        public bool IsAlive { get; private set; }
         public event Action<float> OnHealthChanged;
         public event Action OnHit;
         public event Action OnDie;
@@ -31,10 +32,13 @@ namespace RPG.Combat
         public void SetHp(int hp)
         {
             CurrentHp = MaxHp = hp;
+            IsAlive = true;
         }
 
         public void TakeDamage(DamageInfo damageInfo)
         {
+            if (IsAlive == false) return;
+
             if(DamageHandle != null)
             {
                 // 방어력 같은 거 처리
@@ -58,6 +62,7 @@ namespace RPG.Combat
             {
                 // DO SOMETHING
                 OnDie?.Invoke();
+                IsAlive = false;
                 return;
             }
             

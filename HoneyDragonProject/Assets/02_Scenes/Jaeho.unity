@@ -1046,7 +1046,7 @@ GameObject:
   - component: {fileID: 1048071131}
   - component: {fileID: 1048071132}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1079,6 +1079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 568c17c836ecc2e48816c5a5532986d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GridStartPoint: {x: -50, y: -50}
   GridSize: {x: 100, y: 100}
   CellRadius: 0.5
 --- !u!114 &1048071132
@@ -1093,7 +1094,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97a6b1bbe9da9e24c930edbf5a3c980d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurDisplayType: 1
+  displayGrid: 0
+  displayFlowField: 0
+  CurDisplayType: 2
 --- !u!1 &1271818173
 GameObject:
   m_ObjectHideFlags: 3
@@ -1489,7 +1492,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1865462566}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -500, y: 0, z: -500}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

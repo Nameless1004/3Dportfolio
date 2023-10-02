@@ -39,7 +39,6 @@ namespace RPG.Core
 
         public void OnDie()
         {
-            Controller.OnDie();
             Managers.Instance.Loot.Spawn(LootSpawManager.LootType.Exp, Controller.transform.position);
             DelayDestroy(2000).Forget();
         }

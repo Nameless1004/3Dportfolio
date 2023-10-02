@@ -20,7 +20,14 @@ public class GridDirection
 
     public static GridDirection GetDirectionFromV2I(Vector2Int vector)
     {
-        return CardinalAndIntercardinalDirections.DefaultIfEmpty(None).FirstOrDefault(direction => direction == vector);
+        for(int i = 0; i < CardinalAndIntercardinalDirections.Count; ++i)
+        {
+            if (CardinalAndIntercardinalDirections[i] == vector)
+            {
+                return CardinalAndIntercardinalDirections[i];
+            }
+        }
+        return None;
     }
 
     public static readonly GridDirection None = new GridDirection(0, 0);
@@ -32,7 +39,8 @@ public class GridDirection
     public static readonly GridDirection TopLeft = new GridDirection(-1, 1);
     public static readonly GridDirection TopRight = new GridDirection(1, 1);
     public static readonly GridDirection BottomLeft = new GridDirection(-1, -1);
-    public static readonly GridDirection BottomRight = new GridDirection(1, 1);
+    public static readonly GridDirection BottomRight = new GridDirection(1, -1);
+
 
     public static readonly List<GridDirection> CardinalDirections = new List<GridDirection> {
         Top, Bottom, Right, Left
