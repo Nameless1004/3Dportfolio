@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class GridDirection
@@ -18,24 +17,27 @@ public class GridDirection
         return direction.Vector;
     }
 
+    private static Dictionary<Vector2Int, GridDirection> cachingVector;
     public static GridDirection GetDirectionFromV2I(Vector2Int vector)
     {
-        for(int i = 0; i < CardinalAndIntercardinalDirections.Count; ++i)
+        if (cachingVector is null)
         {
-            if (CardinalAndIntercardinalDirections[i] == vector)
+            cachingVector = new Dictionary<Vector2Int, GridDirection>();
+            for (int i = 0; i < AllDirections.Count; ++i)
             {
-                return CardinalAndIntercardinalDirections[i];
+                cachingVector.Add(AllDirections[i].Vector, AllDirections[i]);
             }
         }
-        return None;
+        
+        return cachingVector[vector];
     }
 
     public static readonly GridDirection None = new GridDirection(0, 0);
     public static readonly GridDirection Top = new GridDirection(0, 1);
     public static readonly GridDirection Bottom = new GridDirection(0, -1);
     public static readonly GridDirection Right = new GridDirection(1, 0);
-    public static readonly GridDirection Left = new GridDirection(-1, 0);    
-    
+    public static readonly GridDirection Left = new GridDirection(-1, 0);
+
     public static readonly GridDirection TopLeft = new GridDirection(-1, 1);
     public static readonly GridDirection TopRight = new GridDirection(1, 1);
     public static readonly GridDirection BottomLeft = new GridDirection(-1, -1);

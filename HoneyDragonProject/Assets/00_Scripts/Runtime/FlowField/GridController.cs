@@ -43,28 +43,34 @@ public class GridController : MonoBehaviour
     //    }
     //}
 
-    private void UpdateField(Vector3 targetPos)
+    private void UpdateField(Cell destinationCell)
     {
-        Cell destinationCell = CurFlowField.GetCellFromWorldPos(targetPos);
-        if(prevDestCell == destinationCell) return;
-
         CurFlowField.CreateCostField();
-        Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         prevDestCell = destinationCell;
         gridDebug.SelectedCell = destinationCell;
         CurFlowField.CreateIntegrationField(destinationCell);
         CurFlowField.CreateFlowField();
     }
 
+   
+
     async UniTaskVoid Test()
     {
         InitializedFlowField();
         while (true)
         {
-            if (Managers.Instance.Game.CurrentPlayer != null)
+            if (Managers.Instance.Game.GameScene.player != null)
             {
-                UpdateField(Managers.Instance.Game.CurrentPlayer.position);
-                await UniTask.Delay(200, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
+                Cell destinationCell = CurFlowField.GetCellFromWorldPos(Managers.Instance.Game.GameScene.player.transform.position);
+                if (prevDestCell == destinationCell)
+                {
+                    await UniTask.Yield();
+                }
+                else
+                {
+                    UpdateField(destinationCell);
+                    await UniTask.Delay(250, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
+                }
             }
             else
             {

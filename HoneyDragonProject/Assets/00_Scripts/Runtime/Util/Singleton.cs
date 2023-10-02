@@ -6,6 +6,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
 {
     [SerializeField]
     private bool dontDestroy = true;
+    protected bool initialized = false;
     private static T instance = null;
     public static T Instance
     {
@@ -19,7 +20,8 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
                     GameObject go = new GameObject(nameof(T));
                     instance = go.AddComponent<T>();
                 }
-
+                // ToDo: 바꿨는데 오류 생길 수 있음
+                instance.Init();
                 DontDestroyOnLoad(instance);
             }
 

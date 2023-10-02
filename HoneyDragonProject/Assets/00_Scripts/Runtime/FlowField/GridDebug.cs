@@ -53,7 +53,7 @@ public class GridDebug : MonoBehaviour
         }
 
         if (CurFlowField == null) return;
-
+#if UNITY_EDITOR
         if (displayFlowField)
         {
             GUIStyle style = new GUIStyle(GUI.skin.label);
@@ -85,6 +85,7 @@ public class GridDebug : MonoBehaviour
                     break;
             }
         }
+#endif
     }
 
     private void DrawGrid(Vector2Int drawGridSize, Color drawColor, float drawCellRadius)
@@ -96,18 +97,18 @@ public class GridDebug : MonoBehaviour
             {
                 Vector3 center = new Vector3(gridStartPoint.x + drawCellRadius * 2 * x + drawCellRadius, 0, gridStartPoint.y + drawCellRadius * 2 * y + drawCellRadius);
                 Vector3 size = Vector3.one * drawCellRadius * 2;
-                if(SelectedCell != null)
-                {
-                    if(SelectedCell.GridIndex.x == x && SelectedCell.GridIndex.y == y)
-                    {
-                        Gizmos.color = Color.red;
-                    }
-                    else
-                        Gizmos.color = drawColor;
-                }
+                Gizmos.color = drawColor;
                 Gizmos.DrawWireCube(center, size);
             }
         }
+        if(SelectedCell != null)
+        {
+            Gizmos.color = Color.red;
+            Vector3 selectedCellCenter = new Vector3(gridStartPoint.x + drawCellRadius * 2 * SelectedCell.GridIndex.x + drawCellRadius, 0, gridStartPoint.y + drawCellRadius * 2 * SelectedCell.GridIndex.y + drawCellRadius);
+            Vector3 selectedSellSize = Vector3.one * drawCellRadius * 2;
+            Gizmos.DrawCube(selectedCellCenter, selectedSellSize);
+        }
+
     }
 
     private string GetDirectionIconName(GridDirection direction)

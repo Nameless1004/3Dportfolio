@@ -11,7 +11,7 @@
         "MinDamage" : "1",
         "MaxDamage" : "2",
         "CoolTime" : "1.0",
-        "SpawnCount" : "3",
+        "SpawnCount" : "1",
         "ProjectileSpeed" : "20",
         "SpawnRateMilliSecond" : "100",
         "SpawnLifeTimeMilliSecond" : "2000"

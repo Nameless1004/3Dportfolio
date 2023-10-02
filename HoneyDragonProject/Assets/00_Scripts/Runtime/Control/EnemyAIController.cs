@@ -14,14 +14,12 @@ namespace RPG.Control
         public Rigidbody RigidBody{ get; private set; }
         public Creature Target;
         private Health health;
-        public NavMeshAgent Agent { get; private set; }
         private new Collider collider;
 
         private Vector3 direction;
 
         private void Awake()
         {
-            Agent = GetComponent<NavMeshAgent>();
             enemy = GetComponent<Enemy>();
             health = GetComponent<Health>();
             collider = GetComponentInChildren<Collider>();
@@ -46,7 +44,6 @@ namespace RPG.Control
         public void SetTarget(Creature target)
         {
             Target = target;
-            MoveUseFlowField();
             collider.enabled = true;
             Animator.ResetTrigger("Chase");
             Animator.SetTrigger("Chase");
@@ -62,7 +59,7 @@ namespace RPG.Control
         }
 
         float currentVelocity;
-        float smoothTime = 0.05f;
+        float smoothTime = 0.2f;
         private void Rotate()
         {
             var targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
@@ -80,7 +77,7 @@ namespace RPG.Control
         {
             if (Target == null) return;
 
-            // MoveTo(Target.position);
+            Debug.DrawRay(transform.position, direction * 5f, Color.yellow);
             MoveUseFlowField();
             Rotate();
         }

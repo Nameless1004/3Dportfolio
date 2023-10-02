@@ -48,5 +48,10 @@ namespace RPG.Core.Manager
         {
             stageDataDict = Managers.Instance.Data.StageDataDict;
         }
+
+        public void Clear()
+        {
+
+        }
     }
 }

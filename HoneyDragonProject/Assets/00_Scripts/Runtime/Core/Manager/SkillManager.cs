@@ -58,5 +58,10 @@ namespace RPG.Core.Manager
             skillData = dataManager.SkillDataDict;
             Debug.Assert(skillData != null);
         }
+
+        public void Clear()
+        {
+
+        }
     }
 }

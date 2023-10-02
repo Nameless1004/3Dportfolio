@@ -52,5 +52,10 @@ namespace RPG.Core.Manager
             var mergedDictionary = dicts.Aggregate((dict1, dict2) => dict1.Concat(dict2).ToDictionary(kvp => kvp.Key, kvp => kvp.Value));
             return mergedDictionary;
         }
+
+        public void Clear()
+        {
+
+        }
     }
 }

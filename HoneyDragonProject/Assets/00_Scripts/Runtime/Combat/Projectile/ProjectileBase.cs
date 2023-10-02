@@ -49,8 +49,6 @@ namespace RPG.Combat.Projectile
         void FixedUpdate()
         {
             if (!IsAlive) return;
-            CalculatePosition();
-            ApplyPosition();
             UpdateLifeTime();
         }
 
@@ -64,6 +62,7 @@ namespace RPG.Combat.Projectile
             this.target = target;
 
             ResetProjectile();
+            rig.velocity = dir * speed;
 
             muzzleVfx.transform.forward = gameObject.transform.forward;
             ParticleSystem ps = muzzleVfx.GetComponentInChildren<ParticleSystem>(true);
@@ -123,8 +122,6 @@ namespace RPG.Combat.Projectile
                 return;
             }
         }
-        protected abstract void CalculatePosition();
-        protected abstract void ApplyPosition();
 
         protected abstract void OnTriggerEnter(Collider other);
 

@@ -8,6 +8,7 @@ namespace RPG.Core.Manager
     public interface IManager
     {
         public void Init();
+        public void Clear();
     }
 
     public class Managers : Singleton<Managers>
@@ -29,6 +30,10 @@ namespace RPG.Core.Manager
             managers.Clear();
         }
 
+        public void Clear()
+        {
+            managers.ForEach(manager => manager.Clear());
+        }
         private void AddManagers()
         {
             var properties = GetType().GetProperties();
@@ -54,6 +59,8 @@ namespace RPG.Core.Manager
 
         protected override void Init()
         {
+            if (initialized == true) return;
+            initialized = true;
             AddManagers();
         }
     }

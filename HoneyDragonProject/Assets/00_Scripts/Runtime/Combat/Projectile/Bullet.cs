@@ -4,15 +4,6 @@ namespace RPG.Combat.Projectile
 {
     public class Bullet : ProjectileBase
     {
-        protected override void CalculatePosition()
-        {
-            calculatedPosition = transform.position + direction * (Time.deltaTime * speed);
-        }
-
-        protected override void ApplyPosition()
-        {
-            rig.position = calculatedPosition;
-        }
 
         protected override void OnTriggerEnter(Collider other)
         {
@@ -25,6 +16,7 @@ namespace RPG.Combat.Projectile
                 var ps = hitVfx.GetComponentInChildren<ParticleSystem>(true);
                 IsAlive = false;
                 hitVfx.SetActive(true);
+                rig.velocity = Vector3.zero;
                 int durationMilliSec = (int)(ps.main.duration * 1000);
                 DestroyParticle(durationMilliSec).Forget();
 

@@ -37,7 +37,6 @@ namespace RPG.Combat.Skill
     {
         public abstract UniTaskVoid UseSkill();
         protected abstract UniTaskVoid Activate(Creature initiator);
-    
     }
 
 

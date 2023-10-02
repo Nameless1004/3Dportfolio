@@ -8,6 +8,11 @@ namespace RPG.Combat.Skill
 {
     public class LightningBolt : SpawnSkill
     {
+
+        //Temp
+        private AudioClip clip;
+        private AudioSource soundComponent;
+
         public override void SetData(SkillData data)
         {
             base.SetData(data);
@@ -15,9 +20,12 @@ namespace RPG.Combat.Skill
 
         protected override async UniTaskVoid Activate(Creature initiator)
         {
-            for (int i = 0; i < 3; ++i)
+            for (int i = 0; i < spawnCount; ++i)
             {
                 if (spawnObjects.TryGet(out var get) == false) break;
+                AudioSource soundComponent = get.GetComponent<AudioSource>();
+                AudioClip clip = soundComponent.clip;
+                soundComponent.PlayOneShot(clip);
 
                 float randZ = Random.Range(-1f, 1f);
                 float randX = Random.Range(-1f, 1f);

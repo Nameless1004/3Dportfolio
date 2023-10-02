@@ -62,7 +62,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 2
 --- !u!135 &3821848159389311155
 SphereCollider:
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba0c0725e0e0b104faaff9b237483032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 5
   acceleration: 0
   deceleration: 0
   trailRenderer: {fileID: 7630718336162116546}
@@ -282,10 +282,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6871984350360871059}
     m_Modifications:
+    - target: {fileID: 1055990633099762705, guid: ac5132897efe73c44ad1236f55bb676c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1289750834627266678, guid: ac5132897efe73c44ad1236f55bb676c,
         type: 3}
       propertyPath: m_Name
       value: BallFireOut
+      objectReference: {fileID: 0}
+    - target: {fileID: 3808166302939597867, guid: ac5132897efe73c44ad1236f55bb676c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4807983708568537248, guid: ac5132897efe73c44ad1236f55bb676c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5437493479576898555, guid: ac5132897efe73c44ad1236f55bb676c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5891637335532838527, guid: ac5132897efe73c44ad1236f55bb676c,
         type: 3}
@@ -341,6 +361,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7000132666372383226, guid: ac5132897efe73c44ad1236f55bb676c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7341917591735456040, guid: ac5132897efe73c44ad1236f55bb676c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

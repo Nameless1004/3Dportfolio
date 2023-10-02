@@ -13,8 +13,6 @@ namespace RPG.Core.State
         {
             owner = animator.GetComponent<Enemy>();
             controller = owner.Controller;
-
-            controller.Agent.isStopped = true;
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

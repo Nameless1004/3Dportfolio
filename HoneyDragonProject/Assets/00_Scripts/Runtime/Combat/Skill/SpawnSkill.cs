@@ -16,13 +16,14 @@ namespace RPG.Combat.Skill
         public override void SetData(SkillData data)
         {
             base.SetData(data);
-
+            spawnCount = data.SpawnCount;
             spawnObjects = CreatePool();
         }
 
         [SerializeField]
         protected SpawnObject spawnObjectPrefab;
         protected ObjectPooler<SpawnObject> spawnObjects;
+        protected int spawnCount;
 
         public virtual ObjectPooler<SpawnObject> CreatePool()
         {

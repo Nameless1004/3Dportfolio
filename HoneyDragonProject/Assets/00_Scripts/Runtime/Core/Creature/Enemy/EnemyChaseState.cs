@@ -17,10 +17,6 @@ namespace RPG.Core.State
         {
             owner = animator.GetComponent<Enemy>();
             controller = owner.Controller;
-
-            controller.Agent.speed = 1;
-            controller.Agent.angularSpeed = 10000;
-            controller.Agent.acceleration = 100;
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -45,7 +41,6 @@ namespace RPG.Core.State
                 owner.transform.LookAt(targetPos);
                 animator.ResetTrigger("Attack");
                 animator.SetTrigger("Attack");
-                controller.Agent.isStopped = true;
                 return;
             }
 

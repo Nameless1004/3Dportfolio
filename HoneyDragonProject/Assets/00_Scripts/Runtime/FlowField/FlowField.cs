@@ -10,6 +10,7 @@ public class FlowField
     public float CellRadius { get; private set; }
 
     public Cell DestinationCell;
+    private Queue<Cell> cellsToCheck = new Queue<Cell>();
     private float cellDiameter;
 
     public FlowField(float cellRadius, Vector2Int gridSize, Vector2Int gridStartPoint)
@@ -91,7 +92,6 @@ public class FlowField
         DestinationCell.BestCost = 0;
         DestinationCell.BestDirection = GridDirection.None;
 
-        Queue<Cell> cellsToCheck = new Queue<Cell>();
         cellsToCheck.Enqueue(DestinationCell);
 
         while (cellsToCheck.Count > 0)

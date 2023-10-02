@@ -15,6 +15,7 @@ namespace RPG.Core
         private Dictionary<int, PlayerExpData> expTable;
         private Health health;
         private List<SkillBase> skillBases;
+        public event Action<float> OnGetExp;
 
         private void Awake()
         {
@@ -39,18 +40,23 @@ namespace RPG.Core
             return 0;
         }
 
-        public void InitializePlayer(DataManager data)
+        public void InitializePlayer(PlayerData data, Dictionary<int, PlayerExpData> expTable)
         {
-            Status.SetData(data.PlayerData);
-            expTable = data.PlayerExpDataDict;
+            Status.SetData(data);
+            this.expTable = expTable;
         }
 
         public void GetExp(int amount)
         {
             int resultExp = Status.Exp + amount;
-            if(resultExp > 0) 
+
+            if (resultExp >= expTable[Status.Level].NeedExp) 
             {
+                resultExp = resultExp -= expTable[Status.Level].NeedExp;
+                // Levelup;
             }
+            Status.Exp = resultExp;
+            OnGetExp.Invoke((float)Status.Exp / expTable[Status.Level].NeedExp);
         }
 
         public void GetGold(int amount)

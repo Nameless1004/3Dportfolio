@@ -29,8 +29,4 @@ public class test : MonoBehaviour
         }
     }
 
-    public void cc()
-    {
-        Managers.Instance.Game.CreatePlayer();
-    }
 }
