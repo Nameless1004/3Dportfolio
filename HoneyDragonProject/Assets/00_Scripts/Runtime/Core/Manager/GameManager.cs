@@ -11,11 +11,15 @@ namespace RPG.Core.Manager
     {
         public GameScene GameScene{get; set;}
 
-        public void GameStart()
-        {
-            SceneManager.LoadScene(1);
+        public Player CurrentPlayer { get
+            {
+                if(GameScene == null)
+                {
+                    GameScene = Transform.FindObjectOfType<GameScene>();
+                }
+                return GameScene.Player ?? null;
+            } 
         }
-
 
         public void Init()
         {

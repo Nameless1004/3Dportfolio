@@ -22,6 +22,7 @@ namespace RPG.Core.Manager
         public SkillManager Skill { get; private set; }
         public StageManager Stage { get; private set; }
         public LootSpawManager Loot { get; private set; }
+        public SceneManagerEx Scene { get; private set; }
 
         private List<IManager> managers = new List<IManager>();
 
@@ -34,6 +35,7 @@ namespace RPG.Core.Manager
         {
             managers.ForEach(manager => manager.Clear());
         }
+
         private void AddManagers()
         {
             var properties = GetType().GetProperties();

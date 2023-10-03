@@ -12,7 +12,7 @@ namespace RPG.UI
 
         void Start()
         {
-            player = Managers.Instance.Game.GameScene.player;
+            player = Managers.Instance.Game.GameScene.Player;
         }
 
         // Update is called once per frame

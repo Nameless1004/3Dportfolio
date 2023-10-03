@@ -3,28 +3,48 @@ using RPG.Core.Manager;
 using RPG.Core.Scene;
 using RPG.Core.UI;
 using RPG.Util;
+using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace RPG.Core
 {
     public class GameScene : BaseScene
     {
-        public Player player;
-        public PlayerExpPresenter expPresenter;
-        public Camera mainCamera;
-        public CinemachineVirtualCamera mainVirtualCam;
+        private Player currentPlayer;
+        public Player Player { get 
+            { 
+                if(currentPlayer == null)
+                {
+                    Init();
+                    initialized = true;
+                }
+                return currentPlayer;
+            }
+        }
+        [field: SerializeField] public PlayerExpPresenter ExpPresenter { get; set; }    
+        [field: SerializeField] public Camera MainCamera { get; set; }
+        [field: SerializeField] public CinemachineVirtualCamera MainVirtualCam { get; set; }
 
+        // 플레이어가 생성될 시 호출된 이벤트
+        public event Action OnPlayerCreated;
         
         public override void Clear()
         {
             Managers.Instance.Game.GameScene = null;
+            Destroy(Player.gameObject);
         }
 
         public override void Init()
         {
+            if (initialized == true) return;
+            initialized = true;
             Managers.Instance.Game.GameScene = this;
-            player = CreatePlayer();
-            expPresenter.SetModel(player);
+            currentPlayer = CreatePlayer();
+            OnPlayerCreated?.Invoke();
+            Debug.Log("Load UI Scene");
+            SceneManager.LoadScene(2, LoadSceneMode.Additive);
+            //ExpPresenter.SetModel(currentPlayer);
         }
 
         private Player CreatePlayer()
@@ -38,14 +58,14 @@ namespace RPG.Core
 
             var currentPlayer = MonoBehaviour.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
             currentPlayer.InitializePlayer(playerData, playerExpTable);
-            mainCamera = Camera.main;
+            MainCamera = Camera.main;
             var vcams = MonoBehaviour.FindObjectsOfType<CinemachineVirtualCamera>(true);
-            mainVirtualCam = vcams[0];
+            MainVirtualCam = vcams[0];
             vcams[0].gameObject.SetActive(true);
             vcams[1].gameObject.SetActive(false);
 
-            mainVirtualCam.transform.position = currentPlayer.transform.position + (Vector3.up * 30f);
-            mainVirtualCam.Follow = currentPlayer.transform;
+            MainVirtualCam.transform.position = currentPlayer.transform.position + (Vector3.up * 30f);
+            MainVirtualCam.Follow = currentPlayer.transform;
             return currentPlayer;
         }
     }

@@ -9,12 +9,13 @@ namespace RPG.Core.Scene
         Unknown,
         Lobby,
         Game,
+        UI,
     }
 
     public abstract class BaseScene : MonoBehaviour
     {
         public SceneType SceneType { get; private set; } = SceneType.Unknown;
-
+        protected bool initialized = false;
         private void Awake()
         {
             Init();

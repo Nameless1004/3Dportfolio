@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneManagerEx
+public class SceneManagerEx : IManager
 {
     public BaseScene CurrentScene { get { return GameObject.FindObjectOfType<BaseScene>(); } }
 
@@ -30,5 +30,10 @@ public class SceneManagerEx
         {
             CurrentScene.Clear();
         }
+    }
+
+    public void Init()
+    {
+      
     }
 }

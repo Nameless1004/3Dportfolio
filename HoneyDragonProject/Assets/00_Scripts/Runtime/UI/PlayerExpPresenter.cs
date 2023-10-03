@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace RPG.Core.UI
 {
-    public class PlayerExpPresenter : MonoBehaviour
+    public class PlayerExpPresenter : BaseUI
     {
         Player model;
         PlayerExpView view;
@@ -16,13 +16,8 @@ namespace RPG.Core.UI
         public void SetModel(Player model)
         {
             this.model = model;
+            model.OnGetExp -= OnGetExp;
             model.OnGetExp += OnGetExp;
-        }
-
-        void Start()
-        {
-            view = GetComponentInChildren<PlayerExpView>();
-            view.UpdateExpBar(0f);
         }
 
         private void OnDestroy()
@@ -35,5 +30,11 @@ namespace RPG.Core.UI
             view.UpdateExpBar(expRatio);
         }
 
+        public override void Init()
+        {
+            SetModel(Managers.Instance.Game.CurrentPlayer);
+            view = GetComponentInChildren<PlayerExpView>();
+            view.UpdateExpBar(0f);
+        }
     }
 }

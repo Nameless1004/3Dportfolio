@@ -17,6 +17,6 @@ public class Lobby : MonoBehaviour
 
     public void StartGame()
     {
-        Managers.Instance.Game.GameStart();
+        Managers.Instance.Scene.LoadScene(RPG.Core.Scene.SceneType.Game);
     }
 }

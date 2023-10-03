@@ -16,6 +16,7 @@ namespace RPG.Core
         private Health health;
         private List<SkillBase> skillBases;
         public event Action<float> OnGetExp;
+        public event Action OnLevelup;
 
         private void Awake()
         {
@@ -54,6 +55,7 @@ namespace RPG.Core
             {
                 resultExp = resultExp -= expTable[Status.Level].NeedExp;
                 // Levelup;
+                OnLevelup?.Invoke();
             }
             Status.Exp = resultExp;
             OnGetExp.Invoke((float)Status.Exp / expTable[Status.Level].NeedExp);
@@ -61,7 +63,6 @@ namespace RPG.Core
 
         public void GetGold(int amount)
         {
-
         }
 
         private void OnTriggerEnter(Collider other)
