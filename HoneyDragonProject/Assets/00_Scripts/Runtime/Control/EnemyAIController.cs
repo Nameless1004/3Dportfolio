@@ -78,6 +78,11 @@ namespace RPG.Control
             if (Target == null) return;
 
             Debug.DrawRay(transform.position, direction * 5f, Color.yellow);
+            //Vector3 dir = Target.position - transform.position;
+            //dir = dir.normalized;
+            //transform.forward = dir;
+            //RigidBody.Move(RigidBody.position + dir * Time.deltaTime * 2f, Quaternion.identity);
+
             MoveUseFlowField();
             Rotate();
         }

@@ -76,10 +76,13 @@ public class GridDebug : MonoBehaviour
                 case FlowFieldDisplayType.FlowField:
                     foreach (Cell curCell in CurFlowField.Grid)
                     {
+                       // if (curCell.Cost == byte.MaxValue) continue;
+
                         string name = GetDirectionIconName(curCell.BestDirection);
                         if (name == null) continue;
 
                         Vector3 pos = curCell.WorldPos + Vector3.up;
+                        pos.y = .02f;
                         Gizmos.DrawIcon(pos, name + ".png");
                     }
                     break;

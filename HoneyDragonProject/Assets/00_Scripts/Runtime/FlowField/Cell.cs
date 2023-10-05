@@ -20,6 +20,8 @@ public class Cell
     public GridDirection BestDirection;
     public List<Cell> Neighbors;
 
+    public bool IsObstacle => Cost >= 255 ? true : false;
+
     public void IncreaseCost(int amt)
     {
         if (Cost == byte.MaxValue) return;

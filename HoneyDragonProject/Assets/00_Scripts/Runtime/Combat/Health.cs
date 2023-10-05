@@ -63,7 +63,6 @@ namespace RPG.Combat
                 // DO SOMETHING
                 OnDie?.Invoke();
                 IsAlive = false;
-                return;
             }
             
             if(damageInfo.IsKnockback)

@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using RPG.Combat;
 using RPG.Core;
 using RPG.Core.Data;
@@ -17,6 +18,7 @@ public class MonsterSpawner : MonoBehaviour
     private int currentStage;
     private float spawnAfterElapsedTime = float.MaxValue;
 
+    private Cell[,] grid;
     private List<SpawnEnemyInfo> currentSpawnInfos;
     private StageData currentStageData;
     private Camera mainCam;
@@ -27,8 +29,18 @@ public class MonsterSpawner : MonoBehaviour
     private Dictionary<int, Enemy> enemyPrefab;
 
     private Dictionary<int, ObjectPooler<Enemy>> poolers;
-    private int liveMonsterCount;
 
+    public int LiveMonsterCount {get
+        {
+            return poolers.Values.Sum(x => x.ActiveCount);
+        }
+    }
+
+    private void Awake()
+    {
+        // 맵 크기 가져오기
+        // grid = FindObjectOfType<GridController>().CurFlowField.Grid;
+    }
     private void Start()
     {
         mainCam = Camera.main;
@@ -59,7 +71,7 @@ public class MonsterSpawner : MonoBehaviour
         {
             if (spawnStarted == true) return;
 
-            StartCoroutine(SpawnCoroutine());
+            SpawnCoroutine().Forget();
         }
 
         if(Input.GetKeyDown(KeyCode.K))
@@ -68,21 +80,28 @@ public class MonsterSpawner : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnCoroutine()
+    private async UniTaskVoid SpawnCoroutine()
     {
         spawnStarted = true;
         while (true)
         {
             if(spawnAfterElapsedTime > currentStageData.SpawnRate)
             {
-                spawnAfterElapsedTime = 0f;
-                SpawnEnemy();
+                if(maxSpawnCount > LiveMonsterCount)
+                {
+                    spawnAfterElapsedTime = 0f;
+                    SpawnEnemy();
+                }
+                else
+                {
+                    await UniTask.Yield(this.GetCancellationTokenOnDestroy());
+                }
             }
             else
             {
                 spawnAfterElapsedTime += Time.deltaTime;
             }
-            yield return null;
+            await UniTask.Yield(this.GetCancellationTokenOnDestroy());
         }
     }
 
@@ -101,13 +120,6 @@ public class MonsterSpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        if(liveMonsterCount >= currentStageData.MaxSpawnCount)
-        {
-            spawnAfterElapsedTime = float.MaxValue;
-            return;
-        }
-
-        liveMonsterCount++;
         int max = currentSpawnInfos.Count;
         int randomEnemyId = currentSpawnInfos[Random.Range(0, max)].Id;
         var enemy = poolers[randomEnemyId].Get();
@@ -116,7 +128,6 @@ public class MonsterSpawner : MonoBehaviour
 
         Vector3 enemySpawnPos = GetRandomPositionFromSpawnArea();
         enemy.transform.position = enemySpawnPos;
-        enemy.GetComponent<Health>().OnDie += () => { liveMonsterCount--; };
     }
 
     public Vector3 GetRandomPositionFromSpawnArea()
@@ -213,6 +224,7 @@ public class MonsterSpawner : MonoBehaviour
         currentStage = stageNum;
         currentStageData = stageData[stageNum];
         currentSpawnInfos = currentStageData.EnemyInfoList;
+        maxSpawnCount = currentStageData.MaxSpawnCount;
         SetEnemyObjectPool();
     }
 }

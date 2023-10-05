@@ -36,59 +36,56 @@ public class FlowField
                 }
             }
         }
+
+
+        // flowField를 만들어주고 목적 cell의 cost를 1로
+        DestinationCell.Cost = 1;
     }
 
     public void CreateGrid()
     {
         Grid = new Cell[GridSize.x, GridSize.y];
-
+        Vector3 cellHalfExtents = Vector3.one * CellRadius;
+        // 벽이나 장애물 있을 때 사용
+        int obstacleMask = LayerMask.GetMask("Obstacle");
         for (int x = 0; x < GridSize.x; ++x)
         {
             for (int y = 0; y < GridSize.y; ++y)
             {
                 Vector3 worldPos = new Vector3(GridStartPoint.x + cellDiameter * x + CellRadius, 0, GridStartPoint.y + cellDiameter * y + CellRadius);
-                Grid[x, y] = new Cell(worldPos, new Vector2Int(x, y));
+                var curCell = new Cell(worldPos, new Vector2Int(x, y));
+                Grid[x, y] = curCell;
             }
         }
 
         // 이웃 셀 캐싱
         foreach(Cell curCell in Grid)
         {
+            // 장애물 미리 설정
+            Collider[] obstacles = Physics.OverlapBox(curCell.WorldPos, cellHalfExtents, Quaternion.identity, obstacleMask);
+            if (obstacles.Length > 0)
+            {
+                curCell.IncreaseCost(255);
+                curCell.BestCost = ushort.MaxValue;
+            }
             curCell.Neighbors = GetNeighborCells(curCell.GridIndex, GridDirection.AllDirections);
         }
     }
 
     public void CreateCostField()
     {
-        Vector3 cellHalfExtents = Vector3.one * CellRadius;
-        // 벽이나 장애물 있을 때 사용
-        // int terrainMask = LayerMask.GetMask("Impassible", "RoughTerrain");
         foreach (Cell curCell in Grid)
         {
+            if (curCell.IsObstacle) continue;
+
             curCell.Cost = 1;
             curCell.BestCost = ushort.MaxValue;
-            // Collider[] obstacles = Physics.OverlapBox(curCell.WorldPos, cellHalfExtents, Quaternion.identity, terrainMask);
-            //bool hasIncreaseCost = false;
-            //foreach(Collider col in obstacles)
-            //{
-            //    if(col.gameObject.layer == 8)
-            //    {
-            //        curCell.IncreaseCost(255);
-            //        continue;
-            //    }
-            //    else if(!hasIncreaseCost && col.gameObject.layer == 9)
-            //    {
-            //        curCell.IncreaseCost(3);
-            //        hasIncreaseCost = true;
-            //    }
-            //}
         }
     }
 
     public void CreateIntegrationField(Cell destinationCell)
     {
         DestinationCell = destinationCell;
-        DestinationCell.Cost = 0;
         DestinationCell.BestCost = 0;
         DestinationCell.BestDirection = GridDirection.None;
 
@@ -101,8 +98,8 @@ public class FlowField
             List<Cell> curNeighbors = curCell.Neighbors;
             foreach (Cell curNeighbor in curNeighbors)
             {
+                if(curNeighbor.IsObstacle) continue;
                 if (curNeighbor == curCell) continue;
-                if (curNeighbor.Cost == byte.MaxValue) continue;
                 if (curNeighbor.Cost + curCell.BestCost < curNeighbor.BestCost)
                 {
                     curNeighbor.BestCost = (ushort)(curNeighbor.Cost + curCell.BestCost);

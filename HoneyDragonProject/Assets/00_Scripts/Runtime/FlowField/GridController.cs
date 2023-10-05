@@ -45,6 +45,8 @@ public class GridController : MonoBehaviour
 
     private void UpdateField(Cell destinationCell)
     {
+        if (destinationCell.IsObstacle) return;
+
         CurFlowField.CreateCostField();
         prevDestCell = destinationCell;
         gridDebug.SelectedCell = destinationCell;

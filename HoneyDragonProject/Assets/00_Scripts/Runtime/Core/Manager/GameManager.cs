@@ -17,7 +17,7 @@ namespace RPG.Core.Manager
                 {
                     GameScene = Transform.FindObjectOfType<GameScene>();
                 }
-                return GameScene.Player ?? null;
+                return GameScene.Player;
             } 
         }
 

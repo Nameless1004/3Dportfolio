@@ -21,6 +21,9 @@ namespace RPG.Core
         public T Prefab { get; protected set; }
         public Transform Parent { get; protected set; }
         public ObjectPool<T> Pool { get; private set; }
+        public int ActiveCount => Pool.CountActive;
+        public int InActiveCount => Pool.CountInactive;
+        public int CountAll => Pool.CountAll;
 
         public T CreateFunc()
         {
