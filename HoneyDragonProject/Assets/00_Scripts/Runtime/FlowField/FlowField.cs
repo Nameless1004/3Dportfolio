@@ -25,6 +25,8 @@ public class FlowField
     {
         foreach (Cell curCell in Grid)
         {
+            // 장애물이 있는 곳의 타일은 플로우 필드를 만들기 전에 방향을 만들어 놨으므로 스킵
+            if (curCell.IsObstacle == true) continue;
             List<Cell> curNeighbors = curCell.Neighbors;
             int bestCost = curCell.BestCost;
             foreach (Cell curNeighbor in curNeighbors)
@@ -59,7 +61,7 @@ public class FlowField
         }
 
         // 이웃 셀 캐싱
-        foreach(Cell curCell in Grid)
+        foreach (Cell curCell in Grid)
         {
             // 장애물 미리 설정
             Collider[] obstacles = Physics.OverlapBox(curCell.WorldPos, cellHalfExtents, Quaternion.identity, obstacleMask);
@@ -67,7 +69,17 @@ public class FlowField
             {
                 curCell.IncreaseCost(255);
                 curCell.BestCost = ushort.MaxValue;
+                Cell obstacle = GetCellFromWorldPos(obstacles[0].transform.position);
+                Vector2Int dir = curCell.GridIndex - obstacle.GridIndex;
+                dir.x = (int)Mathf.Sign(dir.x);
+                dir.y = (int)Mathf.Sign(dir.y);
+                GridDirection get = GridDirection.GetDirectionFromV2I(dir);
+                curCell.BestDirection = get;
             }
+        }
+
+        foreach (Cell curCell in Grid)
+        {
             curCell.Neighbors = GetNeighborCells(curCell.GridIndex, GridDirection.AllDirections);
         }
     }
@@ -76,7 +88,7 @@ public class FlowField
     {
         foreach (Cell curCell in Grid)
         {
-            if (curCell.IsObstacle) continue;
+            if (curCell.IsObstacle == true) continue;
 
             curCell.Cost = 1;
             curCell.BestCost = ushort.MaxValue;
@@ -98,7 +110,6 @@ public class FlowField
             List<Cell> curNeighbors = curCell.Neighbors;
             foreach (Cell curNeighbor in curNeighbors)
             {
-                if(curNeighbor.IsObstacle) continue;
                 if (curNeighbor == curCell) continue;
                 if (curNeighbor.Cost + curCell.BestCost < curNeighbor.BestCost)
                 {
@@ -115,7 +126,10 @@ public class FlowField
         foreach (var curDirection in directions)
         {
             Cell newNeighbor = GetCellAtRelativePos(nodeIndex, curDirection);
-            if (newNeighbor != null)
+
+
+            // 장애물은 포함시키지 않는다.
+            if (newNeighbor != null && newNeighbor.IsObstacle == false)
             {
                 neighbors.Add(newNeighbor);
             }

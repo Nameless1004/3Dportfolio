@@ -11,7 +11,7 @@ namespace RPG.Control
         [SerializeField] GridController gridController;
         private Enemy enemy;
         public Animator Animator { get; private set; }
-        public Rigidbody RigidBody{ get; private set; }
+        public Rigidbody RigidBody { get; private set; }
         public Creature Target;
         private Health health;
         private new Collider collider;
@@ -23,7 +23,7 @@ namespace RPG.Control
             enemy = GetComponent<Enemy>();
             health = GetComponent<Health>();
             collider = GetComponentInChildren<Collider>();
-            RigidBody = GetComponentInChildren<Rigidbody>();    
+            RigidBody = GetComponentInChildren<Rigidbody>();
             Animator = GetComponentInChildren<Animator>();
 
             // Test
@@ -53,8 +53,9 @@ namespace RPG.Control
         {
             Cell cellBlow = gridController.CurFlowField.GetCellFromWorldPos(transform.position);
             direction = new Vector3(cellBlow.BestDirection.Vector.x, 0, cellBlow.BestDirection.Vector.y);
-            RigidBody.velocity = direction * 2f;
-            //transform.forward = direction;
+            RigidBody.position += direction * 2f * Time.deltaTime;
+            // RigidBody.velocity = direction * 2f;
+            // transform.forward = direction;
             Debug.DrawRay(transform.position, direction * 5f, Color.yellow);
         }
 
@@ -70,7 +71,7 @@ namespace RPG.Control
         public void StopAgent()
         {
             //Agent.isStopped = true;
-            RigidBody.velocity = Vector3.zero;
+            //RigidBody.velocity = Vector3.zero;
         }
 
         private void Update()
@@ -96,17 +97,16 @@ namespace RPG.Control
             Target = null;
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnCollisionEnter(Collision collision)
         {
             if (Target == null) return;
 
-            if (other.gameObject.CompareTag("Player"))
+            if (collision.gameObject.IsSameLayer("Player"))
             {
                 enemy.Owner.Release(enemy);
-                ITakeDamageable damageable = other.gameObject.GetComponent<ITakeDamageable>();
+                ITakeDamageable damageable = collision.gameObject.GetComponent<ITakeDamageable>();
                 damageable?.TakeDamage(new DamageInfo(null, 5));
             }
         }
-
     }
 }

@@ -1,11 +1,17 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using RPG.Combat;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace RPG.Control
 {
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private float moveSpeed;
-        [SerializeField] private float smoothTime = 0.05f;
+        [SerializeField] private float smoothTime = 0.01f;
+
+        [SerializeField] private Material HitMat;
 
         private Vector3 direction;
         private Vector3 moveVec;
@@ -14,18 +20,26 @@ namespace RPG.Control
         PlayerInput input;
         Animator animator;
 
+        private Dictionary<SkinnedMeshRenderer, Material> rendererDefaultMaterialDict = new Dictionary<SkinnedMeshRenderer, Material>();
+        private List<SkinnedMeshRenderer> renderers;
+
         private void Awake()
         {
             rig = GetComponent<Rigidbody>();
             input = GetComponent<PlayerInput>();
             animator = GetComponentInChildren<Animator>();
+
+            renderers = GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
+            foreach(var renderer in renderers)
+            {
+                rendererDefaultMaterialDict.Add(renderer, renderer.material);
+            }
         }
 
         private void Update()
         {
             UpdateDirection();
             UpdateAnimationParameter();
-            if (input.MoveInput.sqrMagnitude == 0) return;
             Move();
         }
 
@@ -38,12 +52,18 @@ namespace RPG.Control
         private void UpdateDirection()
         {
             direction = input.MoveInput.normalized;
+            Debug.Log(direction);
         }
 
         private void Move()
         {
-            moveVec = rig.position + (moveSpeed * Time.deltaTime) * direction;
-            rig.Move(moveVec, Rotate());
+            moveVec = moveSpeed * direction;
+            rig.velocity = moveVec;
+
+            if (input.IsInput)
+            {
+                rig.rotation = Rotate();
+            }
         }
 
         private Quaternion Rotate()

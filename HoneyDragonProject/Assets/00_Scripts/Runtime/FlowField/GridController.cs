@@ -29,23 +29,9 @@ public class GridController : MonoBehaviour
         gridDebug.SetFlowField(CurFlowField, GridStartPoint);
     }
 
-    //private void Update()
-    //{
-    //    if (Input.GetMouseButtonDown(0))
-    //    {
-    //        CurFlowField.CreateCostField();
-    //        Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    //        Cell destinationCell = CurFlowField.GetCellFromWorldPos(worldMousePos);
-    //        gridDebug.SelectedCell = destinationCell;
-    //        Debug.Log(worldMousePos);
-    //        CurFlowField.CreateIntegrationField(destinationCell);
-    //        CurFlowField.CreateFlowField();
-    //    }
-    //}
-
     private void UpdateField(Cell destinationCell)
     {
-        if (destinationCell.IsObstacle) return;
+       if (destinationCell.IsObstacle) return;
 
         CurFlowField.CreateCostField();
         prevDestCell = destinationCell;

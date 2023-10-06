@@ -23,7 +23,7 @@ namespace RPG.Combat
         {
             CurrentHp = MaxHp;
 
-            if(FloatingDamage != null)
+            if (FloatingDamage != null)
             {
                 FloatingDamage.enablePooling = true;
             }
@@ -39,7 +39,7 @@ namespace RPG.Combat
         {
             if (IsAlive == false) return;
 
-            if(DamageHandle != null)
+            if (DamageHandle != null)
             {
                 // 방어력 같은 거 처리
                 damageInfo.Damage = DamageHandle.Invoke(damageInfo.Damage);
@@ -64,11 +64,15 @@ namespace RPG.Combat
                 OnDie?.Invoke();
                 IsAlive = false;
             }
-            
-            if(damageInfo.IsKnockback)
+
+            if (damageInfo.IsKnockback)
             {
+                // knockbackable 컴포넌트를 가져와서 있으면 넉백 시킨다.
                 var knockbackable = GetComponent<Knockbackable>();
-                knockbackable?.Knockback(damageInfo.knockbackInfo);
+                if (knockbackable != null)
+                {
+                    knockbackable.Knockback(damageInfo.knockbackInfo);
+                }
             }
         }
     }

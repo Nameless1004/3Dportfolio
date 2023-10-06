@@ -36,14 +36,19 @@ namespace RPG.Core
             health.DamageHandle -= DamageHandle;
         }
 
+        // 플레이어가 데미지 받았을 때 계산해야할 곳 ex) 방어력
         private int DamageHandle(int damage)
         {
-            return 0;
+            float defense = Status.Defense / 100f;
+            int result = damage - (int)(damage * defense);
+            Debug.Log(result);
+            return result;
         }
 
         public void InitializePlayer(PlayerData data, Dictionary<int, PlayerExpData> expTable)
         {
             Status.SetData(data);
+            GetComponent<Health>().SetHp(data.Hp);
             this.expTable = expTable;
         }
 

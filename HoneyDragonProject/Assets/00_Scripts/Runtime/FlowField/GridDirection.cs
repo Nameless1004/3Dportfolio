@@ -28,7 +28,6 @@ public class GridDirection
                 cachingVector.Add(AllDirections[i].Vector, AllDirections[i]);
             }
         }
-        
         return cachingVector[vector];
     }
 

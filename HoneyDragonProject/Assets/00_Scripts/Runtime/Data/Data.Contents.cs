@@ -31,6 +31,7 @@ namespace RPG.Core.Data
     {
         public string PrefabPath;
         public int Level;
+        public int Hp;
         public int Exp;
         public float MoveSpeed;
         public float AttackPower;
