@@ -18,9 +18,10 @@ public class Cell
     public byte Cost;
     public ushort BestCost;
     public GridDirection BestDirection;
-    public List<Cell> Neighbors;
+    public List<Cell> CardinalNeighbors;
+    public List<Cell> AllNeighbor;
 
-    public bool IsObstacle => Cost >= 255 ? true : false;
+    public bool IsObstacle { get; set; }
 
     public void IncreaseCost(int amt)
     {

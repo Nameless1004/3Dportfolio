@@ -1,4 +1,7 @@
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FlowField
@@ -8,6 +11,7 @@ public class FlowField
     public Cell[,] Grid { get; private set; }
     public Vector2Int GridSize { get; private set; }
     public float CellRadius { get; private set; }
+    public int MaxBestCost { get; private set; }
 
     public Cell DestinationCell;
     private Queue<Cell> cellsToCheck = new Queue<Cell>();
@@ -18,30 +22,35 @@ public class FlowField
         CellRadius = cellRadius;
         cellDiameter = cellRadius * 2f;
         GridSize = gridSize;
+        MaxBestCost = Math.Max(gridSize.x, gridSize.y);
         GridStartPoint = gridStartPoint;
     }
 
-    public void CreateFlowField()
+    public async UniTask CreateFlowField()
+    {
+        await CalculateFlowField();
+        // flowField를 만들어주고 목적 cell의 cost를 1로
+        DestinationCell.Cost = 1;
+    }
+
+    private async UniTask CalculateFlowField()
     {
         foreach (Cell curCell in Grid)
         {
-            // 장애물이 있는 곳의 타일은 플로우 필드를 만들기 전에 방향을 만들어 놨으므로 스킵
-            if (curCell.IsObstacle == true) continue;
-            List<Cell> curNeighbors = curCell.Neighbors;
-            int bestCost = curCell.BestCost;
-            foreach (Cell curNeighbor in curNeighbors)
+            await CalculateDirection(curCell, curCell.BestCost, curCell.AllNeighbor);
+        }
+    }
+
+    private async UniTask CalculateDirection(Cell curCell, int bestCost, List<Cell> neighbors)
+    {
+        foreach (Cell curNeighbor in neighbors)
+        {
+            if (curNeighbor.BestCost < bestCost)
             {
-                if (curNeighbor.BestCost < bestCost)
-                {
-                    bestCost = curNeighbor.BestCost;
-                    curCell.BestDirection = GridDirection.GetDirectionFromV2I(curNeighbor.GridIndex - curCell.GridIndex);
-                }
+                bestCost = curNeighbor.BestCost;
+                curCell.BestDirection = GridDirection.GetDirectionFromV2I(curNeighbor.GridIndex - curCell.GridIndex);
             }
         }
-
-
-        // flowField를 만들어주고 목적 cell의 cost를 1로
-        DestinationCell.Cost = 1;
     }
 
     public void CreateGrid()
@@ -75,12 +84,14 @@ public class FlowField
                 dir.y = (int)Mathf.Sign(dir.y);
                 GridDirection get = GridDirection.GetDirectionFromV2I(dir);
                 curCell.BestDirection = get;
+                curCell.IsObstacle = true;
             }
         }
 
         foreach (Cell curCell in Grid)
         {
-            curCell.Neighbors = GetNeighborCells(curCell.GridIndex, GridDirection.AllDirections);
+            curCell.AllNeighbor = GetNeighborCells(curCell.GridIndex, GridDirection.AllDirections);
+            curCell.CardinalNeighbors = curCell.AllNeighbor.Where(x => (x.GridIndex - curCell.GridIndex).sqrMagnitude == 1).ToList();
         }
     }
 
@@ -88,34 +99,42 @@ public class FlowField
     {
         foreach (Cell curCell in Grid)
         {
-            if (curCell.IsObstacle == true) continue;
-
-            curCell.Cost = 1;
+            curCell.Cost = curCell.IsObstacle ? byte.MaxValue : (byte)1;
             curCell.BestCost = ushort.MaxValue;
         }
     }
 
-    public void CreateIntegrationField(Cell destinationCell)
+    public async UniTask CreateIntegrationField(Cell destinationCell)
     {
         DestinationCell = destinationCell;
+        destinationCell.Cost = 0;
         DestinationCell.BestCost = 0;
         DestinationCell.BestDirection = GridDirection.None;
 
+        cellsToCheck.Clear();
         cellsToCheck.Enqueue(DestinationCell);
 
         while (cellsToCheck.Count > 0)
         {
             Cell curCell = cellsToCheck.Dequeue();
+            if(curCell.IsObstacle) continue;
+            await CalculateBestScore(curCell);
+        }
+    }
 
-            List<Cell> curNeighbors = curCell.Neighbors;
-            foreach (Cell curNeighbor in curNeighbors)
+    private async UniTask CalculateBestScore(Cell curCell)
+    {
+        List<Cell> neighbors = curCell.CardinalNeighbors;
+
+        foreach (Cell curNeighbor in neighbors)
+        {
+            if (curCell.IsObstacle) continue;
+            if (curNeighbor == curCell) continue;
+
+            if (curNeighbor.Cost + curCell.BestCost < curNeighbor.BestCost)
             {
-                if (curNeighbor == curCell) continue;
-                if (curNeighbor.Cost + curCell.BestCost < curNeighbor.BestCost)
-                {
-                    curNeighbor.BestCost = (ushort)(curNeighbor.Cost + curCell.BestCost);
-                    cellsToCheck.Enqueue(curNeighbor);
-                }
+                curNeighbor.BestCost = (ushort)(curNeighbor.Cost + curCell.BestCost);
+                cellsToCheck.Enqueue(curNeighbor);
             }
         }
     }

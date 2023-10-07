@@ -8,12 +8,15 @@ public class GridDebug : MonoBehaviour
     {
         CostField,
         IntegrationField,
-        FlowField
+        FlowField,
+        HeatMap
     }
 
 
-   // [Tooltip(" 0 : Left\n1 : Right\n2 : Top\n3 : Bottom\n4 : TopLeft\n5 : TopRight\n6 : BottomLeft\n7 : BottomRight\n")]
-   // public Texture[] directionTexture;
+    // [Tooltip(" 0 : Left\n1 : Right\n2 : Top\n3 : Bottom\n4 : TopLeft\n5 : TopRight\n6 : BottomLeft\n7 : BottomRight\n")]
+    // public Texture[] directionTexture;
+    private Color heatMapMax = Color.red;
+    private Color heatMapMin = Color.yellow;
 
     public bool displayGrid;
     public bool displayFlowField;
@@ -83,7 +86,19 @@ public class GridDebug : MonoBehaviour
 
                         Vector3 pos = curCell.WorldPos + Vector3.up;
                         pos.y = .02f;
+                        Gizmos.color = Color.red;
                         Gizmos.DrawIcon(pos, name + ".png");
+                    }
+                    break;
+                case FlowFieldDisplayType.HeatMap:
+                    Camera mainCam = Camera.main;
+                    foreach (Cell curCell in CurFlowField.Grid)
+                    {
+                        float heatRatio = Mathf.Clamp01(curCell.BestCost / (float)CurFlowField.MaxBestCost);
+                        Color heatColor = Color.Lerp(heatMapMax, heatMapMin, heatRatio);
+                        Gizmos.color = heatColor;
+                        Vector3 size = Vector3.one * cellRadius * 2;
+                        Gizmos.DrawWireCube(curCell.WorldPos, size);
                     }
                     break;
             }
@@ -104,13 +119,13 @@ public class GridDebug : MonoBehaviour
                 Gizmos.DrawWireCube(center, size);
             }
         }
-        if(SelectedCell != null)
-        {
-            Gizmos.color = Color.red;
-            Vector3 selectedCellCenter = new Vector3(gridStartPoint.x + drawCellRadius * 2 * SelectedCell.GridIndex.x + drawCellRadius, 0, gridStartPoint.y + drawCellRadius * 2 * SelectedCell.GridIndex.y + drawCellRadius);
-            Vector3 selectedSellSize = Vector3.one * drawCellRadius * 2;
-            Gizmos.DrawCube(selectedCellCenter, selectedSellSize);
-        }
+        //if(SelectedCell != null)
+        //{
+        //    Gizmos.color = Color.red;
+        //    Vector3 selectedCellCenter = new Vector3(gridStartPoint.x + drawCellRadius * 2 * SelectedCell.GridIndex.x + drawCellRadius, 0, gridStartPoint.y + drawCellRadius * 2 * SelectedCell.GridIndex.y + drawCellRadius);
+        //    Vector3 selectedSellSize = Vector3.one * drawCellRadius * 2;
+        //    Gizmos.DrawCube(selectedCellCenter, selectedSellSize);
+        //}
 
     }
 
