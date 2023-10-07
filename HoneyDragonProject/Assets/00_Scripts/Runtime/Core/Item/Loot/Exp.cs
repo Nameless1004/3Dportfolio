@@ -16,7 +16,29 @@ namespace RPG.Core.Item
             model = transform.GetChild(0);
             destroyToken = this.GetCancellationTokenOnDestroy();
         }
+        async UniTaskVoid LifeTimer()
+        {
+            float totalElapsedTime = 0f;
+            while(true)
+            {
+                if (followed || isReleased) return;
 
+                // 루트 생존시간이 지나면 풀에 반납
+                if (totalElapsedTime > LOOT_LIFE_TIME)
+                {
+                    Logger.Log("Life time over Loot");
+                    isReleased = true;
+                    owner.Release(this);
+                    return;
+                }
+                else
+                {
+                    totalElapsedTime += Time.deltaTime;
+                }
+
+                await UniTask.Yield(destroyToken);
+            }
+        }
         async UniTaskVoid Move()
         {
             float elapsedTime = 0f;
@@ -26,9 +48,7 @@ namespace RPG.Core.Item
 
             while(true)
             {
-                // 한 사이클이 0 ~ 파이
-                await UniTask.Yield(destroyToken);
-                if (followed == true) return;
+                if (followed || isReleased) return;
 
                 if (elapsedTime > moveCycleTime)
                 {
@@ -42,6 +62,8 @@ namespace RPG.Core.Item
                     model.localPosition = newPosition;
                     elapsedTime += Time.deltaTime;
                 }
+
+                await UniTask.Yield(destroyToken);
             }
         }
 
@@ -50,12 +72,14 @@ namespace RPG.Core.Item
             model.localPosition = Vector3.zero;
             model.localScale = Vector3.one;
             followed = false;
+            isReleased = false;
         }
 
         public override void Spawn(Vector3 position)
         {
             transform.position = position;
             Move().Forget();
+            LifeTimer().Forget();
         }
 
         public override void Get(Player player)
@@ -65,6 +89,8 @@ namespace RPG.Core.Item
 
         public async UniTaskVoid FollowPlayer(Player player)
         {
+            if (isReleased) return;
+            
             followed = true;
 
             float elapsedTime = 0f;
@@ -78,10 +104,12 @@ namespace RPG.Core.Item
 
             while (true)
             {
-                await UniTask.Yield(PlayerLoopTiming.EarlyUpdate, destroyToken);
+                if (destroyToken.IsCancellationRequested) return;
+                if (isReleased) return;
 
-                if(elapsedTime > arriveTime)
+                if (elapsedTime > arriveTime)
                 {
+                    isReleased = true;
                     player.GetExp(Amount);
                     owner.Release(this);
                     break;
@@ -98,6 +126,8 @@ namespace RPG.Core.Item
                     transform.position = Vector3.Lerp(p1, p2, ratio);
                     elapsedTime += Time.deltaTime;
                 }
+
+                await UniTask.Yield(PlayerLoopTiming.EarlyUpdate, destroyToken);
             }
         }
 

@@ -47,7 +47,7 @@ public class RotateToMouseScript : MonoBehaviour {
 			yield return updateTime;
 			StartCoroutine (UpdateRay ());
 		} else
-			Debug.Log ("Camera not set");
+			Logger.Log ("Camera not set");
 	}
 
 	public void RotateToMouse (GameObject obj, Vector3 destination ) {

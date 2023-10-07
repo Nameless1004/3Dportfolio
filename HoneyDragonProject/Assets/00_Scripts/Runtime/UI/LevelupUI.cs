@@ -16,7 +16,7 @@ namespace RPG.Core.UI
 
         private void OnEnable()
         {
-            Debug.Log("OnEnable");
+            Logger.Log("OnEnable");
             // 버튼 이벤트 등록
             CloseButton.onClick.AddListener(Hide);
         }
@@ -28,7 +28,7 @@ namespace RPG.Core.UI
 
         private void OnDisable()
         {
-            Debug.Log("OnDisable");
+            Logger.Log("OnDisable");
             CloseButton.onClick.RemoveAllListeners();
         }
 
@@ -47,7 +47,7 @@ namespace RPG.Core.UI
 
         public override void Init()
         {
-            Debug.Log("Init");
+            Logger.Log("Init");
             currentPlayer = Managers.Instance.Game.CurrentPlayer;
             currentPlayer.OnLevelup += Show;
             Hide();

@@ -22,7 +22,7 @@ using System;
             string name = param[0];
             float value = (float)Convert.ToDouble(param[1]);
 
-            Debug.Log(name + " " + value);
+            Logger.Log(name + " " + value);
 
             foreach (Animator a in animators)
             {
@@ -37,7 +37,7 @@ using System;
             string name = param[0];
             int value = Convert.ToInt32(param[1]);
 
-            Debug.Log(name + " " + value);
+            Logger.Log(name + " " + value);
 
             foreach (Animator a in animators)
             {
@@ -53,7 +53,7 @@ using System;
             string name = param[0];
             bool value = Convert.ToBoolean(param[1]);
 
-            Debug.Log(name + " " + value);
+            Logger.Log(name + " " + value);
 
             foreach (Animator a in animators)
             {
@@ -68,7 +68,7 @@ using System;
 
             string name = param[0];
 
-            Debug.Log(name);
+            Logger.Log(name);
 
             foreach (Animator a in animators)
             {

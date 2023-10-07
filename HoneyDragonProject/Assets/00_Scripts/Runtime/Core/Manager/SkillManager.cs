@@ -23,7 +23,7 @@ namespace RPG.Core.Manager
         {
             if (DataValidationCheck(id, level) == false)
             {
-                Debug.Assert(true, "InValid SkillData");
+                Logger.Assert(true, "InValid SkillData");
                 return null;
             }
 
@@ -34,7 +34,7 @@ namespace RPG.Core.Manager
         {
             if (DataValidationCheck(id, currentLevel + 1) == false)
             {
-                Debug.Assert(true, $"SkillData Invalid ; Skill ID : {id}, Request Level : {currentLevel + 1}");
+                Logger.Assert(true, $"SkillData Invalid ; Skill ID : {id}, Request Level : {currentLevel + 1}");
                 return null;
             }
 
@@ -56,7 +56,7 @@ namespace RPG.Core.Manager
         {
             DataManager dataManager = Managers.Instance.Data;
             skillData = dataManager.SkillDataDict;
-            Debug.Assert(skillData != null);
+            Logger.Assert(skillData != null);
         }
 
         public void Clear()

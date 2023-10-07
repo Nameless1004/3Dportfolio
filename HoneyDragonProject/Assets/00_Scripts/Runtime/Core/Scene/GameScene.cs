@@ -24,6 +24,7 @@ namespace RPG.Core
         }
         [field: SerializeField] public PlayerExpPresenter ExpPresenter { get; set; }    
         [field: SerializeField] public Camera MainCamera { get; set; }
+        [field: SerializeField] public MinimapCameraMovement MinimapCamera { get; set; }
         [field: SerializeField] public CinemachineVirtualCamera MainVirtualCam { get; set; }
 
         // 플레이어가 생성될 시 호출된 이벤트
@@ -42,7 +43,8 @@ namespace RPG.Core
             Managers.Instance.Game.GameScene = this;
             currentPlayer = CreatePlayer();
             OnPlayerCreated?.Invoke();
-            Debug.Log("Load UI Scene");
+            
+            // UI Scene 로딩
             SceneManager.LoadScene(2, LoadSceneMode.Additive);
             //ExpPresenter.SetModel(currentPlayer);
         }
@@ -66,6 +68,8 @@ namespace RPG.Core
 
             MainVirtualCam.transform.position = currentPlayer.transform.position + (Vector3.up * 30f);
             MainVirtualCam.Follow = currentPlayer.transform;
+
+            MinimapCamera.SetPlayer(currentPlayer.transform);
             return currentPlayer;
         }
     }

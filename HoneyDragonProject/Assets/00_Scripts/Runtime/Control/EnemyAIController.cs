@@ -56,7 +56,6 @@ namespace RPG.Control
             RigidBody.position += direction * 2f * Time.deltaTime;
             // RigidBody.velocity = direction * 2f;
             // transform.forward = direction;
-            Debug.DrawRay(transform.position, direction * 5f, Color.yellow);
         }
 
         float currentVelocity;
@@ -78,7 +77,6 @@ namespace RPG.Control
         {
             if (Target == null) return;
 
-            Debug.DrawRay(transform.position, direction * 5f, Color.yellow);
             //Vector3 dir = Target.position - transform.position;
             //dir = dir.normalized;
             //transform.forward = dir;

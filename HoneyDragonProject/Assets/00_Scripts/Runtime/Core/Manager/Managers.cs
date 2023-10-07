@@ -47,7 +47,7 @@ namespace RPG.Core.Manager
 
                 if (managerType is not null)
                 {
-                    Debug.Log(type.Name);
+                    Logger.Log(type.Name);
 
                     var instance = Activator.CreateInstance(type);
                     property.SetValue(this, instance);

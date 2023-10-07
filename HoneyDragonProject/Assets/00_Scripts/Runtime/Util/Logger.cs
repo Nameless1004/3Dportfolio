@@ -77,6 +77,26 @@ public static class Logger
         Debug.Assert(condition);
     }
 
+    public static void Assert(bool condition, string message)
+    {
+        Debug.Assert(condition, message);
+    }
+    public static void Assert(bool condition, object message)
+    {
+        Debug.Assert(condition, message);
+    }
+
+    public static void Assert(bool condition, string message, Object context)
+    {
+        Debug.Assert(condition, message, context);
+    }
+
+    public static void Assert(bool condition, object message, Object context)
+    {
+        Debug.Assert(condition, message, context);
+    }
+
+
     public static void Assert(bool condition, Object context)
     {
         Debug.Assert(condition, context);
@@ -91,6 +111,7 @@ public static class Logger
     {
         Debug.AssertFormat(condition, context, message, args);
     }
+
 
 #else
     public static void Log(object message) {}
@@ -108,9 +129,12 @@ public static class Logger
     public static void LogException(System.Exception exception) {}
     public static void LogException(System.Exception exception, Object context) {}
     public static void Assert(bool condition) {}
+    public static void Assert(bool condition, string message) {}
+    public static void Assert(bool condition, string message, Object context) {}
+    public static void Assert(bool condition, object message) {}
+    public static void Assert(bool condition, object message, Object context) {}
     public static void Assert(bool condition, Object context) {}
     public static void AssertFormat(bool condition, string message, params object[] args) {}
     public static void AssertFormat(bool condition, Object context, string message, params object[] args) {}
 #endif
-}
 }

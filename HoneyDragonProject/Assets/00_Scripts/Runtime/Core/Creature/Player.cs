@@ -41,7 +41,7 @@ namespace RPG.Core
         {
             float defense = Status.Defense / 100f;
             int result = damage - (int)(damage * defense);
-            Debug.Log(result);
+            Logger.Log(result);
             return result;
         }
 

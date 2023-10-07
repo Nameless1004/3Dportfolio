@@ -6,6 +6,8 @@ namespace RPG.Core.Item
     public abstract class Loot : MonoBehaviour, IPoolable<Loot>
     {
         public int Amount;
+        protected bool isReleased = false;
+        protected const float LOOT_LIFE_TIME = 30f;
         public abstract void Get(Player player);
 
         protected ObjectPool<Loot> owner;

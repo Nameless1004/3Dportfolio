@@ -20,7 +20,7 @@ namespace GAP_ParticleSystemController
 #if UNITY_EDITOR
 			if (!Directory.Exists (prefabFolderPath + "/OriginalSettings")) {
 				UnityEditor.AssetDatabase.CreateFolder (prefabFolderPath, "OriginalSettings");
-				Debug.Log ("Created folder:  " + prefabFolderPath + "/OriginalSettings");
+				Logger.Log ("Created folder:  " + prefabFolderPath + "/OriginalSettings");
 			}
 #endif
             BinaryFormatter bf = new BinaryFormatter ();			
@@ -33,7 +33,7 @@ namespace GAP_ParticleSystemController
             SaveNestedPrefab(prefabVFX);
 #endif
 
-            Debug.Log ("Original Settings of '" + prefabVFX.name + "' saved to: " + prefabFolderPath + "/OriginalSettings");
+            Logger.Log ("Original Settings of '" + prefabVFX.name + "' saved to: " + prefabFolderPath + "/OriginalSettings");
 		}
 
 		public static List<ParticleSystemOriginalSettings> LoadVFX (GameObject prefabVFX) {
@@ -54,7 +54,7 @@ namespace GAP_ParticleSystemController
 				return originalSettingsList;
 
 			} else {
-				Debug.Log ("No saved VFX data found");
+				Logger.Log ("No saved VFX data found");
 				return null;
 			}
 		}

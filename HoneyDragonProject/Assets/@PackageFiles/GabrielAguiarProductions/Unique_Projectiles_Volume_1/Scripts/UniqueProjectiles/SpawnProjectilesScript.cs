@@ -34,20 +34,20 @@ public class SpawnProjectilesScript : MonoBehaviour {
 				camerasList.Add (cameras.transform.GetChild (i).gameObject.GetComponent<Camera> ());
 			}
 			if(camerasList.Count == 0){
-				Debug.Log ("Please assign one or more Cameras in inspector");
+				Logger.Log ("Please assign one or more Cameras in inspector");
 			}
 		} else {
 			singleCamera = cameras.GetComponent<Camera> ();
 			if (singleCamera != null)
 				camerasList.Add (singleCamera);
 			else
-				Debug.Log ("Please assign one or more Cameras in inspector");
+				Logger.Log ("Please assign one or more Cameras in inspector");
 		}
 
 		if(VFXs.Count>0)
 			effectToSpawn = VFXs[0];
 		else
-			Debug.Log ("Please assign one or more VFXs in inspector");
+			Logger.Log ("Please assign one or more VFXs in inspector");
 		
 		if (effectName != null) effectName.text = effectToSpawn.name;
 
@@ -58,7 +58,7 @@ public class SpawnProjectilesScript : MonoBehaviour {
 			rotateToMouse.StartUpdateRay ();
 		}
 		else
-			Debug.Log ("Please assign one or more Cameras in inspector");
+			Logger.Log ("Please assign one or more Cameras in inspector");
 
         if (useTarget && target != null)
         {
@@ -106,7 +106,7 @@ public class SpawnProjectilesScript : MonoBehaviour {
                 {
                     vfx.transform.localRotation = rotateToMouse.GetRotation();
                 }
-                else Debug.Log("No RotateToMouseScript found on firePoint.");
+                else Logger.Log("No RotateToMouseScript found on firePoint.");
             }
             else
             {
@@ -118,7 +118,7 @@ public class SpawnProjectilesScript : MonoBehaviour {
                 else
                 {
                     Destroy(vfx);
-                    Debug.Log("No target assigned.");
+                    Logger.Log("No target assigned.");
                 }
             }
 		}

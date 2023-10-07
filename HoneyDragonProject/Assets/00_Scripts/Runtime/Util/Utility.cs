@@ -17,7 +17,7 @@ namespace RPG.Util
             }
 
             T loaded = Resources.Load<T>(path);
-            Debug.Assert(loaded is not null, $"Invalid Prefab Path: {path}");
+            Logger.Assert(loaded is not null, $"Invalid Prefab Path: {path}");
             dict.Add(path, loaded);
             return loaded;
         }
