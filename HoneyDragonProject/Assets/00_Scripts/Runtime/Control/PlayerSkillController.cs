@@ -11,12 +11,12 @@ namespace RPG.Control
     public class PlayerSkillController : MonoBehaviour
     {
         Player owner;
-        List<Skill> skillList;
+        public List<Skill> SkillList;
 
         private void Awake()
         {
+            SkillList = new List<Skill>();
             owner = GetComponent<Player>();
-            skillList = new List<Skill>();
         }
 
         private void Start()
@@ -45,19 +45,19 @@ namespace RPG.Control
         public void AddSkill(int id, int level)
         {
             var skill = Managers.Instance.Skill.GetSkill<ActiveSkill>(owner, id, level);
-            skillList.Add(skill);
+            SkillList.Add(skill);
             skill.UseSkill().Forget();
         }
 
+        public void Levelup(int id)
+        {
+            var skill = SkillList.Find(x => x.Data.Id == id);
+            Levelup(skill);
+        }
         public void Levelup(Skill skill)
         {
             int nextLevel = skill.Data.Level + 1;
-            int index = skillList.FindIndex(0, x => x == skill);
-            if(index < 0)
-            {
-                // error
-            }
-            (skillList[index] as SkillBase).SetData(Managers.Instance.Skill.GetSkillData(skill.Data.Id, nextLevel));
+            ((SkillBase)skill).SetData(Managers.Instance.Skill.GetSkillData(skill.Data.Id, nextLevel));
         }
     }
 }

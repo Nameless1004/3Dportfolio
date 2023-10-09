@@ -14,15 +14,16 @@ public  class BTTester: MonoBehaviour
 
     private RootNode CreateNode()
     {
-        RootNode node = new RootNode(new IfNode(
-            () => Input.GetMouseButtonDown(0),
-            new SequenceNode(new List<Node>
-            {
-                new RepeatNode(5, new ActionNode(() => { Debug.Log("...1"); })),
-                new RepeatNode(5, new ActionNode(() => { Debug.Log("...2"); })),
-                new RepeatNode(5, new ActionNode(() => { Debug.Log("...3"); })),
-            })
-            ));
+        var moveAction = new MoveAction();
+        var condition = new IfMousePositionInRange();
+        condition.pivot = transform.position;
+        moveAction.Target = transform;
+        condition.Child = moveAction;
+        RootNode node = new RootNode(new SequenceNode(new List<Node>
+        {
+            condition
+        }));
+
         return node;
     }
 

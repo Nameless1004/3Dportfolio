@@ -14,7 +14,7 @@ namespace RPG.Core
         public PlayerStat Status { get; set; }
         private Dictionary<int, PlayerExpData> expTable;
         private Health health;
-        private List<SkillBase> skillBases;
+
         public event Action<float> OnGetExp;
         public event Action OnLevelup;
 

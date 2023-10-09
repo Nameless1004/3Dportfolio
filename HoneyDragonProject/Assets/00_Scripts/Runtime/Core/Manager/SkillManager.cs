@@ -6,10 +6,20 @@ using UnityEngine;
 
 namespace RPG.Core.Manager
 {
+    // 
     public class SkillManager : IManager
     {
         private Dictionary<int, Dictionary<int, SkillData>> skillData;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="owner"></param>
+        /// <param name="id"></param>
+        /// <param name="level"></param>
+        /// <param name="parent"></param>
+        /// <returns>스킬 프리팹 인스턴스 반환</returns>
         public T GetSkill<T>(Creature owner, int id, int level, Transform parent = null) where T : SkillBase
         {
             var skillData = GetSkillData(id, level);

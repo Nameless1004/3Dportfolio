@@ -1,4 +1,4 @@
-﻿public class RepeatNode : DecoratorNode
+﻿public class RepeatNode : ConditionalNode
 {
     public RepeatNode(int loopCount, Node child)
     {
@@ -8,7 +8,6 @@
 
     int currentCount = 0;
     int repeatCount = 0;
-    Node child;
 
     public override NodeState Evaluate()
     {
@@ -22,5 +21,10 @@
         }
 
         return NodeState.Success;
+    }
+
+    protected override bool IsUpdatable()
+    {
+        return true;
     }
 }
