@@ -48,6 +48,7 @@ namespace RPG.Core.Data
         public string IconPath;
         public string PrefabPath;
         public int Level;
+        public int MaxLevel;
         public string Name;
         public string Description;
         public int MinDamage;

@@ -1,7 +1,9 @@
+using Cysharp.Threading.Tasks;
 using RPG.Combat.Skill;
 using RPG.Core.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace RPG.Core.Manager
@@ -10,6 +12,7 @@ namespace RPG.Core.Manager
     public class SkillManager : IManager
     {
         private Dictionary<int, Dictionary<int, SkillData>> skillData;
+        public List<int> SkillIdList { get; private set; }
 
         /// <summary>
         /// 
@@ -66,6 +69,11 @@ namespace RPG.Core.Manager
         {
             DataManager dataManager = Managers.Instance.Data;
             skillData = dataManager.SkillDataDict;
+            SkillIdList = new List<int>();
+            foreach(var v in skillData.Keys)
+            {
+                SkillIdList.Add(v);
+            }
             Logger.Assert(skillData != null);
         }
 

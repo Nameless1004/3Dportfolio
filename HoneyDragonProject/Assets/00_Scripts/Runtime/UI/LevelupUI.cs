@@ -1,6 +1,8 @@
+using RPG.Combat.Skill;
 using RPG.Control;
 using RPG.Core.Data;
 using RPG.Core.Manager;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +17,17 @@ namespace RPG.Core.UI
         [SerializeField] Button CloseButton;
         [SerializeField] RectTransform UI;
         [SerializeField] RectTransform contents;
-        List<LevelupSkillButton> contentButtons;
+        List<LevelupSkillButton> levelupSkillButtons;
+        [SerializeField] LevelupSkillButton levelupSkillButtonPrefab;
+        HashSet<int> randomFilter;
         Player currentPlayer;
+        PlayerSkillController currentPlayerSkillController;
 
 
         private void OnEnable()
         {
             Logger.Log("OnEnable");
             // 버튼 이벤트 등록
-            contentButtons.ForEach(button => button.OnButtonClicked += OnClickedSkillInfo);
             CloseButton.onClick.AddListener(Hide);
         }
 
@@ -35,15 +39,26 @@ namespace RPG.Core.UI
         private void OnDisable()
         {
             Logger.Log("OnDisable");
-            contentButtons.ForEach(button => button.OnButtonClicked -= OnClickedSkillInfo);
             CloseButton.onClick.RemoveAllListeners();
         }
 
         public override void Show()
         {
             base.Show();
-            var playerSkills = currentPlayer.GetComponent<PlayerSkillController>().SkillList;
+
+            // 랜덤 3개를 가져온다.
+            var randomSkillList = currentPlayerSkillController.GetRandomSkillList(3);
+
+            SetLevelupSkillButton(randomSkillList);
             Time.timeScale = 0f;
+        }
+
+        private void SetLevelupSkillButton(List<SkillData> randomSkillList)
+        {
+            for(int i = 0; i < 3; ++i)
+            {
+                levelupSkillButtons[i].BindSkillData(randomSkillList[i]);
+            }
         }
 
         public override void Hide()
@@ -56,20 +71,29 @@ namespace RPG.Core.UI
         public override void Init()
         {
             Logger.Log("Init");
+            randomFilter = new HashSet<int>();
             currentPlayer = Managers.Instance.Game.CurrentPlayer;
-            contentButtons = contents.GetComponentsInChildren<LevelupSkillButton>().ToList();
-            contentButtons[0].BindSkillData(Managers.Instance.Skill.GetSkillData(2000, 1));
+            currentPlayerSkillController = currentPlayer.GetComponentInChildren<PlayerSkillController>();
+            levelupSkillButtons = new List<LevelupSkillButton>();
+            for (int i = 0; i < 3; ++i)
+            {
+                var lsb = Instantiate(levelupSkillButtonPrefab, contents);
+                levelupSkillButtons.Add(lsb);
+                levelupSkillButtons[i].OnButtonClicked += OnClickedSkillInfo;
+            }
             currentPlayer.OnLevelup += Show;
             Hide();
             //currentPlayer.OnLevelup += Show;
         }
+
+    
 
         public  void OnClickedSkillInfo(LevelupSkillButton selectedButton)
         {
             Debug.Log("Click!");
             // Test
             var con = currentPlayer.GetComponent<PlayerSkillController>();
-            con.Levelup(selectedButton.SkillData.Id);
+            con.TryLevelup(selectedButton.SkillData.Id);
             Hide();
         }
     }

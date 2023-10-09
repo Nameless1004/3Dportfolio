@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 static class Extensions
 {
@@ -18,4 +20,12 @@ static class Extensions
 		
 		return (a & LayerMask.GetMask(layerName)) != 0;
 	}
+
+    public static T GetRandomValue<T>(this List<T> list)
+    {
+        int maxValue = list.Count;
+        int minValue = 0;
+        int randomIndex = UnityEngine.Random.Range(minValue, maxValue);
+        return list[randomIndex];
+    }
 }

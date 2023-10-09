@@ -15,9 +15,15 @@ public class LevelupSkillButton : MonoBehaviour
 
     public void BindSkillData(SkillData skillData)
     {
+        if (skillData == null)
+        {
+            SkillIcon.sprite = null;
+            SkillLevelupDescription.text = "강화할 수 있는 스킬이 없습니다.";
+            return;
+        }
         SkillData = skillData;
         SkillIcon.sprite = Resources.Load<Sprite>(skillData.IconPath);
-       var test = string.Format(skillData.Description, skillData.Name, skillData.Level, skillData.SpawnCount, skillData.MinDamage, skillData.MaxDamage, (int)(skillData.SpawnLifeTimeMilliSecond * 0.001f), skillData.CoolTime);
+        var test = string.Format(skillData.Description, skillData.Name, skillData.Level, skillData.SpawnCount, skillData.MinDamage, skillData.MaxDamage, (int)(skillData.SpawnLifeTimeMilliSecond * 0.001f), skillData.CoolTime);
         Debug.Log(test);
         SkillLevelupDescription.text = test;
     }
@@ -39,6 +45,7 @@ public class LevelupSkillButton : MonoBehaviour
 
     private void OnButtonClick()
     {
+        if (SkillData == null) return;
         OnButtonClicked?.Invoke(this);
     }
 
