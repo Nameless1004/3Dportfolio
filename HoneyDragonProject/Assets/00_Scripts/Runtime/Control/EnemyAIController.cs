@@ -88,6 +88,7 @@ namespace RPG.Control
 
         public void OnDie()
         {
+            RigidBody.useGravity = false;
             collider.enabled = false;
             Animator.ResetTrigger("Die");
             Animator.SetTrigger("Die");
@@ -105,6 +106,12 @@ namespace RPG.Control
                 ITakeDamageable damageable = collision.gameObject.GetComponent<ITakeDamageable>();
                 damageable?.TakeDamage(new DamageInfo(null, 5));
             }
+        }
+
+        public void Init()
+        {
+            collider.enabled = true;
+            RigidBody.useGravity = true;
         }
     }
 }

@@ -27,6 +27,8 @@ namespace RPG.Core
         [field: SerializeField] public MinimapCameraMovement MinimapCamera { get; set; }
         [field: SerializeField] public CinemachineVirtualCamera MainVirtualCam { get; set; }
 
+        MonsterSpawner monsterSpawner;
+
         // 플레이어가 생성될 시 호출된 이벤트
         public event Action OnPlayerCreated;
         
@@ -41,12 +43,15 @@ namespace RPG.Core
             if (initialized == true) return;
             initialized = true;
             Managers.Instance.Game.GameScene = this;
+            monsterSpawner = FindObjectOfType<MonsterSpawner>();
             currentPlayer = CreatePlayer();
             OnPlayerCreated?.Invoke();
-            
+
             // UI Scene 로딩
             SceneManager.LoadScene(2, LoadSceneMode.Additive);
-            //ExpPresenter.SetModel(currentPlayer);
+
+            // 2초 뒤 생성
+            monsterSpawner.SpawnTask(2000).Forget();
         }
 
         private Player CreatePlayer()

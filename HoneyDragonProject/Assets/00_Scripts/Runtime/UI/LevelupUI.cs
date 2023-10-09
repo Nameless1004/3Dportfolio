@@ -33,13 +33,18 @@ namespace RPG.Core.UI
 
         private void OnDestroy()
         {
-            currentPlayer.OnLevelup -= Show;
+            currentPlayer.OnLevelup -= OnLevelup;
         }
 
         private void OnDisable()
         {
             Logger.Log("OnDisable");
             CloseButton.onClick.RemoveAllListeners();
+        }
+
+        public void OnLevelup(int level)
+        {
+            Show();
         }
 
         public override void Show()
@@ -81,7 +86,7 @@ namespace RPG.Core.UI
                 levelupSkillButtons.Add(lsb);
                 levelupSkillButtons[i].OnButtonClicked += OnClickedSkillInfo;
             }
-            currentPlayer.OnLevelup += Show;
+            currentPlayer.OnLevelup += OnLevelup;
             Hide();
             //currentPlayer.OnLevelup += Show;
         }

@@ -16,7 +16,7 @@ namespace RPG.Core
         private Health health;
 
         public event Action<float> OnGetExp;
-        public event Action OnLevelup;
+        public event Action<int> OnLevelup;
 
         private void Awake()
         {
@@ -60,7 +60,8 @@ namespace RPG.Core
             {
                 resultExp = resultExp -= expTable[Status.Level].NeedExp;
                 // Levelup;
-                OnLevelup?.Invoke();
+                Status.Level += 1;
+                OnLevelup?.Invoke(Status.Level);
             }
             Status.Exp = resultExp;
             OnGetExp.Invoke((float)Status.Exp / expTable[Status.Level].NeedExp);

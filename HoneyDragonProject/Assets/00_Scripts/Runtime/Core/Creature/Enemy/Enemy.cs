@@ -73,6 +73,7 @@ namespace RPG.Core
         public void OnGetAction()
         {
             gameObject.SetActive(true);
+            Controller.Init();
             Controller.SetTarget(Brain.Target);
         }
 

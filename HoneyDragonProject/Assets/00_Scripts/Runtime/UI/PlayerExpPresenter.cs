@@ -1,9 +1,4 @@
-using RPG.Core;
 using RPG.Core.Manager;
-using RPG.UI;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace RPG.Core.UI
 {
@@ -11,14 +6,6 @@ namespace RPG.Core.UI
     {
         Player model;
         PlayerExpView view;
-
-
-        public void SetModel(Player model)
-        {
-            this.model = model;
-            model.OnGetExp -= OnGetExp;
-            model.OnGetExp += OnGetExp;
-        }
 
         private void OnDestroy()
         {
@@ -32,7 +19,10 @@ namespace RPG.Core.UI
 
         public override void Init()
         {
-            SetModel(Managers.Instance.Game.CurrentPlayer);
+            model = Managers.Instance.Game.CurrentPlayer;
+            model.OnGetExp -= OnGetExp;
+            model.OnGetExp += OnGetExp;
+
             view = GetComponentInChildren<PlayerExpView>();
             view.UpdateExpBar(0f);
         }

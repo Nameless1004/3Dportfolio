@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RPG.UI
+namespace RPG.Core.UI
 {
     public class PlayerExpView : BaseUI
     {

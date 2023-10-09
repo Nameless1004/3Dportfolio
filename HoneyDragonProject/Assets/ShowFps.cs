@@ -35,7 +35,7 @@ public class ShowFps : MonoBehaviour
     }
     private void OnGUI()
     {
-        Rect position = new Rect(width, height, Screen.width, Screen.height);
+        Rect position = new Rect(Screen.width-width, Screen.height - height, Screen.width, Screen.height);
         string text = $"{fps}FPS";
         GUIStyle style = new GUIStyle();
         style.fontSize = fontSize;
