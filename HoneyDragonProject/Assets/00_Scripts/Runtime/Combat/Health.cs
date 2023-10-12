@@ -65,7 +65,7 @@ namespace RPG.Combat
                 IsAlive = false;
             }
 
-            if (damageInfo.IsKnockback)
+            if (IsAlive && damageInfo.IsKnockback)
             {
                 // knockbackable 컴포넌트를 가져와서 있으면 넉백 시킨다.
                 var knockbackable = GetComponent<Knockbackable>();
@@ -74,6 +74,7 @@ namespace RPG.Combat
                     knockbackable.Knockback(damageInfo.knockbackInfo);
                 }
             }
+
         }
     }
 }

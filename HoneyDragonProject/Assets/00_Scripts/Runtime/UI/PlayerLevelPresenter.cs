@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace RPG.Core.UI
 {
-    public class PlayerLevelPresenter : BaseScene
+    public class PlayerLevelPresenter : BaseUI
     {
-        public override void Clear()
+        private void OnDestroy()
         {
             model.OnLevelup -= OnLevelUpdated;
         }
@@ -17,6 +17,7 @@ namespace RPG.Core.UI
         {
             model = Managers.Instance.Game.CurrentPlayer;
             view = GetComponentInChildren<PlayerLevelView>();
+            model.OnLevelup -= OnLevelUpdated;
             model.OnLevelup += OnLevelUpdated;
 
             // 초기 레벨 설정 : 1

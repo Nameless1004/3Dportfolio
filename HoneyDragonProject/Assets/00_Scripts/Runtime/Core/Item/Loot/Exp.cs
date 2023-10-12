@@ -39,6 +39,7 @@ namespace RPG.Core.Item
                 await UniTask.Yield(destroyToken);
             }
         }
+
         async UniTaskVoid Move()
         {
             float elapsedTime = 0f;
@@ -75,9 +76,11 @@ namespace RPG.Core.Item
             isReleased = false;
         }
 
-        public override void Spawn(Vector3 position)
+        public override void Spawn(Vector3 position, int minAmount, int maxAmount)
         {
             transform.position = position;
+            this.minAmount = minAmount;
+            this.maxAmount = maxAmount;
             Move().Forget();
             LifeTimer().Forget();
         }

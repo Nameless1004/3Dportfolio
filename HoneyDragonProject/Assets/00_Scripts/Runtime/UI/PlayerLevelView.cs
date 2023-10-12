@@ -7,16 +7,11 @@ namespace RPG.Core.UI
 {
     public class PlayerLevelView : MonoBehaviour
     {
-        TMP_Text text;
-
-        private void Awake()
-        {
-            text = GetComponent<TMP_Text>();
-        }
+        public TMP_Text Text;
 
         public void OnLevelUpdated(int level)
         {
-            text.text = level.ToString();
+            Text.text = level.ToString();
         }
     }
 }

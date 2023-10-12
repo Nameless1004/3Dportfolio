@@ -18,7 +18,7 @@ namespace RPG.Core.UI
         [SerializeField] RectTransform UI;
         [SerializeField] RectTransform contents;
         List<LevelupSkillButton> levelupSkillButtons;
-        [SerializeField] LevelupSkillButton levelupSkillButtonPrefab;
+        LevelupSkillButton levelupSkillButtonPrefab;
         HashSet<int> randomFilter;
         Player currentPlayer;
         PlayerSkillController currentPlayerSkillController;
@@ -79,6 +79,7 @@ namespace RPG.Core.UI
             randomFilter = new HashSet<int>();
             currentPlayer = Managers.Instance.Game.CurrentPlayer;
             currentPlayerSkillController = currentPlayer.GetComponentInChildren<PlayerSkillController>();
+            levelupSkillButtonPrefab = Resources.Load<LevelupSkillButton>("Prefab/UI/SkillButton");
             levelupSkillButtons = new List<LevelupSkillButton>();
             for (int i = 0; i < 3; ++i)
             {
@@ -95,7 +96,7 @@ namespace RPG.Core.UI
 
         public  void OnClickedSkillInfo(LevelupSkillButton selectedButton)
         {
-            Debug.Log("Click!");
+            Logger.Log("Click!");
             // Test
             var con = currentPlayer.GetComponent<PlayerSkillController>();
             con.TryLevelup(selectedButton.SkillData.Id);

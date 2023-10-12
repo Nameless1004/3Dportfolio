@@ -21,12 +21,28 @@ namespace RPG.Core.Manager
             switch (type)
             {
                 case LootType.Exp:
-                    Exp.Get().Spawn(position);
+                    var expAmount = CalculateExpAmount();
+                    Exp.Get().Spawn(position, expAmount.Item1, expAmount.Item2);
                     break;
                 case LootType.Gold:
                     // TODO: 추후 구현
                     break;
             }
+        }
+
+        Player currentPlayer;
+        // item1: min, item2: max
+        private (int, int) CalculateExpAmount()
+        {
+            if(currentPlayer == null)
+            {
+                currentPlayer = Managers.Instance.Game.CurrentPlayer;
+            }
+
+            int defaultAmount = 5;
+            int min = (int)((currentPlayer.Status.Level * defaultAmount) * 0.5f);
+            int max = currentPlayer.Status.Level * defaultAmount;
+            return (min, max);
         }
 
         public void Init()

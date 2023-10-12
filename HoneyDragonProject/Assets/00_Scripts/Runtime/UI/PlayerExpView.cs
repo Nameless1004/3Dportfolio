@@ -1,12 +1,17 @@
-﻿using RPG.Core.UI;
+﻿using Cysharp.Threading.Tasks;
+using RPG.Core.UI;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 namespace RPG.Core.UI
 {
     public class PlayerExpView : BaseUI
     {
-        public Image ProgressBar;
+        public RectTransform ProgressBar;
+        public TMP_Text Text;
 
         public override void Hide()
         {
@@ -25,7 +30,17 @@ namespace RPG.Core.UI
 
         public void UpdateExpBar(float ratio)
         {
-            ProgressBar.fillAmount = ratio;
+            SetProgressBar(ratio);
+            int ratioToInt = (int)(ratio * 100f);
+            Text.text = $"{ratioToInt}%";
         }
+
+        private void SetProgressBar(float ratio)
+        {
+            var anchorMax = ProgressBar.anchorMax;
+            anchorMax.x = ratio;
+            ProgressBar.anchorMax = anchorMax;
+        }
+
     }
 }

@@ -54,8 +54,6 @@ namespace RPG.Control
             Cell cellBlow = gridController.CurFlowField.GetCellFromWorldPos(transform.position);
             direction = new Vector3(cellBlow.BestDirection.Vector.x, 0, cellBlow.BestDirection.Vector.y);
             RigidBody.position += direction * 2f * Time.deltaTime;
-            // RigidBody.velocity = direction * 2f;
-            // transform.forward = direction;
         }
 
         float currentVelocity;
@@ -67,20 +65,9 @@ namespace RPG.Control
             transform.rotation = Quaternion.Euler(0, angle, 0);
         }
 
-        public void StopAgent()
-        {
-            //Agent.isStopped = true;
-            //RigidBody.velocity = Vector3.zero;
-        }
-
         private void Update()
         {
             if (Target == null) return;
-
-            //Vector3 dir = Target.position - transform.position;
-            //dir = dir.normalized;
-            //transform.forward = dir;
-            //RigidBody.Move(RigidBody.position + dir * Time.deltaTime * 2f, Quaternion.identity);
 
             MoveUseFlowField();
             Rotate();
@@ -89,10 +76,10 @@ namespace RPG.Control
         public void OnDie()
         {
             RigidBody.useGravity = false;
+            RigidBody.velocity = Vector3.zero;
             collider.enabled = false;
             Animator.ResetTrigger("Die");
             Animator.SetTrigger("Die");
-            StopAgent();
             Target = null;
         }
 

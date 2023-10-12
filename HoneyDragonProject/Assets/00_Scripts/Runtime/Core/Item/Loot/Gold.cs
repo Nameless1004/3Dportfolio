@@ -12,7 +12,7 @@ namespace RPG.Core.Item
     {
         public override void Get(Player player)
         {
-            player.GetGold(Amount);
+            player.GetGold(maxAmount);
         }
 
 
@@ -36,7 +36,7 @@ namespace RPG.Core.Item
             throw new NotImplementedException();
         }
 
-        public override void Spawn(Vector3 position)
+        public override void Spawn(Vector3 position, int minAmount, int maxAmount)
         {
             throw new NotImplementedException();
         }

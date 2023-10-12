@@ -110,7 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eafc981c4bbd05d419801c95b7ce431f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Amount: 5
+  MinAmount: 3
+  MaxAmount: 7
 --- !u!135 &1686211065164323666
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -31,13 +31,14 @@ public class MonsterSpawner : MonoBehaviour
 
     private Dictionary<int, ObjectPooler<Enemy>> poolers;
 
-
+    #region 맵 범위 관련 필드
     private Vector2 minBound;
     private Vector2 maxBound;
     float maxX;
     float maxY;
     float minX;
     float minY;
+    #endregion
 
     public int LiveMonsterCount {get
         {
@@ -82,11 +83,9 @@ public class MonsterSpawner : MonoBehaviour
         }
     }
 
-    bool spawnStarted = false;
 
     public async UniTaskVoid SpawnTask(int delayMilliSecond)
     {
-        spawnStarted = true;
         await UniTask.Delay(delayMilliSecond, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
         while (true)
         {
@@ -130,51 +129,24 @@ public class MonsterSpawner : MonoBehaviour
         var enemy = poolers[randomEnemyId].Get();
         enemy.GetComponent<Enemy>().SetData(enemyData[randomEnemyId]);
 
-        Vector3 enemySpawnPos = await GetRandomPositionFromSpawnArea();
+        Vector3 enemySpawnPos = GetRandomPositionFromSpawnArea();
 
         enemy.transform.position = enemySpawnPos;
     }
 
-    public async UniTask<Vector3> GetRandomPositionFromSpawnArea()
+    public Vector3 GetRandomPositionFromSpawnArea()
     {
         int random = Random.Range(1, 5);
-
-        Vector3 topLeft, topRight;
-        Vector3 bottomLeft, bottomRight;
-
-        //Ray topLeftRay =        mainCam.ViewportPointToRay(new Vector3(0 - spawnAreaOffset, 1 + spawnAreaOffset, 0));
-        //Ray topRightRay =       mainCam.ViewportPointToRay(new Vector3(1 + spawnAreaOffset, 1 + spawnAreaOffset, 0));
-        //Ray bottomLeftRay =     mainCam.ViewportPointToRay(new Vector3(0 - spawnAreaOffset, 0 - spawnAreaOffset, 0));
-        //Ray bottomRightRay =    mainCam.ViewportPointToRay(new Vector3(1 + spawnAreaOffset, 0 - spawnAreaOffset, 0));
-
-        //RaycastHit hit;
-        //Physics.Raycast(topLeftRay, out hit, 2000f, LayerMask.GetMask("Ground"));
-        //topLeft = hit.collider != null ? hit.point : new Vector3(minBound.x, 0, maxBound.y);
-
-        //Physics.Raycast(topRightRay, out hit, 2000f, LayerMask.GetMask("Ground"));
-        //topRight = hit.collider != null ? hit.point : new Vector3(maxBound.x, 0, maxBound.y);
-
-        //Physics.Raycast(bottomLeftRay, out hit, 2000f, LayerMask.GetMask("Ground"));
-        //bottomLeft = hit.collider != null ? hit.point : new Vector3(minBound.x, 0, minBound.y);
-
-        //Physics.Raycast(bottomRightRay, out hit, 2000f, LayerMask.GetMask("Ground"));
-        //bottomRight = hit.collider != null ? hit.point : new Vector3(maxBound.x, 0, minBound.y);
-
-        // 1 : 위     
-        // 2 : 오른쪽  
-        // 3 : 아래   
-        // 4 : 왼쪽   
 
         Vector3 randomPos = random switch
         {
             1 => new Vector3(Random.Range(minX, maxX), 0, Random.Range(maxY- spawnAreaWidth, maxY)),
-            2 => new Vector3(Random.Range(maxX- spawnAreaWidth, maxX), 0, Random.Range(minY, maxY)),
-
             3 => new Vector3(Random.Range(minX, maxX), 0, Random.Range(minY, minY + spawnAreaWidth)),
+
+            2 => new Vector3(Random.Range(maxX- spawnAreaWidth, maxX), 0, Random.Range(minY, maxY)),
             4 => new Vector3(Random.Range(minX, minX + spawnAreaWidth), 0,  Random.Range(minY, maxY)),
             _ => Vector3.zero
         };
-
 
         return randomPos;
     }

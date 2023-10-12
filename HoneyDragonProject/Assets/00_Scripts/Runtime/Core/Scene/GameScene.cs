@@ -4,6 +4,7 @@ using RPG.Core.Scene;
 using RPG.Core.UI;
 using RPG.Util;
 using System;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,13 +25,16 @@ namespace RPG.Core
         }
         [field: SerializeField] public PlayerExpPresenter ExpPresenter { get; set; }    
         [field: SerializeField] public Camera MainCamera { get; set; }
-        [field: SerializeField] public MinimapCameraMovement MinimapCamera { get; set; }
+        // [field: SerializeField] public MinimapCameraMovement MinimapCamera { get; set; }
         [field: SerializeField] public CinemachineVirtualCamera MainVirtualCam { get; set; }
 
         MonsterSpawner monsterSpawner;
 
         // 플레이어가 생성될 시 호출된 이벤트
         public event Action OnPlayerCreated;
+
+        public event Action<float> OnTimeChanged;
+        private float gameElapsedTime = 0f;
         
         public override void Clear()
         {
@@ -74,8 +78,14 @@ namespace RPG.Core
             MainVirtualCam.transform.position = currentPlayer.transform.position + (Vector3.up * 30f);
             MainVirtualCam.Follow = currentPlayer.transform;
 
-            MinimapCamera.SetPlayer(currentPlayer.transform);
+            //MinimapCamera.SetPlayer(currentPlayer.transform);
             return currentPlayer;
+        }
+
+        private void Update()
+        {
+            gameElapsedTime = Time.timeSinceLevelLoad;
+            OnTimeChanged?.Invoke(gameElapsedTime);
         }
     }
 }
