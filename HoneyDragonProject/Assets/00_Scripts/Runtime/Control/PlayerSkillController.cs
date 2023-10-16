@@ -29,7 +29,7 @@ namespace RPG.Control
         private void Start()
         {
             // 기본 공격
-            AddSkill(2000, 1);
+            AddSkill(2002, 1);
         }
 
         public void AddSkill(int id, int level)

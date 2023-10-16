@@ -27,22 +27,15 @@ namespace RPG.Combat.Skill
                 AudioClip clip = soundComponent.clip;
                 soundComponent.PlayOneShot(clip);
 
-                float randZ = Random.Range(-1f, 1f);
-                float randX = Random.Range(-1f, 1f);
                 // Vector3 position = new Vector3(randX, 0f, randZ);
                 // var enem = FindNearestEnemy(initiator, LayerMask.GetMask("Enemy"));
                 Vector2 position = (Random.insideUnitCircle * 10f);
                 Vector3 spawnPos = initiator.position + new Vector3(position.x, 0f, position.y);
                 spawnPos.y = 0f;
-                get.Spawn(spawnPos, 1f);
+                get.Spawn(spawnPos, Data);
 
                 await UniTask.Delay(Data.SpawnRateMilliSecond * 2, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
             }
-        }
-
-
-        public override void Levelup()
-        {
         }
 
         public override async UniTaskVoid UseSkill()

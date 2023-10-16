@@ -1,4 +1,7 @@
-﻿using RPG.Core;
+﻿using Cysharp.Threading.Tasks;
+using RPG.Core;
+using RPG.Core.Data;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -6,22 +9,22 @@ namespace RPG.Combat.Skill
 {
     public class SpawnObject : MonoBehaviour, IPoolable<SpawnObject>
     {
-        ObjectPool<SpawnObject> owner;
-        Collider collider;
-        private bool isSpawned = false;
-        private float lifeTime = 0f;
-        private float elapsedTime = 0f;
+        protected ObjectPool<SpawnObject> owner;
+        protected CancellationTokenSource cancellationTokenSource;
+        protected bool isSpawned = false;
+        protected float lifeTime = 0f;
+        protected float elapsedTime = 0f;
+        protected int minDamage;
+        protected int maxDamage;
+        protected float speed;
 
-
-        private void Awake()
-        {
-            collider = GetComponent<Collider>();
-        }
 
         public void OnDestroyAction()
         {
             gameObject.SetActive(false);
             isSpawned = false;
+            cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
         }
 
         public void OnGetAction()
@@ -29,12 +32,15 @@ namespace RPG.Combat.Skill
             gameObject.SetActive(true);
             elapsedTime = 0f;
             isSpawned = true;
+            cancellationTokenSource = new CancellationTokenSource();
         }
 
         public void OnReleaseAction()
         {
             gameObject.SetActive(false);
             isSpawned = false;
+            cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
         }
 
         public void SetPool(ObjectPool<SpawnObject> owner)
@@ -54,26 +60,17 @@ namespace RPG.Combat.Skill
             }
         }
 
-        public void Spawn(Vector3 position, float lifeTime)
+        public virtual void Spawn(Vector3 position, SkillData data)
         {
             transform.position = position;
-            this.lifeTime = lifeTime;
+            this.lifeTime = data.SpawnLifeTimeMilliSecond * 0.001f;
+            minDamage = data.MinDamage;
+            maxDamage = data.MaxDamage;
+            speed = data.Speed;
         }
 
-        private void OnTriggerEnter(Collider other)
+        protected virtual void OnTriggerEnter(Collider other)
         {
-            if(other.gameObject.IsSameLayer("Enemy"))
-            {
-                var takedamageable = other.GetComponent<ITakeDamageable>();
-                takedamageable?.TakeDamage(new DamageInfo()
-                {
-                    Damage = Random.Range(3, 5),
-                    IsKnockback = true,
-                    knockbackInfo = new KnockbackInfo() { force = 10f, 
-                        type = KnockbackInfo.KnockbackType.Explosion, 
-                        point = transform.position, radius = 3f }
-                });
-            }
         }
 
 

@@ -55,7 +55,7 @@ namespace RPG.Core.Data
         public int MaxDamage;
         public float CoolTime;
         public int SpawnCount;
-        public float ProjectileSpeed;
+        public float Speed;
         public int SpawnRateMilliSecond;
         public int SpawnLifeTimeMilliSecond;
     }

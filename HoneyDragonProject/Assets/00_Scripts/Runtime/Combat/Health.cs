@@ -33,6 +33,7 @@ namespace RPG.Combat
         {
             CurrentHp = MaxHp = hp;
             IsAlive = true;
+            OnHealthChanged?.Invoke(CurrentHp / MaxHp);
         }
 
         public void TakeDamage(DamageInfo damageInfo)
@@ -52,10 +53,10 @@ namespace RPG.Combat
 
 
             int damagedHp = Mathf.Clamp(CurrentHp - damageInfo.Damage, 0, MaxHp);
-
-            ratio = CurrentHp / MaxHp;
-            OnHealthChanged?.Invoke(ratio);
             CurrentHp = damagedHp;
+
+            ratio = CurrentHp / (float)MaxHp;
+            OnHealthChanged?.Invoke(ratio);
             OnHit?.Invoke();
 
             if (damagedHp <= 0)

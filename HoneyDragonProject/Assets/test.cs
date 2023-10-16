@@ -11,22 +11,10 @@ public class test : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            SceneManager.LoadScene(0);
-        }
-
-        if(Input.GetKeyDown(KeyCode.W))
-        {
-            skillController =FindAnyObjectByType<PlayerSkillController>();
-            skillController.AddSkill(2001, 1);
-        }
+        float currentVelocity = 0f;
+        var targetAngle = Mathf.Atan2(0, 0) * Mathf.Rad2Deg;
+        var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref currentVelocity, 0.1f);
+        Quaternion.Euler(0, angle, 0);
     }
 
 }

@@ -51,7 +51,7 @@ namespace RPG.Control
 
         private void UpdateDirection()
         {
-            direction = input.MoveInput.normalized;
+            direction = input.MoveInput;
         }
 
         private void Move()

@@ -8,17 +8,26 @@ static class Extensions
 	{
 		int childCount = transform.childCount;
 
-		for(int i = 0; i < childCount; i++)
+		for (int i = 0; i < childCount; i++)
 		{
 			MonoBehaviour.Destroy(transform.GetChild(i).gameObject);
 		}
 	}
 
-    public static bool IsSameLayer(this GameObject go, string layerName)
+	public static bool IsSameLayer(this GameObject go, string layerName)
 	{
-		int a = 1 << go.layer ;
-		
+		int a = 1 << go.layer;
+
 		return (a & LayerMask.GetMask(layerName)) != 0;
+	}
+
+	public static void SetRandomDirectionXZ(this ref Vector3 vec)
+	{
+        float randomX = Random.Range(0f, 1f);
+        float randomZ = Random.Range(0f, 1f);
+		vec.x = randomX;
+		vec.y = 0f;
+		vec.z = randomZ;
 	}
 
     public static T GetRandomValue<T>(this List<T> list)

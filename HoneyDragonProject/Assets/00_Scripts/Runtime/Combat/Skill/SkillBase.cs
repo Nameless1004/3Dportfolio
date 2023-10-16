@@ -28,9 +28,6 @@ namespace RPG.Combat.Skill
             Data = data;
             Id = data.Id;
         }
-        
-
-        public abstract void Levelup();
     }
 
     public abstract class ActiveSkill : SkillBase
