@@ -4,10 +4,12 @@ using RPG.Core;
 using RPG.Core.Data;
 using RPG.Core.Manager;
 using RPG.Util;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+
+using Random = UnityEngine.Random;
 
 public class MonsterSpawner : MonoBehaviour
 {
@@ -15,21 +17,25 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField] int maxSpawnCount;
     [SerializeField, Range(1, 100)] float spawnAreaWidth = 10f;
     [SerializeField, Range(1,10)] float spawnAreaOffset = 0.2f;
-    private int currentStage;
-    private float spawnAfterElapsedTime = float.MaxValue;
 
-    private Cell[,] grid;
+    private float spawnAfterElapsedTime = float.MaxValue;
+    private bool isBossSpawned = false;
+
     private GridController gridController;
-    private List<SpawnEnemyInfo> currentSpawnInfos;
+    private List<int> currentSpawnInfos;
+    private List<NormalMonster> spawnedEnemies = new List<NormalMonster>();
+    private Stage currentStage;
     private StageData currentStageData;
-    private Camera mainCam;
+
+    public event Action OnBossSpawned;
 
     // 캐싱
-    private Dictionary<int, StageData> stageData;
     private Dictionary<int, EnemyData> enemyData;
+    private Dictionary<int, EnemyData> bossData;
+
     private Dictionary<int, Enemy> enemyPrefab;
 
-    private Dictionary<int, ObjectPooler<Enemy>> poolers;
+    private Dictionary<int, ObjectPooler<NormalMonster>> poolers;
 
     #region 맵 범위 관련 필드
     private Vector2 minBound;
@@ -46,14 +52,40 @@ public class MonsterSpawner : MonoBehaviour
         }
     }
 
-
-    private void Start()
+    private void Awake()
     {
-        mainCam = Camera.main;
-        currentStage = 1;
-        poolers = new Dictionary<int, ObjectPooler<Enemy>>();
-        gridController = FindObjectOfType<GridController>();
-        var gridSize = gridController.GridSize;
+        poolers = new Dictionary<int, ObjectPooler<NormalMonster>>();
+
+        enemyData = Managers.Instance.Data.EnemyDataDict;
+        bossData = Managers.Instance.Data.BossDataDict;
+
+        LoadEnemyPrefabs();
+    }
+
+    private void OnEnable()
+    {
+        Managers.Instance.Stage.OnStageChanged += OnStageChanged;
+    }
+
+    private void OnDisable()
+    {
+        Managers.Instance.Stage.OnStageChanged -= OnStageChanged;
+    }
+
+    public void OnTimeChanged(float time)
+    {
+        if(isBossSpawned == false && time > currentStageData.BossSpawnTime)
+        {
+            isBossSpawned = true;
+            // 보스가 등장할 때 처리를 위한 이벤트
+            OnBossSpawned?.Invoke();
+            int a = currentStageData.BossId;
+        }
+    }
+
+    public void SetMapBoundData(GridController grid)
+    {
+        gridController = grid;
         var gridCellSize = gridController.CellRadius * 2;
 
         Vector2 startPoint = gridController.GridStartPoint;
@@ -65,13 +97,6 @@ public class MonsterSpawner : MonoBehaviour
         maxY = maxBound.y - spawnAreaOffset;
         minX = minBound.x + spawnAreaOffset;
         minY = minBound.y + spawnAreaOffset;
-
-
-        enemyData = Managers.Instance.Data.EnemyDataDict;
-        stageData = Managers.Instance.Data.StageDataDict;
-        LoadEnemyPrefabs();
-
-        ChangeStage(currentStage);
     }
 
     private void LoadEnemyPrefabs()
@@ -83,15 +108,55 @@ public class MonsterSpawner : MonoBehaviour
         }
     }
 
+    private void SetEnemyObjectPool()
+    {
+        ClearEnemyPool();
+
+        for (int i = 0; i < currentSpawnInfos.Count; ++i)
+        {
+            int id = currentSpawnInfos[i];
+            var prefab = enemyPrefab[id] as NormalMonster;
+            poolers.Add(id, new ObjectPooler<NormalMonster>(prefab, this.transform));
+        }
+    }
+
+    private void ClearEnemyPool()
+    {
+        Debug.Log("Clear");
+
+        // 소환된 적들을 오브젝트 풀로 보낸다.
+        foreach (var i in spawnedEnemies)
+        {
+            poolers[i.Data.Id].Release(i);
+        }
+
+        // 오브젝트 풀에서 일괄 클리어 시킴.
+        foreach (var enemy in poolers)
+        {
+            enemy.Value.Clear();
+            Debug.Log($"Active Count : {enemy.Value.ActiveCount}");
+            Debug.Log($"InActiveCount : {enemy.Value.InActiveCount}");
+        }
+
+        spawnedEnemies.Clear();
+        poolers.Clear();
+    }
+
+    public int KillCount { get; set; }
+
+    public void OnDieEnemy()
+    {
+        KillCount++;
+    }
 
     public async UniTaskVoid SpawnTask(int delayMilliSecond)
     {
         await UniTask.Delay(delayMilliSecond, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
         while (true)
         {
-            if(spawnAfterElapsedTime > currentStageData.SpawnRate)
+            if (spawnAfterElapsedTime > currentStageData.SpawnRate)
             {
-                if(maxSpawnCount > LiveMonsterCount)
+                if (maxSpawnCount > LiveMonsterCount)
                 {
                     spawnAfterElapsedTime = 0f;
                     SpawnEnemy().Forget();
@@ -109,32 +174,28 @@ public class MonsterSpawner : MonoBehaviour
         }
     }
 
-    private void SetEnemyObjectPool()
-    {
-        poolers.Clear();
-
-        for(int i = 0; i < currentSpawnInfos.Count; ++i)
-        {
-            int id = currentSpawnInfos[i].Id;
-            var prefab = enemyPrefab[id];
-            poolers.Add(id, new ObjectPooler<Enemy>(prefab));
-        }
-        
-    }
-
     private async UniTaskVoid SpawnEnemy()
     {
         int max = currentSpawnInfos.Count;
-        int randomEnemyId = currentSpawnInfos[Random.Range(0, max)].Id;
-        var enemy = poolers[randomEnemyId].Get();
-        enemy.GetComponent<Enemy>().SetData(enemyData[randomEnemyId]);
+        int randomEnemyId = currentSpawnInfos[Random.Range(0, max)];
 
-        Vector3 enemySpawnPos = GetRandomPositionFromSpawnArea();
+        if (poolers.ContainsKey(randomEnemyId) == false) return;
+        if (poolers[randomEnemyId].TryGet(out var enemy) == false) return;
+
+        spawnedEnemies.Add(enemy);
+        enemy.SetData(enemyData[randomEnemyId]);
+        enemy.Controller.SetTarget(Managers.Instance.Game.CurrentPlayer);
+        enemy.name = enemy.Data.Id.ToString() + "_" + poolers[randomEnemyId].CountAll;
+
+        enemy.GetComponent<Health>().OnDie -= OnDieEnemy;
+        enemy.GetComponent<Health>().OnDie += OnDieEnemy;
+
+        Vector3 enemySpawnPos = GetRandomPositionInsideSpawnArea();
 
         enemy.transform.position = enemySpawnPos;
     }
 
-    public Vector3 GetRandomPositionFromSpawnArea()
+    public Vector3 GetRandomPositionInsideSpawnArea()
     {
         int random = Random.Range(1, 5);
 
@@ -187,12 +248,13 @@ public class MonsterSpawner : MonoBehaviour
     }
 
     // 스테이지가 바뀔 때 소환되는 적 없애기
-    public void ChangeStage(int stageNum)
+    public void OnStageChanged(int stageNum)
     {
-        currentStage = stageNum;
-        currentStageData = stageData[stageNum];
-        currentSpawnInfos = currentStageData.EnemyInfoList;
+        currentStageData = Managers.Instance.Stage.GetStageData(stageNum);
+        currentStage = Managers.Instance.Stage.CurrentStage;
+        currentSpawnInfos = currentStageData.SpawnEnemyList;
         maxSpawnCount = currentStageData.MaxSpawnCount;
+        isBossSpawned = false;
         SetEnemyObjectPool();
     }
 }

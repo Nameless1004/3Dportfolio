@@ -1,0 +1,14 @@
+{
+    "EnemyData": 
+    [
+    {
+        "Id" : "10000",
+        "PrefabPath" : "Prefab/Enemy/10000",
+        "Name" : "Boss",
+        "Hp" : "300",
+        "AttackPower" : "10",
+        "AttackRange" : "3",
+        "AttackRate" : "1.0"
+    }
+    ]
+}

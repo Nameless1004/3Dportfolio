@@ -34,7 +34,7 @@ namespace RPG.Core
 
         public void ActionOnGet(T element)
         {
-                element.OnGetAction();
+            element.OnGetAction();
         }
         public  void ActionOnRelease(T element) => element.OnReleaseAction();
         public  void ActionOnDestroy(T element) => element.OnDestroyAction();
@@ -57,6 +57,7 @@ namespace RPG.Core
         public T Get() => Pool.Get();
         public U Get<U>() where U : T => (U)Pool.Get();
         public void Release(T element) => Pool.Release(element);
+        public void Clear() => Pool.Clear();
         
     }
 }

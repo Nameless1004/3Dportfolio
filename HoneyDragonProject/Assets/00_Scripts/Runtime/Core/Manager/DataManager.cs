@@ -11,6 +11,7 @@ namespace RPG.Core.Manager
     {
         public Dictionary<int, Dictionary<int, SkillData>> SkillDataDict { get; private set; }
         public Dictionary<int, EnemyData> EnemyDataDict { get; private set; }
+        public Dictionary<int, EnemyData> BossDataDict { get; private set; }
         public Dictionary<int, StageData> StageDataDict { get; private set; }
 
         public PlayerData PlayerData { get; private set; }
@@ -20,6 +21,7 @@ namespace RPG.Core.Manager
         {
             SkillDataDict = LoadJsonAll<SkillDataSet, int, Dictionary<int, SkillData>>("Skill/");
             EnemyDataDict = LoadJson<EnemyDataSet, int, EnemyData>("Enemy/Enemies").MakeDict();
+            BossDataDict = LoadJson<EnemyDataSet, int, EnemyData>("Enemy/Boss").MakeDict();
             StageDataDict = LoadJson<StageDataSet, int, StageData>("Stage/Stages").MakeDict();
             PlayerExpDataDict = LoadJson<PlayerExpDataSet, int, PlayerExpData>("Player/Exp").MakeDict();
             PlayerData = SimpleLoadJson<PlayerData>("Player/Default");

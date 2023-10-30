@@ -14723,7 +14723,7 @@ Transform:
   m_GameObject: {fileID: 4173514304717392314}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 2.5, y: 2, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6944412274980493333}
@@ -14734,7 +14734,7 @@ Transform:
   - {fileID: 9188115569125135053}
   - {fileID: 5153413034363937861}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &6712462050921628919
 ParticleSystem:
@@ -19632,7 +19632,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 1.5
   m_Height: 7.35
   m_Direction: 1
   m_Center: {x: 0, y: 2, z: 0}

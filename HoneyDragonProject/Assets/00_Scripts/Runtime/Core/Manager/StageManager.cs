@@ -1,5 +1,6 @@
 using RPG.Core;
 using RPG.Core.Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,45 +9,41 @@ namespace RPG.Core.Manager
 {
     public class StageManager : IManager
     {
-        List<Enemy> enemies = new List<Enemy>();
         Dictionary<int, StageData> stageDataDict;
 
-        public int CurrentStage { get; private set; }
-        public StageData CurrentStageData { get; private set; }
+        public int CurrentStageNum { get; private set; }
+        public Stage CurrentStage { get; private set; }
+        public StageData GetStageData(int stageNum) => stageDataDict[stageNum];
+        public StageData CurrentStageData => stageDataDict[CurrentStageNum];
+        public event Action<int> OnStageChanged;
 
-        #region Properties
-        bool IsStageClear => enemies.Count == 0;
-        #endregion
 
-        IEnumerator SpawnEnemy()
+        private void SetStage(int stageNum)
         {
-            yield return null;
-        }
-
-        public void ClearStage() { }
-
-        public void SetStage(int stageNum)
-        {
-            ClearStage();
-            SetEnemies(CurrentStageData.EnemyInfoList);
-            // SetPlayer();
+            Clear();
+            CurrentStageNum = stageNum;
+            if (CurrentStage != null)
+            {
+                UnityEngine.Object.Destroy(CurrentStage);
+            }
+            CurrentStage = MonoBehaviour.Instantiate(Resources.Load<Stage>(stageDataDict[CurrentStageNum].Prefab));
+            Managers.Instance.Game.CurrentPlayer.position = CurrentStage.StartPosition.position;
+            OnStageChanged?.Invoke(CurrentStageNum);
         }
 
         public void NextStage()
         {
-            CurrentStage++;
-            SetStage(CurrentStage);
-        }
-
-        public void SetEnemies(List<SpawnEnemyInfo> enemyInfoList) 
-        {
-            if (enemyInfoList.Count == 0) return;
-
+            SetStage(CurrentStageNum + 1);
         }
 
         public void Init()
         {
             stageDataDict = Managers.Instance.Data.StageDataDict;
+        }
+
+        public void InitStage(int stageNum)
+        {
+            SetStage(stageNum);
         }
 
         public void Clear()

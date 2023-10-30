@@ -43,13 +43,11 @@ GameObject:
   - component: {fileID: 3256715569103565472}
   - component: {fileID: 7350486691986867732}
   - component: {fileID: 6602420635743126847}
-  - component: {fileID: 5581767454052358210}
   - component: {fileID: 950708464122576572}
-  - component: {fileID: 985459326461375007}
   - component: {fileID: 8823117951249904832}
   - component: {fileID: 5580561964041641220}
   - component: {fileID: 337708202962095328}
-  - component: {fileID: 1778878046009974142}
+  - component: {fileID: 6847388962129890681}
   m_Layer: 8
   m_Name: 1000
   m_TagString: Enemy
@@ -71,7 +69,7 @@ Transform:
   m_Children:
   - {fileID: 5850466656385117026}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7350486691986867732
 Animator:
@@ -106,20 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55b3a9a9c2a9e2c47811e9dd65423915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridController: {fileID: 0}
   Target: {fileID: 0}
---- !u!114 &5581767454052358210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8310804118769148240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b36ce326e4699f642bf806f193b72cb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &950708464122576572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,18 +121,6 @@ MonoBehaviour:
   CurrentHp: 0
   FloatingDamage: {fileID: 6144941363728431848, guid: 0595d6061c489c34b93cea985bad21a3,
     type: 3}
---- !u!114 &985459326461375007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8310804118769148240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d25523be1047421489302a2c1021b348, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &8823117951249904832
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -210,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baf5c5e828236de4da4e8d13fdb499a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1778878046009974142
+--- !u!114 &6847388962129890681
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,7 +192,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8310804118769148240}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b20e7b153e2a3564a9a0cfdb2155aaf7, type: 3}
+  m_Script: {fileID: 11500000, guid: 74fc1e21df9ccae43ad7799e1e1f3556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &3357235750481465353
@@ -240,6 +213,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 877777177065789368, guid: ac6ea6d6dde0bc3478baa9aa71a4014b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 64e57f3004ce7c1499b12218fbfd4c9f, type: 2}
     - target: {fileID: 907772469874237295, guid: ac6ea6d6dde0bc3478baa9aa71a4014b,
         type: 3}
       propertyPath: m_Name
@@ -355,6 +333,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2540018207964629187, guid: ac6ea6d6dde0bc3478baa9aa71a4014b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 64e57f3004ce7c1499b12218fbfd4c9f, type: 2}
     - target: {fileID: 2668001505409993113, guid: ac6ea6d6dde0bc3478baa9aa71a4014b,
         type: 3}
       propertyPath: m_Layer
@@ -500,6 +483,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 6747654171505568333, guid: ac6ea6d6dde0bc3478baa9aa71a4014b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 64e57f3004ce7c1499b12218fbfd4c9f, type: 2}
     - target: {fileID: 6793012099788297864, guid: ac6ea6d6dde0bc3478baa9aa71a4014b,
         type: 3}
       propertyPath: m_Layer

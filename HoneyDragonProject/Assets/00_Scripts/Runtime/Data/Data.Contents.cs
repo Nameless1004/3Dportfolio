@@ -94,6 +94,7 @@ namespace RPG.Core.Data
         public int Id;
         public string PrefabPath;
         public string Name;
+        public float MoveSpeed;
         public int Hp;
         public int AttackPower;
         public int AttackRange;
@@ -113,24 +114,17 @@ namespace RPG.Core.Data
     #endregion
 
     #region Stage
-    [Serializable]
-    public struct SpawnEnemyInfo
-    {
-        // type 0 : normal, 1 : boss
-        public int Type;
-        // 0 : Outside, 1: voids
-        public int SpawnType;
-        public int SpawnCount;
-        public int Id;
-    }
 
     [Serializable]
     public class StageData
     {
+        public string Prefab;
         public int StageNum;
         public int MaxSpawnCount;
+        public float BossSpawnTime;
+        public int BossId;
         public float SpawnRate;
-        public List<SpawnEnemyInfo> EnemyInfoList;
+        public List<int> SpawnEnemyList;
     }
 
     [Serializable]

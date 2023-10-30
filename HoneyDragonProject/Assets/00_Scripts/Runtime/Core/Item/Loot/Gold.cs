@@ -18,7 +18,7 @@ namespace RPG.Core.Item
 
         public override void OnDestroyAction()
         {
-            throw new NotImplementedException();
+            Destroy(gameObject);
         }
 
         public override void OnGetAction()

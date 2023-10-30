@@ -2,17 +2,16 @@
     "StageData" : 
     [   
         {
+            "Prefab" : "Prefab/Stage/Stage1",
             "StageNum" : "1",
             "MaxSpawnCount" : "50",
+            "BossSpawnTime" : "600",
+            "BossId" : "10000",
             "SpawnRate" : "0.5",
-            "EnemyInfoList" : 
+            "SpawnEnemyList" : 
             [
-                {
-                    "Type" : "0",
-                    "SpawnType" : "0",
-                    "SpawnCount" : "1",
-                    "Id" : "1001"
-                }
+                "1000",
+                "1001"
             ]
         }
     ]

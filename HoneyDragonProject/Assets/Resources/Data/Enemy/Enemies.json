@@ -5,19 +5,21 @@
         "Id" : "1000",
         "PrefabPath" : "Prefab/Enemy/1000",
         "Name" : "test",
-        "Hp" : "10",
+        "MoveSpeed" : "1.0",
+        "Hp" : "20",
         "AttackPower" : "5",
-        "AttackRange" : "3",
-        "AttackRate" : "1.0"
+        "AttackRange" : "0",
+        "AttackRate" : "0.0"
     },
     {
         "Id" : "1001",
         "PrefabPath" : "Prefab/Enemy/1001",
         "Name" : "test",
+        "MoveSpeed" : "2.0",
         "Hp" : "10",
-        "AttackPower" : "5",
-        "AttackRange" : "3",
-        "AttackRate" : "1.0"
+        "AttackPower" : "3",
+        "AttackRange" : "0",
+        "AttackRate" : "0.0"
     }
     ]
 }

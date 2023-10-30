@@ -136,7 +136,7 @@ namespace RPG.Core.Item
 
         public override void OnDestroyAction()
         {
-           
+            Destroy(gameObject);
         }
 
         public override void OnGetAction()

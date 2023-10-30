@@ -15,7 +15,39 @@
         "SpawnCount" : "1",
         "Speed" : "3",
         "SpawnRateMilliSecond" : "0",
-        "SpawnLifeTimeMilliSecond" : "10000"
+        "SpawnLifeTimeMilliSecond" : "5000"
+    },
+    {
+        "Id" : "2002",
+        "IconPath" : "UI/2002",
+        "PrefabPath" : "Prefab/Skill/2002",
+        "Level" : "2",
+        "MaxLevel" : "10",
+        "Name" : "워터 토네이도",
+        "Description" : "이름: {0} / Lv.{1}\n 생성 개수: {2}\n 데미지: {3} ~ {4}\n오브젝트 유지 시간: {5}초\n쿨타임: {6}초",
+        "MinDamage" : "1",
+        "MaxDamage" : "3",
+        "CoolTime" : "4.5",
+        "SpawnCount" : "2",
+        "Speed" : "3",
+        "SpawnRateMilliSecond" : "0",
+        "SpawnLifeTimeMilliSecond" : "6000"
+    },
+    {
+        "Id" : "2002",
+        "IconPath" : "UI/2002",
+        "PrefabPath" : "Prefab/Skill/2002",
+        "Level" : "3",
+        "MaxLevel" : "10",
+        "Name" : "워터 토네이도",
+        "Description" : "이름: {0} / Lv.{1}\n 생성 개수: {2}\n 데미지: {3} ~ {4}\n오브젝트 유지 시간: {5}초\n쿨타임: {6}초",
+        "MinDamage" : "2",
+        "MaxDamage" : "4",
+        "CoolTime" : "4.0",
+        "SpawnCount" : "3",
+        "Speed" : "3",
+        "SpawnRateMilliSecond" : "0",
+        "SpawnLifeTimeMilliSecond" : "7000"
     }
     ]
 }

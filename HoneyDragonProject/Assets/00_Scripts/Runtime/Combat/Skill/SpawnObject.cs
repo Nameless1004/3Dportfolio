@@ -21,8 +21,7 @@ namespace RPG.Combat.Skill
 
         public void OnDestroyAction()
         {
-            gameObject.SetActive(false);
-            isSpawned = false;
+            Destroy(gameObject);
             cancellationTokenSource.Cancel();
             cancellationTokenSource.Dispose();
         }
@@ -48,7 +47,7 @@ namespace RPG.Combat.Skill
             this.owner = owner;
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             if (isSpawned == false) return;
 
@@ -68,6 +67,8 @@ namespace RPG.Combat.Skill
             maxDamage = data.MaxDamage;
             speed = data.Speed;
         }
+
+        public virtual void Spawn(Vector3 position, Quaternion rotation, SkillData data) { }
 
         protected virtual void OnTriggerEnter(Collider other)
         {

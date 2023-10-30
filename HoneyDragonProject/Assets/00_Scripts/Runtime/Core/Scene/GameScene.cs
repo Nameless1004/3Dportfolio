@@ -49,12 +49,19 @@ namespace RPG.Core
             Managers.Instance.Game.GameScene = this;
             monsterSpawner = FindObjectOfType<MonsterSpawner>();
             currentPlayer = CreatePlayer();
+
+            // r
+            Managers.Instance.Stage.InitStage(1);
+            monsterSpawner.OnStageChanged(1);
+            monsterSpawner.SetMapBoundData(Managers.Instance.Stage.CurrentStage.Grid);
+
             OnPlayerCreated?.Invoke();
 
             // UI Scene 로딩
             SceneManager.LoadScene(2, LoadSceneMode.Additive);
 
             // 2초 뒤 생성
+            OnTimeChanged += monsterSpawner.OnTimeChanged;
             monsterSpawner.SpawnTask(2000).Forget();
         }
 
@@ -63,9 +70,6 @@ namespace RPG.Core
             var playerData = Managers.Instance.Data.PlayerData;
             var playerExpTable = Managers.Instance.Data.PlayerExpDataDict;
             var playerPrefab = ResourceCache.Load<Player>(playerData.PrefabPath);
-
-            // 플레이어 시작 위치
-            var startPosition = GameObject.FindWithTag("StartPosition");
 
             var currentPlayer = MonoBehaviour.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
             currentPlayer.InitializePlayer(playerData, playerExpTable);

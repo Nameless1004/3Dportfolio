@@ -1,33 +1,35 @@
 using RPG.Combat;
 using RPG.Core;
+using RPG.Core.Manager;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace RPG.Control
 {
-    public class EnemyAIController : MonoBehaviour
+    public class NormalMonsterAIController : MonoBehaviour
     {
-        [SerializeField] GridController gridController;
-        private Enemy enemy;
+        private float moveSpeed;
+        private GridController gridController;
+        private NormalMonster enemy;
         public Animator Animator { get; private set; }
         public Rigidbody RigidBody { get; private set; }
         public Creature Target;
-        private Health health;
-        private new Collider collider;
+        protected Health health;
+        protected new Collider collider;
 
         private Vector3 direction;
 
         private void Awake()
         {
-            enemy = GetComponent<Enemy>();
+            enemy = GetComponent<NormalMonster>();
             health = GetComponent<Health>();
             collider = GetComponentInChildren<Collider>();
             RigidBody = GetComponentInChildren<Rigidbody>();
             Animator = GetComponentInChildren<Animator>();
 
             // Test
-            gridController = FindObjectOfType<GridController>();
+            gridController = Managers.Instance.Stage.CurrentStage.Grid;
         }
 
         private void OnEnable()
@@ -53,7 +55,11 @@ namespace RPG.Control
         {
             Cell cellBlow = gridController.CurFlowField.GetCellFromWorldPos(transform.position);
             direction = new Vector3(cellBlow.BestDirection.Vector.x, 0, cellBlow.BestDirection.Vector.y);
-            RigidBody.position += direction * 2f * Time.deltaTime;
+            if(direction == Vector3.zero)
+            {
+                direction = (Target.position - transform.position).normalized;
+            }
+            RigidBody.position += direction * enemy.Data.MoveSpeed * Time.deltaTime;
         }
 
         float currentVelocity;
@@ -99,6 +105,7 @@ namespace RPG.Control
         {
             collider.enabled = true;
             RigidBody.useGravity = true;
+            Target = Managers.Instance.Game.CurrentPlayer;
         }
     }
 }

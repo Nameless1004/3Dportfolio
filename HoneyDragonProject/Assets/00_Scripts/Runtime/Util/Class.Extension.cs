@@ -4,7 +4,29 @@ using UnityEngine;
 
 static class Extensions
 {
-	public static void DestroyChild(this Transform transform)
+	public static bool IsBehind(this Transform transform, Vector3 targetPosition)
+	{
+		var targetVec = (targetPosition - transform.position).normalized;
+		targetVec.y = 0f;
+		targetPosition.y = 0f;
+
+        var dot = Vector3.Dot(transform.forward, targetVec);
+		Debug.Log(dot);
+		return dot >= 0f ? false : true;
+	}
+
+    public static bool IsBehind(this Transform transform, Vector3 targetPosition, float fov)
+    {
+        var targetVec = (targetPosition - transform.position).normalized;
+        targetVec.y = 0f;
+        targetPosition.y = 0f;
+		float radian = Mathf.Cos(fov * 0.5f * Mathf.Deg2Rad);
+        var dot = Vector3.Dot(transform.forward, targetVec);
+        Debug.Log(dot);
+        return dot >= radian ? false : true;
+    }
+
+    public static void DestroyChild(this Transform transform)
 	{
 		int childCount = transform.childCount;
 

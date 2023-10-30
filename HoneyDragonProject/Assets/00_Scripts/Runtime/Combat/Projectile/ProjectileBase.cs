@@ -137,7 +137,7 @@ namespace RPG.Combat.Projectile
 
         public virtual void OnDestroyAction()
         {
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 }

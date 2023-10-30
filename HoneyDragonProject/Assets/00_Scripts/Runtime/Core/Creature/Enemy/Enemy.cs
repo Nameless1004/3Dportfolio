@@ -10,44 +10,17 @@ using UnityEngine.Pool;
 
 namespace RPG.Core
 {
-    [RequireComponent(typeof(CombatTarget))]
-    public class Enemy : Creature, IPoolable<Enemy>
+    public abstract class Enemy : Creature
     {
-        public ObjectPool<Enemy> Owner { get; private set; }
-        public EnemyData Data { get; private set; }
-        public EnemyBrain Brain { get; private set; }
-        public EnemyAIController Controller { get; private set; }
-        public Health Health { get; private set; }
+        public EnemyData Data { get; protected set; }
+        public Health Health { get; protected set; }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             Health = GetComponent<Health>();
-            Brain = GetComponent<EnemyBrain>();
-            Controller = GetComponent<EnemyAIController>();
         }
 
-        private void OnEnable()
-        {
-            Health.OnDie -= OnDie;
-            Health.OnDie += OnDie;
-        }
-
-        private void OnDisable()
-        {
-            Health.OnDie -= OnDie;
-        }
-
-        public void OnDie()
-        {
-            Managers.Instance.Loot.Spawn(LootSpawManager.LootType.Exp, Controller.transform.position);
-            DelayDestroy(2000).Forget();
-        }
-
-        public async UniTaskVoid DelayDestroy(int delayTime)
-        {
-            await UniTask.Delay(delayTime, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
-            Owner.Release(this);
-        }
+        protected abstract void OnDie();
 
         public void SetData(EnemyData data)
         {
@@ -63,28 +36,6 @@ namespace RPG.Core
             }
 
             Health.SetHp(hp);
-        }
-
-        public void SetPool(ObjectPool<Enemy> owner)
-        {
-            this.Owner = owner;
-        }
-
-        public void OnGetAction()
-        {
-            gameObject.SetActive(true);
-            Controller.Init();
-            Controller.SetTarget(Brain.Target);
-        }
-
-        public void OnReleaseAction()
-        {
-            gameObject.SetActive(false);
-        }
-
-        public void OnDestroyAction()
-        {
-            Destroy(gameObject);
         }
     }
 }
