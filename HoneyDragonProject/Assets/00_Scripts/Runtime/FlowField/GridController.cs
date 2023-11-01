@@ -31,7 +31,7 @@ public class GridController : MonoBehaviour
         gridDebug.SetFlowField(CurFlowField, GridStartPoint);
     }
 
-    private async UniTask UpdateField(Cell destinationCell)
+    private void UpdateField(Cell destinationCell)
     {
        if (destinationCell.IsObstacle) return;
 
@@ -39,8 +39,8 @@ public class GridController : MonoBehaviour
         prevDestCell = destinationCell;
         gridDebug.SelectedCell = destinationCell;
 
-        await CurFlowField.CreateIntegrationField(destinationCell);
-        await CurFlowField.CreateFlowField();
+        CurFlowField.CreateIntegrationField(destinationCell);
+        CurFlowField.CreateFlowField();
     }
 
    
@@ -59,7 +59,7 @@ public class GridController : MonoBehaviour
                 }
                 else
                 {
-                    await UpdateField(destinationCell);
+                    UpdateField(destinationCell);
                     await UniTask.Delay(200, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
                 }
             }

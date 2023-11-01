@@ -26,22 +26,22 @@ public class FlowField
         GridStartPoint = gridStartPoint;
     }
 
-    public async UniTask CreateFlowField()
+    public void CreateFlowField()
     {
-        await CalculateFlowField();
+        CalculateFlowField();
         // flowField를 만들어주고 목적 cell의 cost를 1로
         DestinationCell.Cost = 1;
     }
 
-    private async UniTask CalculateFlowField()
+    private void CalculateFlowField()
     {
         foreach (Cell curCell in Grid)
         {
-            await CalculateDirection(curCell, curCell.BestCost, curCell.AllNeighbor);
+            CalculateDirection(curCell, curCell.BestCost, curCell.AllNeighbor);
         }
     }
 
-    private async UniTask CalculateDirection(Cell curCell, int bestCost, List<Cell> neighbors)
+    private void CalculateDirection(Cell curCell, int bestCost, List<Cell> neighbors)
     {
         foreach (Cell curNeighbor in neighbors)
         {
@@ -104,7 +104,7 @@ public class FlowField
         }
     }
 
-    public async UniTask CreateIntegrationField(Cell destinationCell)
+    public void CreateIntegrationField(Cell destinationCell)
     {
         DestinationCell = destinationCell;
         destinationCell.Cost = 0;
@@ -118,11 +118,11 @@ public class FlowField
         {
             Cell curCell = cellsToCheck.Dequeue();
             if(curCell.IsObstacle) continue;
-            await CalculateBestScore(curCell);
+            CalculateBestScore(curCell);
         }
     }
 
-    private async UniTask CalculateBestScore(Cell curCell)
+    private void CalculateBestScore(Cell curCell)
     {
         List<Cell> neighbors = curCell.CardinalNeighbors;
 
