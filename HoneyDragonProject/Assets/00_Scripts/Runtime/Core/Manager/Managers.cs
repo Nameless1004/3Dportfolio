@@ -26,6 +26,7 @@ namespace RPG.Core.Manager
 
         private List<IManager> managers = new List<IManager>();
 
+
         public void Release()
         {
             managers.Clear();

@@ -21,8 +21,7 @@ public class GridController : MonoBehaviour
 
     private void Start()
     {
-        Test().Forget();
-        //InitializedFlowField();
+        CreateGrid().Forget();
     }
 
     private void InitializedFlowField()
@@ -46,7 +45,7 @@ public class GridController : MonoBehaviour
 
    
 
-    async UniTaskVoid Test()
+    async UniTaskVoid CreateGrid()
     {
         InitializedFlowField();
         while (true)

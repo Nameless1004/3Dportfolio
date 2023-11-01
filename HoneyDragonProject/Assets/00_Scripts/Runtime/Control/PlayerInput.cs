@@ -7,11 +7,9 @@ namespace RPG.Control
         public Vector3 MoveInput { get; private set; }
         public bool IsInput => MoveInput != Vector3.zero;
 
-        private void Update()
+        public void UpdateInputValue(Vector2 input)
         {
-            float z = Input.GetAxisRaw("Vertical");
-            float x = Input.GetAxisRaw("Horizontal");
-            MoveInput = new Vector3(x, 0, z);
+            MoveInput = new Vector3(input.x, 0, input.y);
         }
     }
 }

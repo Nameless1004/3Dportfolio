@@ -1,0 +1,21 @@
+{
+    "SkillData": 
+    [
+    {
+        "Id" : "2004",
+        "IconPath" : "UI/2004",
+        "PrefabPath" : "Prefab/Skill/2004",
+        "Level" : "1",
+        "MaxLevel" : "10",
+        "Name" : "파이어 스톤",
+        "Description" : "이름: {0} / Lv.{1}\n 생성 개수: {2}\n 데미지: {3} ~ {4}\n오브젝트 유지 시간: {5}초\n쿨타임: {6}초",
+        "MinDamage" : "2",
+        "MaxDamage" : "3",
+        "CoolTime" : "4.5",
+        "SpawnCount" : "1",
+        "Speed" : "3.0",
+        "SpawnRateMilliSecond" : "0",
+        "SpawnLifeTimeMilliSecond" : "4000"
+    }
+    ]
+}

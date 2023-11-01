@@ -30,7 +30,7 @@ namespace RPG.Combat.Skill
                
                 get.Spawn(spawnPos, Quaternion.LookRotation(initiator.forward, initiator.up), Data);
 
-                await UniTask.Delay(Data.SpawnRateMilliSecond * 2, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
+                await UniTask.Delay(Data.SpawnRateMilliSecond, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
             }
         }
 

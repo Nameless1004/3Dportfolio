@@ -80,6 +80,13 @@ public class MonsterSpawner : MonoBehaviour
             // 보스가 등장할 때 처리를 위한 이벤트
             OnBossSpawned?.Invoke();
             int a = currentStageData.BossId;
+            var bossPrefab = Resources.Load(Managers.Instance.Data.BossDataDict[a].PrefabPath);
+            if (bossPrefab != null)
+            {
+                var randomPos = GetRandomPositionInsideSpawnArea();
+                Instantiate(bossPrefab, randomPos, Quaternion.identity);
+                Debug.Log("보스소환됨");
+            }
         }
     }
 

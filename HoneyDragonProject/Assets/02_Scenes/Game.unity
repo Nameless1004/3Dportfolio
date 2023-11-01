@@ -189,7 +189,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 9
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -437,7 +437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ad12af8bb65553439a6a6a4bd72d5ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetFrameRate: 300
+  targetFrameRate: 60
   displayRatePerSec: 4
   fontSize: 19
   color: {r: 0, g: 0, b: 0, a: 1}
@@ -824,7 +824,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 9
+    OrthographicSize: 7
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -1002,7 +1002,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4703742812427244786, guid: 8102b5481a4537543bb7e399a046ba24, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

@@ -22,6 +22,41 @@ namespace RPG.Util
             return loaded;
         }
     }
+    public static class MathGraph
+    {
+        /// <summary>
+        /// factor 값이 높을수록 회전 반경이 조금씩 넓어집니다
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="factor"></param>
+        /// <returns></returns>
+        public static Vector2 GetSpiralPosition(float t, float speed = 1f, float factor = 9f)
+        {
+            // float x = factor * t * Mathf.Cos(t);
+            // float y = factor * t * Mathf.Sin(t);
+            t = t * speed;
+            float x = Mathf.Exp(t / factor) * Mathf.Sin(t);
+            float y = Mathf.Exp(t / factor) * Mathf.Cos(t);
+            return new Vector2(x, y);
+        }
+
+
+        /// <summary>
+        /// factor 값이 높을수록 회전 반경이 조금씩 넓어집니다
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="factor"></param>
+        /// <returns></returns>
+        public static Vector3 GetSpiralPosition(Vector3 position, float t, float speed = 1f, float factor = 9f)
+        {
+            // float x = factor * t * Mathf.Cos(t);
+            // float y = factor * t * Mathf.Sin(t);
+            Vector2 sprial = GetSpiralPosition(t, speed, factor);
+            Vector3 result = new Vector3(position.x + sprial.x, position.y, position.z + sprial.y);
+            return result;
+        }
+    }
+
     public static class Utility
     {
 

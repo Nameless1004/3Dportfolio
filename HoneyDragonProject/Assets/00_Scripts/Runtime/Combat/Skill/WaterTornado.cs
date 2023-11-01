@@ -19,12 +19,16 @@ namespace RPG.Combat.Skill
 
         protected override async UniTaskVoid Activate(Creature initiator)
         {
-            if (spawnObjects.TryGet(out var get) == true)
+            for (int i = 0; i < spawnCount; ++i)
             {
-                Vector2 position = (Random.insideUnitCircle * 5f);
-                Vector3 spawnPos = initiator.position + new Vector3(position.x, 0f, position.y);
-                spawnPos.y = 0f;
-                get.Spawn(spawnPos, Data);
+                if (spawnObjects.TryGet(out var get) == true)
+                {
+                    Vector2 position = (Random.insideUnitCircle * 5f);
+                    Vector3 spawnPos = initiator.position + new Vector3(position.x, 0f, position.y);
+                    spawnPos.y = 0f;
+                    get.Spawn(spawnPos, Data);
+                }
+                await UniTask.Delay(Data.SpawnRateMilliSecond, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
             }
         }
     }

@@ -5,9 +5,10 @@
         "Id" : "10000",
         "PrefabPath" : "Prefab/Enemy/10000",
         "Name" : "Boss",
+        "MoveSpeed" : "1.0",
         "Hp" : "300",
         "AttackPower" : "10",
-        "AttackRange" : "3",
+        "AttackRange" : "4.5",
         "AttackRate" : "1.0"
     }
     ]
