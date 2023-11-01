@@ -15,6 +15,8 @@ namespace RPG.Core.Manager
     {
         public DataManager Data { get; private set; }
 
+        public SoundManager Sound { get; private set; }
+
         // PoolTransform 확인용
         [field:SerializeField]
         public GameManager Game { get; private set; }

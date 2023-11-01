@@ -14,11 +14,14 @@ namespace RPG.Core
         {
             Health.OnDie -= OnDie;
             Health.OnDie += OnDie;
+            Health.OnHit -= OnHit;
+            Health.OnHit += OnHit;
         }
 
         private void OnDisable()
         {
             Health.OnDie -= OnDie;
+            Health.OnHit -= OnHit;
         }
 
         public void SetPool(ObjectPool<NormalMonster> owner)

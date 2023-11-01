@@ -59,6 +59,7 @@ namespace RPG.Core
 
             // UI Scene 로딩
             SceneManager.LoadScene(2, LoadSceneMode.Additive);
+            Managers.Instance.Sound.PlaySound(SoundType.BGM, "Sound/BGM");
 
             // 2초 뒤 생성
             OnTimeChanged += monsterSpawner.OnTimeChanged;

@@ -5,16 +5,20 @@ using RPG.Core.Item;
 using RPG.Core.Manager;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace RPG.Core
 {
     public class Player : Creature
     {
+        public PlayerData Data { get; set; }
         public PlayerStat Status { get; set; }
         private Dictionary<int, PlayerExpData> expTable;
         private Health health;
 
+        public GameObject HitParticle;
+        private List<ParticleSystem> hitparticles;
         public event Action<float> OnGetExp;
         public event Action<int> OnLevelup;
 
@@ -23,16 +27,20 @@ namespace RPG.Core
             collider = GetComponentInChildren<CapsuleCollider>();
             Status = new PlayerStat();
             health = GetComponent<Health>();
+            hitparticles = HitParticle.GetComponentsInChildren<ParticleSystem>().ToList();
         }
 
         private void OnEnable()
         {
             health.DamageHandle -= DamageHandle;
             health.DamageHandle += DamageHandle;
+            health.OnHit -= OnHit;
+            health.OnHit += OnHit;
         }
 
         private void OnDisable()
         {
+            health.OnHit -= OnHit;
             health.DamageHandle -= DamageHandle;
         }
 
@@ -47,6 +55,7 @@ namespace RPG.Core
 
         public void InitializePlayer(PlayerData data, Dictionary<int, PlayerExpData> expTable)
         {
+            Data = data;
             Status.SetData(data);
             GetComponent<Health>().SetHp(data.Hp);
             this.expTable = expTable;
@@ -71,6 +80,12 @@ namespace RPG.Core
         {
         }
 
+        private void OnHit()
+        {
+            Managers.Instance.Sound.PlaySound(SoundType.Effect, "Sound/Hit");
+            HitParticle.transform.position = position;
+            hitparticles.ForEach(x => x.Play());
+        }
         private void OnTriggerEnter(Collider other)
         {
             if(other.gameObject.IsSameLayer("Loot"))

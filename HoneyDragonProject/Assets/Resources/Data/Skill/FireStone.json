@@ -14,7 +14,7 @@
         "CoolTime" : "4.5",
         "SpawnCount" : "1",
         "Speed" : "3.0",
-        "SpawnRateMilliSecond" : "0",
+        "SpawnRateMilliSecond" : "500",
         "SpawnLifeTimeMilliSecond" : "4000"
     }
     ]

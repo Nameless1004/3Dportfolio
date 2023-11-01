@@ -1,5 +1,7 @@
 {
     "PrefabPath": "Prefab/Player/Player",
+    "ModelPrefabPath" : "",
+    "DefaultSkillId" : 2003,
     "Level": "1",
     "Hp" : "50",
     "Exp": "0.0",

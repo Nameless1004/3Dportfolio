@@ -11,8 +11,6 @@ namespace RPG.Control
         [SerializeField] private float moveSpeed;
         [SerializeField] private float smoothTime = 0.01f;
 
-        [SerializeField] private Material HitMat;
-
         private Vector3 direction;
         private Vector3 moveVec;
         private float currentVelocity;

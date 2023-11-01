@@ -30,6 +30,8 @@ namespace RPG.Core.Data
     public class PlayerData
     {
         public string PrefabPath;
+        public string ModelPrefabPath;
+        public int DefaultSkillId;
         public int Level;
         public int Hp;
         public int Exp;

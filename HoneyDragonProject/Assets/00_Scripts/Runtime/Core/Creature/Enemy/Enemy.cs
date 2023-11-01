@@ -20,6 +20,10 @@ namespace RPG.Core
             Health = GetComponent<Health>();
         }
 
+        protected virtual void OnHit() 
+        {
+            Managers.Instance.Sound.PlaySound(SoundType.Effect, "Sound/EnemyHit");
+        }
         protected abstract void OnDie();
 
         public void SetData(EnemyData data)
