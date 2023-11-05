@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,6 +14,7 @@ namespace RPG.Core.Manager
 
     public class Managers : Singleton<Managers>
     {
+        public static string EncryptKey;
         public DataManager Data { get; private set; }
 
         public SoundManager Sound { get; private set; }

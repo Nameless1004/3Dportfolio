@@ -11,7 +11,7 @@ static class Extensions
 		targetPosition.y = 0f;
 
         var dot = Vector3.Dot(transform.forward, targetVec);
-		Debug.Log(dot);
+
 		return dot >= 0f ? false : true;
 	}
 
@@ -22,7 +22,7 @@ static class Extensions
         targetPosition.y = 0f;
 		float radian = Mathf.Cos(fov * 0.5f * Mathf.Deg2Rad);
         var dot = Vector3.Dot(transform.forward, targetVec);
-        Debug.Log(dot);
+
         return dot >= radian ? false : true;
     }
 

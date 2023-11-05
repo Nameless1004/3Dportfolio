@@ -803,6 +803,7 @@ PlayerSettings:
     Android: UNITY_PIPELINE_URP
     Standalone: UNITY_PIPELINE_URP;USE_DEBUG
   additionalCompilerArguments:
+    Android: []
     Standalone: []
   platformArchitecture: {}
   scriptingBackend:

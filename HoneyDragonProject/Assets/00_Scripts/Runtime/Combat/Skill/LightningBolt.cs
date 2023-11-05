@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using RPG.Core;
 using RPG.Core.Data;
+using RPG.Core.Manager;
 using System.Threading;
 using UnityEngine;
 
@@ -23,9 +24,6 @@ namespace RPG.Combat.Skill
             for (int i = 0; i < spawnCount; ++i)
             {
                 if (spawnObjects.TryGet(out var get) == false) break;
-                AudioSource soundComponent = get.GetComponent<AudioSource>();
-                AudioClip clip = soundComponent.clip;
-                soundComponent.PlayOneShot(clip);
 
                 // Vector3 position = new Vector3(randX, 0f, randZ);
                 // var enem = FindNearestEnemy(initiator, LayerMask.GetMask("Enemy"));
@@ -33,7 +31,7 @@ namespace RPG.Combat.Skill
                 Vector3 spawnPos = initiator.position + new Vector3(position.x, 0f, position.y);
                 spawnPos.y = 0f;
                 get.Spawn(spawnPos, Data);
-
+                Managers.Instance.Sound.PlaySound(SoundType.Effect, activeSoundResourcePath);
                 await UniTask.Delay(Data.SpawnRateMilliSecond * 2, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
             }
         }

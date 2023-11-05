@@ -59,7 +59,7 @@ namespace RPG.Control
 
             if (input.IsInput)
             {
-                rig.rotation = Rotate();
+                transform.rotation = Rotate();
             }
         }
 

@@ -32,6 +32,7 @@ namespace RPG.Combat.Skill
 
     public abstract class ActiveSkill : SkillBase
     {
+        protected string activeSoundResourcePath;
         public abstract UniTaskVoid UseSkill();
         protected abstract UniTaskVoid Activate(Creature initiator);
     }

@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using RPG.Core;
 using RPG.Core.Data;
+using RPG.Core.Manager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,14 +25,11 @@ namespace RPG.Combat.Skill
             for (int i = 0; i < spawnCount; ++i)
             {
                 if (spawnObjects.TryGet(out var get) == false) break;
-                // AudioSource soundComponent = get.GetComponent<AudioSource>();
-                // AudioClip clip = soundComponent.clip;
-                // soundComponent.PlayOneShot(clip);
 
                 Vector3 spawnPos = initiator.position + Vector3.up * 0.5f;
 
                 get.Spawn(spawnPos, Quaternion.identity, Data);
-
+                Managers.Instance.Sound.PlaySound(SoundType.Effect, activeSoundResourcePath);
                 await UniTask.Delay(Data.SpawnRateMilliSecond, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
             }
         }

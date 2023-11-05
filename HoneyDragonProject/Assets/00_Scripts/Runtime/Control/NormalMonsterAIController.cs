@@ -97,7 +97,7 @@ namespace RPG.Control
             {
                 enemy.Owner.Release(enemy);
                 ITakeDamageable damageable = collision.gameObject.GetComponent<ITakeDamageable>();
-                damageable?.TakeDamage(new DamageInfo(null, 5));
+                damageable?.TakeDamage(new DamageInfo(null, enemy.Data.AttackPower));
             }
         }
 

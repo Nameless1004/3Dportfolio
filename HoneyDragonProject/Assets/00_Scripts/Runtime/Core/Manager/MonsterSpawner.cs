@@ -85,7 +85,6 @@ public class MonsterSpawner : MonoBehaviour
             {
                 var randomPos = GetRandomPositionInsideSpawnArea();
                 Instantiate(bossPrefab, randomPos, Quaternion.identity);
-                Debug.Log("보스소환됨");
             }
         }
     }
@@ -129,7 +128,6 @@ public class MonsterSpawner : MonoBehaviour
 
     private void ClearEnemyPool()
     {
-        Debug.Log("Clear");
 
         // 소환된 적들을 오브젝트 풀로 보낸다.
         foreach (var i in spawnedEnemies)
@@ -141,8 +139,6 @@ public class MonsterSpawner : MonoBehaviour
         foreach (var enemy in poolers)
         {
             enemy.Value.Clear();
-            Debug.Log($"Active Count : {enemy.Value.ActiveCount}");
-            Debug.Log($"InActiveCount : {enemy.Value.InActiveCount}");
         }
 
         spawnedEnemies.Clear();
@@ -194,8 +190,12 @@ public class MonsterSpawner : MonoBehaviour
         enemy.Controller.SetTarget(Managers.Instance.Game.CurrentPlayer);
         enemy.name = enemy.Data.Id.ToString() + "_" + poolers[randomEnemyId].CountAll;
 
-        enemy.GetComponent<Health>().OnDie -= OnDieEnemy;
-        enemy.GetComponent<Health>().OnDie += OnDieEnemy;
+        Health enemyHealth = enemy.GetComponent<Health>();
+        enemyHealth.OnDie -= OnDieEnemy;
+        enemyHealth.OnDie += OnDieEnemy;
+        int playerLevel = Managers.Instance.Game.CurrentPlayer.GetComponent<Player>().Status.Level;
+        int enemyhp = (int)(enemy.Data.Hp * Mathf.Pow(playerLevel, 0.6f));
+        enemyHealth.SetHp(enemyhp);
 
         Vector3 enemySpawnPos = GetRandomPositionInsideSpawnArea();
 

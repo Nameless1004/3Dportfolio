@@ -4,6 +4,7 @@ using RPG.Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RPG.Core.Manager;
 
 namespace RPG.Combat.Skill
 {
@@ -19,16 +20,19 @@ namespace RPG.Combat.Skill
             for (int i = 0; i < spawnCount; ++i)
             {
                 if (spawnObjects.TryGet(out var get) == false) break;
-                // AudioSource soundComponent = get.GetComponent<AudioSource>();
-                // AudioClip clip = soundComponent.clip;
-                // soundComponent.PlayOneShot(clip);
 
-                // Vector3 position = new Vector3(randX, 0f, randZ);
-                // var enem = FindNearestEnemy(initiator, LayerMask.GetMask("Enemy"));
-                Vector3 position = initiator.position + initiator.forward + Vector3.up * 0.5f;
-                Vector3 spawnPos = position;
-               
-                get.Spawn(spawnPos, Quaternion.LookRotation(initiator.forward, initiator.up), Data);
+                if (i % 2 == 0)
+                {
+                    Vector3 forwardPosition = initiator.position + initiator.forward + Vector3.up * 0.5f;
+                    get.Spawn(forwardPosition, Quaternion.LookRotation(initiator.forward, initiator.up), Data);
+                }
+                else
+                {
+                    Vector3 backwardPosition = initiator.position + (-initiator.forward) + Vector3.up * 0.5f;
+                    get.Spawn(backwardPosition, Quaternion.LookRotation(-initiator.forward, initiator.up), Data);
+                }
+
+                Managers.Instance.Sound.PlaySound(SoundType.Effect, activeSoundResourcePath);
 
                 await UniTask.Delay(Data.SpawnRateMilliSecond, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
             }

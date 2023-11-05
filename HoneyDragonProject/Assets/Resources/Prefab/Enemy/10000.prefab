@@ -1285,7 +1285,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHp: 0
   CurrentHp: 0
-  FloatingDamage: {fileID: 0}
+  FloatingDamage: {fileID: 6144941363728431848, guid: 0595d6061c489c34b93cea985bad21a3,
+    type: 3}
 --- !u!136 &5545468419515343532
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -18,6 +18,7 @@ namespace RPG.Combat.Skill
             base.SetData(data);
             spawnCount = data.SpawnCount;
             spawnObjects = CreatePool();
+            activeSoundResourcePath = $"Sound/Skill/{data.Id}";
         }
 
         [SerializeField]
@@ -27,7 +28,6 @@ namespace RPG.Combat.Skill
 
         public virtual ObjectPooler<SpawnObject> CreatePool()
         {
-         
             return new ObjectPooler<SpawnObject>(spawnObjectPrefab);
         }
     }

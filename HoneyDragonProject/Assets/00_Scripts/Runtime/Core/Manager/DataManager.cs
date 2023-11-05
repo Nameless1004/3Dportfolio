@@ -1,4 +1,5 @@
 using RPG.Core.Data;
+using RPG.Util;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,25 +31,31 @@ namespace RPG.Core.Manager
 
         private T SimpleLoadJson<T>(string path)
         {
-            var textAsset = Resources.Load<TextAsset>($"Data/{path}");
-            return JsonUtility.FromJson<T>(textAsset.text);
+            // TODO: 
+            // var textAsset = Resources.Load<TextAsset>($"Data/{path}");
+            var textAsset = Resources.Load<TextAsset>($"EncryptedData/{path}");
+            return JsonUtility.FromJson<T>(JsonUtil.Decrypt("test", textAsset.text));
         }
 
         // 스킬 데이터 -> 스킬 id, (스킬 레벨, 스킬 데이터)
         Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
         {
-            var textAsset = Resources.Load<TextAsset>($"Data/{path}");
-            return JsonUtility.FromJson<Loader>(textAsset.text);
+            // TODO: 
+            // var textAsset = Resources.Load<TextAsset>($"Data/{path}");
+            var textAsset = Resources.Load<TextAsset>($"EncryptedData/{path}");
+            return JsonUtility.FromJson<Loader>(JsonUtil.Decrypt("test", textAsset.text));
         }
 
         Dictionary<Key, Value> LoadJsonAll<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
         {
-            var textAsset = Resources.LoadAll<TextAsset>($"Data/{path}");
+            // TODO: 
+            // var textAsset = Resources.LoadAll<TextAsset>($"Data/{path}");
+            var textAsset = Resources.LoadAll<TextAsset>($"EncryptedData/{path}");
             List<Dictionary<Key, Value>> dicts = new List<Dictionary<Key, Value>>();
 
             foreach (var i in textAsset)
             {
-                dicts.Add(JsonUtility.FromJson<Loader>(i.text).MakeDict());
+                dicts.Add(JsonUtility.FromJson<Loader>(JsonUtil.Decrypt("test", i.text)).MakeDict());
             }
 
             var mergedDictionary = dicts.Aggregate((dict1, dict2) => dict1.Concat(dict2).ToDictionary(kvp => kvp.Key, kvp => kvp.Value));

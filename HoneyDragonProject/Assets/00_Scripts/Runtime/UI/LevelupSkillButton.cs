@@ -25,9 +25,8 @@ namespace RPG.Core.UI
             }
             SkillData = skillData;
             SkillIcon.sprite = Resources.Load<Sprite>(skillData.IconPath);
-            var test = string.Format(skillData.Description, skillData.Name, skillData.Level, skillData.SpawnCount, skillData.MinDamage, skillData.MaxDamage, (int)(skillData.SpawnLifeTimeMilliSecond * 0.001f), skillData.CoolTime);
-            Logger.Log(test);
-            SkillLevelupDescription.text = test;
+            string description = $"이름: {skillData.Name}\n{skillData.Description}";
+            SkillLevelupDescription.text = description;
         }
 
         private void Awake()

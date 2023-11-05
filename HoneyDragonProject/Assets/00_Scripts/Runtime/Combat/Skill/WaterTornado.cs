@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using RPG.Core;
+using RPG.Core.Manager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,8 @@ namespace RPG.Combat.Skill
                     spawnPos.y = 0f;
                     get.Spawn(spawnPos, Data);
                 }
+
+                Managers.Instance.Sound.PlaySound(SoundType.Effect, activeSoundResourcePath);
                 await UniTask.Delay(Data.SpawnRateMilliSecond, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
             }
         }

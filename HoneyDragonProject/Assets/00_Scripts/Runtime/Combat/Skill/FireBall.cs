@@ -38,7 +38,7 @@ namespace RPG.Combat.Skill
                     dir = (enem.transform.position - initiator.position).normalized;
                 }
                 get.Fire(new DamageInfo(null, Random.Range(Data.MinDamage, Data.MaxDamage + 1), new KnockbackInfo(dir, 5f)), initiator.center, dir, Data.Speed, initiator);
-
+                Managers.Instance.Sound.PlaySound(SoundType.Effect, activeSoundResourcePath);
                 await UniTask.Delay(Data.SpawnRateMilliSecond, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
             }
         }

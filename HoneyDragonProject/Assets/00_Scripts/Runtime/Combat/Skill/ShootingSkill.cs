@@ -16,6 +16,7 @@ namespace RPG.Combat.Skill
         {
             base.SetData(data);
             projectiles = CreatePool();
+            activeSoundResourcePath = $"Sound/Skill/{data.Id}";
         }
 
         public virtual ObjectPooler<ProjectileBase> CreatePool()

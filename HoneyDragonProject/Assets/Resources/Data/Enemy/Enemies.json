@@ -4,7 +4,7 @@
     {
         "Id" : "1000",
         "PrefabPath" : "Prefab/Enemy/1000",
-        "Name" : "test",
+        "Name" : "BlackKnight",
         "MoveSpeed" : "1.0",
         "Hp" : "20",
         "AttackPower" : "5",
@@ -14,9 +14,59 @@
     {
         "Id" : "1001",
         "PrefabPath" : "Prefab/Enemy/1001",
-        "Name" : "test",
+        "Name" : "Chest",
         "MoveSpeed" : "2.0",
         "Hp" : "10",
+        "AttackPower" : "3",
+        "AttackRange" : "0",
+        "AttackRate" : "0.0"
+    },
+    {
+        "Id" : "1002",
+        "PrefabPath" : "Prefab/Enemy/1002",
+        "Name" : "Specter",
+        "MoveSpeed" : "1.5",
+        "Hp" : "13",
+        "AttackPower" : "5",
+        "AttackRange" : "0",
+        "AttackRate" : "0.0"
+    },
+    {
+        "Id" : "1003",
+        "PrefabPath" : "Prefab/Enemy/1003",
+        "Name" : "Cactuso",
+        "MoveSpeed" : "2.0",
+        "Hp" : "10",
+        "AttackPower" : "3",
+        "AttackRange" : "0",
+        "AttackRate" : "0.0"
+    },
+    {
+        "Id" : "1004",
+        "PrefabPath" : "Prefab/Enemy/1004",
+        "Name" : "MegaGolem",
+        "MoveSpeed" : "0.9",
+        "Hp" : "17",
+        "AttackPower" : "6",
+        "AttackRange" : "0",
+        "AttackRate" : "0.0"
+    },    
+    {
+        "Id" : "1005",
+        "PrefabPath" : "Prefab/Enemy/1005",
+        "Name" : "Rato",
+        "MoveSpeed" : "2.5",
+        "Hp" : "7",
+        "AttackPower" : "1",
+        "AttackRange" : "0",
+        "AttackRate" : "0.0"
+    },    
+    {
+        "Id" : "1006",
+        "PrefabPath" : "Prefab/Enemy/1006",
+        "Name" : "Scopionto",
+        "MoveSpeed" : "2.0",
+        "Hp" : "12",
         "AttackPower" : "3",
         "AttackRange" : "0",
         "AttackRate" : "0.0"

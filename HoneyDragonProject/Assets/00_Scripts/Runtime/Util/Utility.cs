@@ -61,7 +61,7 @@ namespace RPG.Util
 
     public static class JsonUtil
     {
-        public static string Decrypt(string textToDecrypt, string key)
+        public static string Decrypt(string key, string textToDecrypt)
         {
             RijndaelManaged rijndaelCipher = new RijndaelManaged();
 
@@ -88,7 +88,7 @@ namespace RPG.Util
             return Encoding.UTF8.GetString(plainText);
         }
 
-        public static string Encrypt(string textToEncrypt, string key)
+        public static string Encrypt(string key, string textToEncrypt)
         {
             RijndaelManaged rijndaelCipher = new RijndaelManaged();
             rijndaelCipher.Mode = CipherMode.CBC;

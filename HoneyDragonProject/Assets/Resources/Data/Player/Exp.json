@@ -23,6 +23,23 @@
         {
             "Level":"6",
             "NeedExp": "800"
+        },
+        {
+            "Level":"7",
+            "NeedExp": "1000"
+        },
+        {
+            "Level":"8",
+            "NeedExp": "1200"
+        },
+        {
+            "Level":"9",
+            "NeedExp": "1500"
+        },
+        {
+            "Level":"10",
+            "NeedExp": "2000"
         }
+
     ]
 }

@@ -33,13 +33,11 @@ namespace RPG.Core.UI
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            Debug.Log("Down");
             isPressed = true;
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            Debug.Log("Up");
             isPressed = false;
             Handle.position = pivot;
             Direction = Vector2.zero;
@@ -48,7 +46,6 @@ namespace RPG.Core.UI
 
         public void OnDrag(PointerEventData eventData)
         {
-            Debug.Log("Drag");
             if (isPressed == false) return;
 
             Direction = (eventData.position - pivot).normalized;
