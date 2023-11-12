@@ -4,8 +4,7 @@ using System;
 
 namespace RPG.Runtime.Combat.AI.BehaviourTree.Node
 {
-    public abstract class ServiceNode : INode
+    public abstract class ServiceNode : NodeBase
     {
-        public abstract void Update(Blackboard blackboard);
     }
 }

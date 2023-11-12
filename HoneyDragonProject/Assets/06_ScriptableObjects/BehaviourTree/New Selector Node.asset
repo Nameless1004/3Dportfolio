@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d314a0635a7a9f45837d3b8f4878db7, type: 3}
+  m_Name: New Selector Node
+  m_EditorClassIdentifier: 
+  State: 2
+  Started: 0
+  Children:
+  - {fileID: 11400000, guid: 0857c94281438a646ad60ea0b616a65b, type: 2}
+  - {fileID: 11400000, guid: 138d5c4a35bf9af468e975d5d9568c5a, type: 2}
+  - {fileID: 11400000, guid: 57280fb93d5ce694b931a45867bd15e5, type: 2}
+  ServiceNode: {fileID: 0}

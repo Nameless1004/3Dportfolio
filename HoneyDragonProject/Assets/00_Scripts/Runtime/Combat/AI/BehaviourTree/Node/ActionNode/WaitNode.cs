@@ -18,7 +18,7 @@ namespace RPG.Combat.AI.BehaviourTree.Node
         float waitTime;
         float elapsedTime = 0f;
 
-        public override NodeState Evaluate(Blackboard blackboard)
+        protected override NodeState OnUpdate(Blackboard blackboard)
         {
             if (elapsedTime < waitTime)
             {
@@ -27,9 +27,17 @@ namespace RPG.Combat.AI.BehaviourTree.Node
             }
             else
             {
-                elapsedTime = 0f;
                 return NodeState.Success;
             }
+        }
+
+        protected override void OnStart(Blackboard blackboard)
+        {
+            elapsedTime = 0f;
+        }
+
+        protected override void OnEnd(Blackboard blackboard)
+        {
         }
     }
 }

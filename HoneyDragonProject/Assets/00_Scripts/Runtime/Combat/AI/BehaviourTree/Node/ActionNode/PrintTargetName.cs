@@ -10,7 +10,17 @@ namespace RPG.Combat.AI.BehaviourTree.Node
 {
     public class PrintTargetName : ActionNode
     {
-        public override NodeState Evaluate(Blackboard blackboard)
+        protected override void OnEnd(Blackboard blackboard)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void OnStart(Blackboard blackboard)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override NodeState OnUpdate(Blackboard blackboard)
         {
             var target = (GameObject)blackboard.GetData("Target");
             Debug.Log(target?.name ?? "없음");

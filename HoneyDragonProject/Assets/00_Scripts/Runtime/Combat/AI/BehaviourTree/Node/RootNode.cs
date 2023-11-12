@@ -1,19 +1,31 @@
 ﻿using RPG.AI.BehaviourTree;
+using UnityEngine;
 
 namespace RPG.Combat.AI.BehaviourTree.Node
 {
+    [CreateAssetMenu(menuName ="BehaviourTree/Node/Root")]
     public class RootNode : NodeBase
     {
-        public RootNode(NodeBase node)
+        public NodeBase Child;
+
+        protected override NodeState OnUpdate(Blackboard blackboard)
         {
-            this.node = node;
+            return Child.Evaluate(blackboard);
         }
 
-        private NodeBase node;
-
-        public override NodeState Evaluate(Blackboard blackboard)
+        protected override void OnStart(Blackboard blackboard)
         {
-            return node.Evaluate(blackboard);
+        }
+
+        protected override void OnEnd(Blackboard blackboard)
+        {
+        }
+
+        public override NodeBase Clone()
+        {
+            RootNode root = Instantiate(this);
+            root.Child = Child.Clone();
+            return root;
         }
     }
 }

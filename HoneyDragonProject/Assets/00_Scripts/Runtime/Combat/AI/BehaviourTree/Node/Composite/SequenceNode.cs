@@ -5,31 +5,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace RPG.Combat.AI.BehaviourTree.Node
 {
+    [CreateAssetMenu(menuName = "BehaviourTree/Node/Composite/Sequence")]
     public class SequenceNode : CompositeNode
     {
         public SequenceNode(List<NodeBase> children, ServiceNode serviceNode = null)
         {
-            this.children = children;
-            this.serviceNode = serviceNode;
+            this.Children = children;
+            this.ServiceNode = serviceNode;
         }
 
         private int curINdex = 0;
-        public override NodeState Evaluate(Blackboard blackboard)
+        protected override NodeState OnUpdate(Blackboard blackboard)
         {
-            serviceNode?.Update(blackboard);
+            ServiceNode?.Evaluate(blackboard);
 
-            for (; curINdex  < children.Count; ++curINdex)
+            for (; curINdex  < Children.Count; ++curINdex)
             {
-                var state = children[curINdex].Evaluate(blackboard);
+                var state = Children[curINdex].Evaluate(blackboard);
                 if (state == NodeState.Failure || state == NodeState.Running)
                     return state;
             }
 
             curINdex = 0;
             return NodeState.Success;
+        }
+
+        protected override void OnStart(Blackboard blackboard)
+        {
+        }
+
+        protected override void OnEnd(Blackboard blackboard)
+        {
         }
     }
 }

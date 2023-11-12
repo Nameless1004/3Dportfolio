@@ -5,11 +5,17 @@ namespace RPG.Combat.AI.BehaviourTree.Node
 {
     public class IsInRange : DecoratorNode
     {
-        public IsInRange(NodeBase child)
+        protected override void OnEnd(Blackboard blackboard)
         {
-            Child = child;
+            throw new System.NotImplementedException();
         }
-        public override NodeState Evaluate(Blackboard blackboard)
+
+        protected override void OnStart(Blackboard blackboard)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override NodeState OnUpdate(Blackboard blackboard)
         {
             if((GameObject)blackboard.GetData("Target") == null)
             {

@@ -1,15 +1,23 @@
 ﻿using RPG.AI.BehaviourTree;
+using UnityEngine;
 
 namespace RPG.Combat.AI.BehaviourTree.Node
 {
+    [CreateAssetMenu(menuName = "BehaviourTree/Node/Decorator/RepeatUntilSuccess")]
     public class RepeatUntilSuccess : DecoratorNode
     {
-        public RepeatUntilSuccess(NodeBase child) 
+
+        protected override void OnEnd(Blackboard blackboard)
         {
-            Child = child;
+      
         }
 
-        public override NodeState Evaluate(Blackboard blackboard)
+        protected override void OnStart(Blackboard blackboard)
+        {
+
+        }
+
+        protected override NodeState OnUpdate(Blackboard blackboard)
         {
             var state = Child.Evaluate(blackboard);
 
