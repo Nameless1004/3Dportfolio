@@ -18,24 +18,21 @@ namespace RPG.Control
         PlayerInput input;
         Animator animator;
 
-        private Dictionary<SkinnedMeshRenderer, Material> rendererDefaultMaterialDict = new Dictionary<SkinnedMeshRenderer, Material>();
-        private List<SkinnedMeshRenderer> renderers;
+        public bool initialized = false;
 
-        private void Awake()
+        // 플레이어 모델 생성해주고 바인딩
+        public void Init()
         {
             rig = GetComponent<Rigidbody>();
             input = GetComponent<PlayerInput>();
             animator = GetComponentInChildren<Animator>();
 
-            renderers = GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
-            foreach(var renderer in renderers)
-            {
-                rendererDefaultMaterialDict.Add(renderer, renderer.material);
-            }
+            initialized = true;
         }
 
         private void Update()
         {
+            if (initialized == false) return;
             UpdateDirection();
             UpdateAnimationParameter();
             Move();

@@ -6,10 +6,10 @@ namespace RPG.Core.Scene
 {
     public enum SceneType
     {
-        Unknown,
         Lobby,
         Game,
         UI,
+        Unknown,
     }
 
     public abstract class BaseScene : MonoBehaviour

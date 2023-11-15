@@ -1,5 +1,6 @@
 ﻿using RPG.Combat;
 using RPG.Combat.Skill;
+using RPG.Control;
 using RPG.Core.Data;
 using RPG.Core.Item;
 using RPG.Core.Manager;
@@ -12,6 +13,8 @@ namespace RPG.Core
 {
     public class Player : Creature
     {
+        public Transform Model;
+        private GameObject modelObject;
         public PlayerData Data { get; set; }
         public PlayerStat Status { get; set; }
         private Dictionary<int, PlayerExpData> expTable;
@@ -85,6 +88,17 @@ namespace RPG.Core
             Managers.Instance.Sound.PlaySound(SoundType.Effect, "Sound/Hit");
             HitParticle.transform.position = position;
             hitparticles.ForEach(x => x.Play());
+        }
+
+        public void SetModel(string modelPrefabPath)
+        {
+            var model = Instantiate(Resources.Load<GameObject>(modelPrefabPath), Model);
+            if(modelObject != null)
+            {
+                Destroy(modelObject);
+            }
+            modelObject = model;
+            GetComponent<PlayerController>().Init();
         }
         private void OnTriggerEnter(Collider other)
         {

@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using RPG.Combat;
 using RPG.Core.Manager;
 using RPG.Core.Scene;
 using RPG.Core.UI;
@@ -8,7 +9,7 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace RPG.Core
+namespace RPG.Core.Scene
 {
     public class GameScene : BaseScene
     {
@@ -30,9 +31,6 @@ namespace RPG.Core
 
         MonsterSpawner monsterSpawner;
 
-        // 플레이어가 생성될 시 호출된 이벤트
-        public event Action OnPlayerCreated;
-
         public event Action<float> OnTimeChanged;
         private float gameElapsedTime = 0f;
         
@@ -48,14 +46,12 @@ namespace RPG.Core
             initialized = true;
             Managers.Instance.Game.GameScene = this;
             monsterSpawner = FindObjectOfType<MonsterSpawner>();
-            currentPlayer = CreatePlayer();
+            currentPlayer = CreatePlayer(Managers.Instance.Game.PlayerModelResourcePath);
 
             // r
             Managers.Instance.Stage.InitStage(1);
             monsterSpawner.OnStageChanged(1);
             monsterSpawner.SetMapBoundData(Managers.Instance.Stage.CurrentStage.Grid);
-
-            OnPlayerCreated?.Invoke();
 
             // UI Scene 로딩
             SceneManager.LoadScene(2, LoadSceneMode.Additive);
@@ -66,7 +62,7 @@ namespace RPG.Core
             monsterSpawner.SpawnTask(2000).Forget();
         }
 
-        private Player CreatePlayer()
+        private Player CreatePlayer(string modelResourcePath)
         {
             var playerData = Managers.Instance.Data.PlayerData;
             var playerExpTable = Managers.Instance.Data.PlayerExpDataDict;
@@ -74,6 +70,11 @@ namespace RPG.Core
 
             var currentPlayer = MonoBehaviour.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
             currentPlayer.InitializePlayer(playerData, playerExpTable);
+            currentPlayer.SetModel(modelResourcePath);
+
+            // 캐릭터가 죽었을 때 게임 신에서 처리
+            currentPlayer.GetComponent<Health>().OnDie += OnPlayerDie;
+
             MainCamera = Camera.main;
             var vcams = MonoBehaviour.FindObjectsOfType<CinemachineVirtualCamera>(true);
             MainVirtualCam = vcams[0];
@@ -91,6 +92,12 @@ namespace RPG.Core
         {
             gameElapsedTime = Time.timeSinceLevelLoad;
             OnTimeChanged?.Invoke(gameElapsedTime);
+        }
+
+        private void OnPlayerDie()
+        {
+            // TODO: 
+            SceneManager.LoadScene((int)SceneType.Lobby);
         }
     }
 }

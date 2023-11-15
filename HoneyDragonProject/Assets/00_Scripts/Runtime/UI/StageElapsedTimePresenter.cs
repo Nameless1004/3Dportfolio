@@ -1,7 +1,5 @@
 using RPG.Core.Manager;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using RPG.Core.Scene;
 
 namespace RPG.Core.UI
 {
@@ -9,6 +7,7 @@ namespace RPG.Core.UI
     {
         GameScene model;
         StageElapsedTimeView view;
+
         public override void Init()
         {
             model = Managers.Instance.Game.GameScene;
