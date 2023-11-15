@@ -8,16 +8,16 @@ namespace RPG.Combat.AI.BehaviourTree.Node
     {
         public NodeBase Child;
 
-        protected override NodeState OnUpdate(Blackboard blackboard)
+        protected override NodeState OnUpdate()
         {
-            return Child.Evaluate(blackboard);
+            return Child.Evaluate();
         }
 
-        protected override void OnStart(Blackboard blackboard)
+        protected override void OnStart()
         {
         }
 
-        protected override void OnEnd(Blackboard blackboard)
+        protected override void OnEnd()
         {
         }
 

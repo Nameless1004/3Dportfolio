@@ -5,17 +5,17 @@ namespace RPG.Combat.AI.BehaviourTree.Node.TestNode
 {
     public class IsButtonClickNode : ActionNode
     {
-        protected override void OnEnd(Blackboard blackboard)
+        protected override void OnEnd()
         {
             throw new System.NotImplementedException();
         }
 
-        protected override void OnStart(Blackboard blackboard)
+        protected override void OnStart()
         {
             throw new System.NotImplementedException();
         }
 
-        protected override NodeState OnUpdate(Blackboard blackboard)
+        protected override NodeState OnUpdate()
         {
             if(Input.GetMouseButtonDown(0))
             {

@@ -6,7 +6,7 @@ namespace RPG.Combat.AI.BehaviourTree.Node
 {
     public abstract class DecoratorNode : NodeBase
     {
-        public NodeBase Child;
+        [HideInInspector] public NodeBase Child;
 
         public override NodeBase Clone()
         {

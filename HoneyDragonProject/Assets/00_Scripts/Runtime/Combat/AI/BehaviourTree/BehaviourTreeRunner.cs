@@ -18,14 +18,13 @@ namespace RPG.Combat.AI.BehaviourTree
         private void Start()
         {
             tree = tree.Clone();
-            var d = ScriptableObject.CreateInstance<DebugNode>();
-            d.message = "clone TEset";
-            ((RootNode)tree.root).Child = d;
-
+            tree.Bind();
+            tree.blackboard.SetData("owner", gameObject);
 
             TreeUpdate().Forget();
         }
-        private async UniTaskVoid TreeUpdate()
+        private 
+            async UniTaskVoid TreeUpdate()
         {
             while(true)
             {

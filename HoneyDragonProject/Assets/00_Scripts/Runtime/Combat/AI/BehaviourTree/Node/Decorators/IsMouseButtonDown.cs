@@ -1,5 +1,4 @@
-﻿using RPG.AI.BehaviourTree;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +7,8 @@ using UnityEngine;
 
 namespace RPG.Combat.AI.BehaviourTree.Node
 {
-    [CreateAssetMenu(menuName ="BehaviourTree/Node/Decorator/Repeater")]
-    public class RepeaterNode : DecoratorNode
+    public class IsMouseButtonDown : ActionNode
     {
-        public RepeaterNode(NodeBase repeatedNode) 
-        {
-            Child = repeatedNode;
-        }
-
         protected override void OnEnd()
         {
         }
@@ -26,8 +19,13 @@ namespace RPG.Combat.AI.BehaviourTree.Node
 
         protected override NodeState OnUpdate()
         {
-            Child.Evaluate();
-            return NodeState.Running;
+            if(Input.GetMouseButtonDown(1))
+            {
+                blackboard.SetData("clickPosition", (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                return NodeState.Success;
+            }
+
+            return NodeState.Failure;
         }
     }
 }

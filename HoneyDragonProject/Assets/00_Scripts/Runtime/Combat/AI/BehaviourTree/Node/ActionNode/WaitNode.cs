@@ -10,15 +10,10 @@ namespace RPG.Combat.AI.BehaviourTree.Node
 {
     public class WaitNode : ActionNode
     {
-        public WaitNode(float waitTime)
-        {
-            this.waitTime = waitTime;
-        }
-
-        float waitTime;
+        public float waitTime;
         float elapsedTime = 0f;
 
-        protected override NodeState OnUpdate(Blackboard blackboard)
+        protected override NodeState OnUpdate()
         {
             if (elapsedTime < waitTime)
             {
@@ -31,12 +26,12 @@ namespace RPG.Combat.AI.BehaviourTree.Node
             }
         }
 
-        protected override void OnStart(Blackboard blackboard)
+        protected override void OnStart()
         {
             elapsedTime = 0f;
         }
 
-        protected override void OnEnd(Blackboard blackboard)
+        protected override void OnEnd()
         {
         }
     }

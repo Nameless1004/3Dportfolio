@@ -21,32 +21,37 @@ namespace RPG.Combat.AI.BehaviourTree.Node
     [CreateAssetMenu(fileName = "Node", menuName = "Node/"), Serializable]
     public abstract class NodeBase : ScriptableObject, INode
     {
-        public NodeState State = NodeState.Running;
-        public bool Started = false;
+        [HideInInspector] public NodeState State = NodeState.Running;
+        [HideInInspector] public bool Started = false;
+        [HideInInspector] public string guid;
+        [HideInInspector] public Vector2 position;
+        [HideInInspector] public Blackboard blackboard;
+        public BehaviourTree tree;
 
-        public virtual NodeState Evaluate(Blackboard blackboard)
+        public virtual NodeState Evaluate()
         {
-            if(Started == false)
+            tree.currentExecutionNode = this;
+            if (Started == false)
             {
-                OnStart(blackboard);
+                OnStart();
                 Started = true;
             }
 
-            State = OnUpdate(blackboard);
+            State = OnUpdate();
 
             if(State == NodeState.Success || State == NodeState.Failure)
             {
                 Started = false;
-                OnEnd(blackboard);
+                OnEnd();
             }
 
             return State;
         }
         
-        protected abstract void OnStart(Blackboard blackboard);
-        protected abstract void OnEnd(Blackboard blackboard);
+        protected abstract void OnStart();
+        protected abstract void OnEnd();
         // 노드 평가 함수
-        protected abstract NodeState OnUpdate(Blackboard blackboard);
+        protected abstract NodeState OnUpdate();
 
         public virtual NodeBase Clone()
         {

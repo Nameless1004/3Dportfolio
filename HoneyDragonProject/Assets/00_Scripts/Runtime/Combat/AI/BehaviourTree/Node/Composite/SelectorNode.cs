@@ -12,19 +12,19 @@ namespace RPG.Combat.AI.BehaviourTree.Node
     public class SelectorNode : CompositeNode
     {
 
-        protected override void OnEnd(Blackboard blackboard)
+        protected override void OnEnd()
         {
         }
 
-        protected override void OnStart(Blackboard blackboard)
+        protected override void OnStart()
         {
         }
 
-        protected override NodeState OnUpdate(Blackboard blackboard)
+        protected override NodeState OnUpdate()
         {
             for(int i= 0; i < Children.Count; ++i)
             {
-                var childState = Children[i].Evaluate(blackboard);
+                var childState = Children[i].Evaluate();
                 if (childState == NodeState.Success || childState == NodeState.Running)
                     return childState;
             }

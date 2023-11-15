@@ -7,19 +7,19 @@ namespace RPG.Combat.AI.BehaviourTree.Node
     public class RepeatUntilSuccess : DecoratorNode
     {
 
-        protected override void OnEnd(Blackboard blackboard)
+        protected override void OnEnd()
         {
       
         }
 
-        protected override void OnStart(Blackboard blackboard)
+        protected override void OnStart()
         {
 
         }
 
-        protected override NodeState OnUpdate(Blackboard blackboard)
+        protected override NodeState OnUpdate()
         {
-            var state = Child.Evaluate(blackboard);
+            var state = Child.Evaluate();
 
             if(state == NodeState.Success)
             {
