@@ -10,7 +10,7 @@ namespace RPG.Core.Item
         public int Amount => Random.Range(minAmount, maxAmount + 1);
         protected bool isReleased = false;
         protected const float LOOT_LIFE_TIME = 30f;
-        public abstract void Get(Player player);
+        public abstract void Get(Creature player);
 
         protected ObjectPool<Loot> owner;
 

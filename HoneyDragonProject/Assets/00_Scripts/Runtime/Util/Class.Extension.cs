@@ -26,7 +26,7 @@ static class Extensions
         return dot >= radian ? false : true;
     }
 
-    public static void DestroyChild(this Transform transform)
+    public static void DestroyChildren(this Transform transform)
 	{
 		int childCount = transform.childCount;
 
@@ -43,6 +43,14 @@ static class Extensions
 		return (a & LayerMask.GetMask(layerName)) != 0;
 	}
 
+	// y값은 제외시킨 거리
+	public static float GetDistance(this Vector3 vec, Vector3 target)
+	{
+		Vector3 myVec = new Vector3(vec.x, 0f, vec.z);
+		myVec.y = 0f;
+		target.y = 0f;
+		return Vector3.Distance(myVec, target);
+	}
 	public static void SetRandomDirectionXZ(this ref Vector3 vec)
 	{
         float randomX = Random.Range(0f, 1f);

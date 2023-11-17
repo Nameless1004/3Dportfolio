@@ -25,7 +25,7 @@
         "MaxLevel" : "10",
         "Name" : "화염구",
         "Description" : "가장 가까운 적을 향해 화염구를 발사합니다.",
-        "MinDamage" : "2",
+        "MinDamage" : "1",
         "MaxDamage" : "4",
         "CoolTime" : "0.8",
         "SpawnCount" : "2",

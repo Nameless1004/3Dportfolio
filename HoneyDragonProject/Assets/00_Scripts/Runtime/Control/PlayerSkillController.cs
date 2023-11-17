@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using RPG.Combat;
 using RPG.Combat.Skill;
 using RPG.Core;
 using RPG.Core.Data;
@@ -24,12 +25,22 @@ namespace RPG.Control
             SkillDict = new Dictionary<int, SkillBase>();
             SkillList = new List<SkillBase>();
             owner = GetComponent<Player>();
+            GetComponent<Health>().OnDie += () =>
+            {
+                DestroySkill();
+                Destroy(this);
+            };
         }
 
         private void Start()
         {
             // 기본 공격
             AddSkill(owner.Data.DefaultSkillId, 1);
+        }
+
+        public void DestroySkill()
+        {
+            SkillList.ForEach(skill => Destroy(skill.gameObject));
         }
 
         public void AddSkill(int id, int level)

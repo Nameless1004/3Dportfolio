@@ -29,6 +29,9 @@ namespace RPG.Core.Data
     [Serializable]
     public class PlayerData
     {
+        public int Id;
+        public string Name;
+        public string Description;
         public string PrefabPath;
         public string ModelPrefabPath;
         public int DefaultSkillId;
@@ -39,6 +42,19 @@ namespace RPG.Core.Data
         public float AttackPower;
         public float Defense;
     }
+
+    [Serializable]
+    public class PlayerDataSet : ILoader<int, PlayerData>
+    {
+        public List<PlayerData> PlayerData = new List<PlayerData>();
+        public Dictionary<int, PlayerData> MakeDict()
+        {
+            var dict = new Dictionary<int, PlayerData>();
+            PlayerData.ForEach(x => dict.Add(x.Id, x));
+            return dict;
+        }
+    }
+
 
 
     #endregion

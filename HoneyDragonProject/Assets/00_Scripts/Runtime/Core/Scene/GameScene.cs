@@ -1,11 +1,8 @@
 ﻿using Cinemachine;
-using RPG.Combat;
 using RPG.Core.Manager;
-using RPG.Core.Scene;
 using RPG.Core.UI;
 using RPG.Util;
 using System;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -29,9 +26,11 @@ namespace RPG.Core.Scene
         // [field: SerializeField] public MinimapCameraMovement MinimapCamera { get; set; }
         [field: SerializeField] public CinemachineVirtualCamera MainVirtualCam { get; set; }
 
-        MonsterSpawner monsterSpawner;
+        private MonsterSpawner monsterSpawner;
+        public MonsterSpawner MonsterSpawner => monsterSpawner;
 
         public event Action<float> OnTimeChanged;
+        public float GameElapsedTime => gameElapsedTime;
         private float gameElapsedTime = 0f;
         
         public override void Clear()
@@ -46,7 +45,7 @@ namespace RPG.Core.Scene
             initialized = true;
             Managers.Instance.Game.GameScene = this;
             monsterSpawner = FindObjectOfType<MonsterSpawner>();
-            currentPlayer = CreatePlayer(Managers.Instance.Game.PlayerModelResourcePath);
+            currentPlayer = CreatePlayer(Managers.Instance.Game.selectedCharacterId);
 
             // r
             Managers.Instance.Stage.InitStage(1);
@@ -54,7 +53,8 @@ namespace RPG.Core.Scene
             monsterSpawner.SetMapBoundData(Managers.Instance.Stage.CurrentStage.Grid);
 
             // UI Scene 로딩
-            SceneManager.LoadScene(2, LoadSceneMode.Additive);
+            SceneManager.LoadScene((int)SceneType.UI, LoadSceneMode.Additive);
+
             Managers.Instance.Sound.PlaySound(SoundType.BGM, "Sound/BGM");
 
             // 2초 뒤 생성
@@ -62,18 +62,15 @@ namespace RPG.Core.Scene
             monsterSpawner.SpawnTask(2000).Forget();
         }
 
-        private Player CreatePlayer(string modelResourcePath)
+        private Player CreatePlayer(int playerModelId)
         {
-            var playerData = Managers.Instance.Data.PlayerData;
+            var playerData = Managers.Instance.Data.PlayerDataDict[playerModelId];
             var playerExpTable = Managers.Instance.Data.PlayerExpDataDict;
             var playerPrefab = ResourceCache.Load<Player>(playerData.PrefabPath);
 
             var currentPlayer = MonoBehaviour.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
             currentPlayer.InitializePlayer(playerData, playerExpTable);
-            currentPlayer.SetModel(modelResourcePath);
 
-            // 캐릭터가 죽었을 때 게임 신에서 처리
-            currentPlayer.GetComponent<Health>().OnDie += OnPlayerDie;
 
             MainCamera = Camera.main;
             var vcams = MonoBehaviour.FindObjectsOfType<CinemachineVirtualCamera>(true);
@@ -92,12 +89,6 @@ namespace RPG.Core.Scene
         {
             gameElapsedTime = Time.timeSinceLevelLoad;
             OnTimeChanged?.Invoke(gameElapsedTime);
-        }
-
-        private void OnPlayerDie()
-        {
-            // TODO: 
-            SceneManager.LoadScene((int)SceneType.Lobby);
         }
     }
 }

@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba77084ad1324e346b5beeaff939c299, type: 3}
-  m_Name: New Behaviour Tree
+  m_Name: Boss
   m_EditorClassIdentifier: 
   root: {fileID: 3714331760953615379}
   owner: {fileID: 0}

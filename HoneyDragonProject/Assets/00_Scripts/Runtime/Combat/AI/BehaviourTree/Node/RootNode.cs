@@ -1,9 +1,5 @@
-﻿using RPG.AI.BehaviourTree;
-using UnityEngine;
-
-namespace RPG.Combat.AI.BehaviourTree.Node
+﻿namespace RPG.Combat.AI.BehaviourTree.Node
 {
-    [CreateAssetMenu(menuName ="BehaviourTree/Node/Root")]
     public class RootNode : NodeBase
     {
         public NodeBase Child;
@@ -26,6 +22,10 @@ namespace RPG.Combat.AI.BehaviourTree.Node
             RootNode root = Instantiate(this);
             root.Child = Child.Clone();
             return root;
+        }
+
+        protected override void OnAwake()
+        {
         }
     }
 }

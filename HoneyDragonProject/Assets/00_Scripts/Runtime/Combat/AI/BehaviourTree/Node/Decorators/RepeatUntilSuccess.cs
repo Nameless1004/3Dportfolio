@@ -1,11 +1,13 @@
-﻿using RPG.AI.BehaviourTree;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RPG.Combat.AI.BehaviourTree.Node
 {
     [CreateAssetMenu(menuName = "BehaviourTree/Node/Decorator/RepeatUntilSuccess")]
     public class RepeatUntilSuccess : DecoratorNode
     {
+        protected override void OnAwake()
+        {
+        }
 
         protected override void OnEnd()
         {

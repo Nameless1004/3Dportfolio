@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using RPG.Core;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -85,12 +86,15 @@ namespace RPG.Core.Item
             LifeTimer().Forget();
         }
 
-        public override void Get(Player player)
+        public override void Get(Creature player)
         {
-            FollowPlayer(player).Forget();
+            if(player is Player /*플레이어거나, 펫일때*/)
+            {
+                FollowPlayer(player).Forget();
+            }
         }
 
-        public async UniTaskVoid FollowPlayer(Player player)
+        public async UniTaskVoid FollowPlayer(Creature player)
         {
             if (isReleased) return;
             
@@ -113,7 +117,15 @@ namespace RPG.Core.Item
                 if (elapsedTime > arriveTime)
                 {
                     isReleased = true;
-                    player.GetExp(Amount);
+                    if(player is Player)
+                    {
+                        (player as Player).GetExp(Amount);
+                    }
+                    else if(player is Pet) 
+                    {
+                        (player as Pet).GetExp(Amount);
+                    }
+                    // 펫이면 else if()
                     owner.Release(this);
                     break;
                 }

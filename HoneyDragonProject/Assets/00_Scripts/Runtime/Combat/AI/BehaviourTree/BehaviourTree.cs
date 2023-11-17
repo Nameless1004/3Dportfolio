@@ -1,4 +1,3 @@
-using RPG.AI.BehaviourTree;
 using RPG.Combat.AI.BehaviourTree.Node;
 using System;
 using System.Collections.Generic;
@@ -7,19 +6,21 @@ using UnityEngine;
 
 namespace RPG.Combat.AI.BehaviourTree
 {
-    [CreateAssetMenu(menuName = "BehaviourTree/Tree")]
-    public class BehaviourTree : ScriptableObject
+    public abstract class BehaviourTree : ScriptableObject
     {
         public RootNode root;
         public GameObject owner;
-        public Blackboard blackboard = new Blackboard();
+        protected Blackboard blackboard;
         public List<NodeBase> nodes = new List<NodeBase>();
 
         public NodeBase currentExecutionNode;
 
-        public void TreeUpdate()
+
+        protected abstract void CreateBlackboard(GameObject owner);
+
+        public NodeState TreeUpdate()
         {
-            root.Evaluate();
+            return root.Evaluate();
         }
 
         public void Traverse(NodeBase node, Action<NodeBase> visiter)
@@ -47,8 +48,14 @@ namespace RPG.Combat.AI.BehaviourTree
             return tree;
         }
 
-        public void Bind()
+        // 오너 게임오브젝트도 등록
+        public void Bind(GameObject owner)
         {
+            if(blackboard == null)
+            {
+                CreateBlackboard(owner);
+            }
+
             Traverse(root, node =>
             {
                 node.blackboard = blackboard;
@@ -56,7 +63,7 @@ namespace RPG.Combat.AI.BehaviourTree
 
         }
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
         public NodeBase CreateNode(Type type)
         {
             NodeBase node = ScriptableObject.CreateInstance(type) as NodeBase;
@@ -66,7 +73,7 @@ namespace RPG.Combat.AI.BehaviourTree
             Undo.RecordObject(this, "Behaviour Tree(CreateNode)");
             nodes.Add(node);
 
-            if (Application.isPlaying)
+            if (!Application.isPlaying)
             {
                 AssetDatabase.AddObjectToAsset(node, this);
             }
@@ -139,6 +146,7 @@ namespace RPG.Combat.AI.BehaviourTree
                 EditorUtility.SetDirty(composite);
             }
         }
+//#endif
 
         public List<NodeBase> GetChildren(NodeBase parent)
         {
@@ -165,5 +173,4 @@ namespace RPG.Combat.AI.BehaviourTree
         }
 
     }
-#endif
 }

@@ -12,9 +12,6 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
     public Port input;
     public Port output;
 
-    //: base(node is CompositeNode? 
-    //    "Assets/00_Scripts/Editor/BehaviourTree/NodeView_Composite.uxml" :
-    //    "Assets/00_Scripts/Editor/BehaviourTree/NodeView.uxml")
     public NodeView(NodeBase node) : base("Assets/00_Scripts/Editor/BehaviourTree/NodeView.uxml")
     {
         this.node = node;
@@ -139,13 +136,8 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
         RemoveFromClassList("success");
         RemoveFromClassList("failure");
         RemoveFromClassList("running");
-        RemoveFromClassList("current-running");
         if(Application.isPlaying)
         {
-            if(node.tree && node.tree.currentExecutionNode == node)
-            {
-                AddToClassList("current-running");
-            }
             switch (node.State)
             {
                 case NodeState.Success:

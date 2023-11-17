@@ -14,22 +14,32 @@ namespace RPG.Combat.AI.BehaviourTree
         public int milliseconds;
         public BehaviourTree tree;
 
+        private bool isTreeRunning = false;
 
-        private void Start()
+        public void TreeInit()
         {
+            isTreeRunning = true;
             tree = tree.Clone();
-            tree.Bind();
-            tree.blackboard.SetData("owner", gameObject);
+            tree.Bind(gameObject);
+        }
+
+        public void Run()
+        {
+            if(isTreeRunning == false)
+            {
+                TreeInit();
+            }
 
             TreeUpdate().Forget();
         }
-        private 
-            async UniTaskVoid TreeUpdate()
+
+        private async UniTaskVoid TreeUpdate()
         {
             while(true)
             {
-                tree.TreeUpdate();
-                if(milliseconds > 0)
+               tree.TreeUpdate();
+
+                if (milliseconds > 0)
                 {
                     await UniTask.Delay(milliseconds, false, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
                 }

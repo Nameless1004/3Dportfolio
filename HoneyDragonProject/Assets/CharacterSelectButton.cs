@@ -1,3 +1,5 @@
+using RPG.Core.Data;
+using RPG.Core.Manager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,11 +8,16 @@ using UnityEngine.UI;
 
 public class CharacterSelectButton : MonoBehaviour
 {
-    public string modelPrefabPath;
-
-    public string modelName;
-    // 캐릭터 추가 효과
-    public string Description;
+    public int CharacterModelId;
+    private PlayerData playerData;
+    public PlayerData PlayerData { get
+        {
+            if(playerData == null)
+            {
+                playerData = Managers.Instance.Data.PlayerDataDict[CharacterModelId];
+            }
+            return playerData;
+        } }
 
     public CanvasGroup Group { get; private set; }
     private Button button;
@@ -21,6 +28,7 @@ public class CharacterSelectButton : MonoBehaviour
     {
         Group = GetComponent<CanvasGroup>();
         button = GetComponentInChildren<Button>();
+        playerData = Managers.Instance.Data.PlayerDataDict[CharacterModelId];
     }
 
     private void OnEnable()

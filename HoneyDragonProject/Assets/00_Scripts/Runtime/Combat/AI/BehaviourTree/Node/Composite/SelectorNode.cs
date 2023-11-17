@@ -1,16 +1,13 @@
-﻿using RPG.AI.BehaviourTree;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RPG.Combat.AI.BehaviourTree.Node
 {
     [CreateAssetMenu(menuName = "BehaviourTree/Node/Composite/Selector")]
     public class SelectorNode : CompositeNode
     {
+        protected override void OnAwake()
+        {
+        }
 
         protected override void OnEnd()
         {

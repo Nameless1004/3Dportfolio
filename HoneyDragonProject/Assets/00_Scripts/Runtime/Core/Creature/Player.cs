@@ -62,6 +62,7 @@ namespace RPG.Core
             Status.SetData(data);
             GetComponent<Health>().SetHp(data.Hp);
             this.expTable = expTable;
+            SetModel(data.ModelPrefabPath);
         }
 
         public void GetExp(int amount)
@@ -98,7 +99,7 @@ namespace RPG.Core
                 Destroy(modelObject);
             }
             modelObject = model;
-            GetComponent<PlayerController>().Init();
+            GetComponent<PlayerController>().Init(Data);
         }
         private void OnTriggerEnter(Collider other)
         {

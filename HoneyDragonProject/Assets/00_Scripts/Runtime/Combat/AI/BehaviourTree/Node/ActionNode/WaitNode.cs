@@ -1,10 +1,4 @@
-﻿using RPG.AI.BehaviourTree;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RPG.Combat.AI.BehaviourTree.Node
 {
@@ -26,6 +20,8 @@ namespace RPG.Combat.AI.BehaviourTree.Node
             }
         }
 
+        protected override void OnAwake() { }
+
         protected override void OnStart()
         {
             elapsedTime = 0f;
@@ -34,5 +30,6 @@ namespace RPG.Combat.AI.BehaviourTree.Node
         protected override void OnEnd()
         {
         }
+
     }
 }

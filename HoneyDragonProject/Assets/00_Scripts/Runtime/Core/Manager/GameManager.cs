@@ -7,7 +7,7 @@ namespace RPG.Core.Manager
     [Serializable]
     public class GameManager : IManager
     {
-        public string PlayerModelResourcePath;
+        public int selectedCharacterId;
 
         public GameScene GameScene{get; set;}
 

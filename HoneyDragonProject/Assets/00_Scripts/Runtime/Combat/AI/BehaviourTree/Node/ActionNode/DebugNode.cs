@@ -1,4 +1,4 @@
-﻿using RPG.AI.BehaviourTree;
+﻿using RPG.Combat.AI.BehaviourTree;
 using UnityEngine;
 
 namespace RPG.Combat.AI.BehaviourTree.Node
@@ -18,6 +18,10 @@ namespace RPG.Combat.AI.BehaviourTree.Node
         }
 
         protected override void OnEnd()
+        {
+        }
+
+        protected override void OnAwake()
         {
         }
     }

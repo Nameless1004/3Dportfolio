@@ -14,7 +14,7 @@ namespace RPG.Core.UI
         public UnityEvent OnClosed;
 
         public TMP_Text SelectedCharacterName;
-        public string SelectCharacterPrefabPath;
+        public int SelectedCharacterId;
         public List<CharacterSelectButton> characterButtonList;
 
         private void Awake()
@@ -22,6 +22,10 @@ namespace RPG.Core.UI
             group = GetComponent<CanvasGroup>();
             characterButtonList = GetComponentsInChildren<CharacterSelectButton>().ToList();
             characterButtonList.ForEach(button => button.OnButtoClicked = OnCharacterSelected);
+        }
+
+        private void Start()
+        {
             characterButtonList[0].OnButtoClicked.Invoke(characterButtonList[0]);
         }
 
@@ -34,9 +38,10 @@ namespace RPG.Core.UI
                     button.Group.alpha = 0.5f;
                 }
             }
-            SelectedCharacterName.text = selectedButton.modelName;
+            SelectedCharacterName.text = selectedButton.PlayerData.Name;
             selectedButton.Group.alpha = 1f;
-            SelectCharacterPrefabPath = selectedButton.modelPrefabPath;
+            // description;
+            SelectedCharacterId = selectedButton.CharacterModelId;
         }
 
         public override void Close()

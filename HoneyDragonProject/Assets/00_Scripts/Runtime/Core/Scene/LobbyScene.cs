@@ -18,7 +18,7 @@ namespace RPG.Core.Scene
 
         public void OnClick_PlayButton()
         {
-            Managers.Instance.Game.PlayerModelResourcePath = startGameUi.SelectCharacterPrefabPath;
+            Managers.Instance.Game.selectedCharacterId = startGameUi.SelectedCharacterId;
             SceneManager.LoadScene((int)SceneType.Game);
         }
     }

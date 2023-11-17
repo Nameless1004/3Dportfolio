@@ -1,10 +1,4 @@
-﻿using RPG.AI.BehaviourTree;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RPG.Combat.AI.BehaviourTree.Node
 {
@@ -14,6 +8,10 @@ namespace RPG.Combat.AI.BehaviourTree.Node
         public RepeaterNode(NodeBase repeatedNode) 
         {
             Child = repeatedNode;
+        }
+
+        protected override void OnAwake()
+        {
         }
 
         protected override void OnEnd()

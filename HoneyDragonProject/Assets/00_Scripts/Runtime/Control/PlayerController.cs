@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using RPG.Combat;
+using RPG.Core.Data;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,12 +22,16 @@ namespace RPG.Control
         public bool initialized = false;
 
         // 플레이어 모델 생성해주고 바인딩
-        public void Init()
+        public void Init(PlayerData playerData)
         {
             rig = GetComponent<Rigidbody>();
             input = GetComponent<PlayerInput>();
             animator = GetComponentInChildren<Animator>();
-
+            moveSpeed = playerData.MoveSpeed;
+            GetComponent<Health>().OnDie += () => {
+                rig.velocity = Vector3.zero;
+                Destroy(this);
+                };
             initialized = true;
         }
 

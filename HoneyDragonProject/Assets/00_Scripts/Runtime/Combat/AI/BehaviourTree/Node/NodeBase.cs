@@ -1,16 +1,11 @@
-﻿using Cysharp.Threading.Tasks;
-using RPG.AI.BehaviourTree;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using UnityEngine;
 
 namespace RPG.Combat.AI.BehaviourTree.Node
 {
     public enum NodeState
     {
+        None,
         Success,
         Failure,
         Running
@@ -28,6 +23,11 @@ namespace RPG.Combat.AI.BehaviourTree.Node
         [HideInInspector] public Blackboard blackboard;
         public BehaviourTree tree;
 
+        private void Awake()
+        {
+            OnAwake();
+        }
+
         public virtual NodeState Evaluate()
         {
             tree.currentExecutionNode = this;
@@ -39,7 +39,7 @@ namespace RPG.Combat.AI.BehaviourTree.Node
 
             State = OnUpdate();
 
-            if(State == NodeState.Success || State == NodeState.Failure)
+            if (State == NodeState.Success || State == NodeState.Failure)
             {
                 Started = false;
                 OnEnd();
@@ -47,7 +47,15 @@ namespace RPG.Combat.AI.BehaviourTree.Node
 
             return State;
         }
-        
+
+        /// <summary>
+        /// 한 번만 실행되는 초기화 함수입니다.
+        /// </summary>
+        protected abstract void OnAwake();
+
+        /// <summary>
+        /// OnEnd() 호출을 했다면 다음 노드를 실행할 때 OnStart가 호출됩니다
+        /// </summary>
         protected abstract void OnStart();
         protected abstract void OnEnd();
         // 노드 평가 함수
