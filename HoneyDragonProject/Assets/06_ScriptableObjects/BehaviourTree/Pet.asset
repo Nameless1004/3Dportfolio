@@ -1,43 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8607207676134616384
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba4f8588d88ebd54b81e20fcbd6e2743, type: 3}
-  m_Name: IsRootObjectInPetRange
-  m_EditorClassIdentifier: 
-  State: 3
-  Started: 0
-  guid: 030d09c104b24b04e8bd3c4363928756
-  position: {x: -50.400024, y: 278.39996}
-  tree: {fileID: 0}
-  Child: {fileID: 7252590914459900526}
-  Owner: {fileID: 0}
-  PetRange: 0
---- !u!114 &-2905706172776116963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7ae0c9e621d4af4b81a12642293d9d6, type: 3}
-  m_Name: FollowPlayer
-  m_EditorClassIdentifier: 
-  State: 2
-  Started: 0
-  guid: 9e2740a6fae9e9b4b8c7ab557c12509a
-  position: {x: -328.28973, y: 418.3675}
-  tree: {fileID: 0}
---- !u!114 &-581396691485238824
+--- !u!114 &-7453042317635541555
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -47,14 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a74269171b40fa5419482e0ce2183ebd, type: 3}
-  m_Name: RootNode
+  m_Name: Root
   m_EditorClassIdentifier: 
-  State: 2
+  State: 3
   Started: 0
-  guid: b68f4a6f408b51440ac66c93bede5195
-  position: {x: 0, y: 0}
+  guid: 6df3a8bad2007054f976dbf0773a4d14
+  position: {x: 54, y: -45}
   tree: {fileID: 0}
-  Child: {fileID: 3681213828720320193}
+  Parent: {fileID: 0}
+  Child: {fileID: -4269242668685629535}
+--- !u!114 &-4269242668685629535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73f62c0aa34e24e48a496893d8f81a4a, type: 3}
+  m_Name: IsMouseButtonDown
+  m_EditorClassIdentifier: 
+  State: 3
+  Started: 0
+  guid: 1561eba979105694bb5f347f940d1a45
+  position: {x: -32.5, y: 120}
+  tree: {fileID: 0}
+  Parent: {fileID: 0}
+  button: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,72 +50,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a59533ee4f74d5144b6a6c1afc57cc13, type: 3}
   m_Name: Pet
   m_EditorClassIdentifier: 
-  root: {fileID: -581396691485238824}
+  root: {fileID: -7453042317635541555}
   owner: {fileID: 0}
   nodes:
-  - {fileID: -581396691485238824}
-  - {fileID: 3681213828720320193}
-  - {fileID: 6409270603832076571}
-  - {fileID: -2905706172776116963}
-  - {fileID: -8607207676134616384}
-  - {fileID: 7252590914459900526}
+  - {fileID: -7453042317635541555}
+  - {fileID: -4269242668685629535}
   currentExecutionNode: {fileID: 0}
---- !u!114 &3681213828720320193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32fe34f41d324404bb5d4909e3454e0d, type: 3}
-  m_Name: SequenceNode
-  m_EditorClassIdentifier: 
-  State: 2
-  Started: 0
-  guid: a916afa29b9fd5641ad8491404ab3bb0
-  position: {x: 0.00014125061, y: 116.48999}
-  tree: {fileID: 0}
-  Children:
-  - {fileID: 6409270603832076571}
-  - {fileID: -8607207676134616384}
---- !u!114 &6409270603832076571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 783d46667d98a5e40863ecd035d085f4, type: 3}
-  m_Name: IsPetOutOfPlayerRange
-  m_EditorClassIdentifier: 
-  State: 2
-  Started: 0
-  guid: 12400eb08ff6dbc41b340ab1e8fb03ed
-  position: {x: -352, y: 278.39996}
-  tree: {fileID: 0}
-  Child: {fileID: -2905706172776116963}
---- !u!114 &7252590914459900526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4f47c08a0caced47b1fd15b81c82ebb, type: 3}
-  m_Name: MoveToRootObject
-  m_EditorClassIdentifier: 
-  State: 3
-  Started: 0
-  guid: c653c3a29a6ec2b47a77f0f83795caea
-  position: {x: -30.599976, y: 407}
-  tree: {fileID: 0}
-  owner: {fileID: 0}
-  lootObject: {fileID: 0}
-  moveSpeed: 0
-  pickupRange: 0
+  BehaviourTreeState: 3

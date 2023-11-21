@@ -1,17 +1,20 @@
 using RPG.Combat.AI.BehaviourTree;
 using RPG.Combat.AI.BehaviourTree.Node;
+using RPG.Core.Item;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
+using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.UIElements;
 
 public class BehaviourTreeView : GraphView
 {
     public Action<NodeView> OnNodeSelected;
-    public new class UxmlFactory : UxmlFactory<BehaviourTreeView, UxmlTraits>{}
-    BehaviourTree tree;
+    public new class UxmlFactory : UxmlFactory<BehaviourTreeView, UxmlTraits> { }
+    public BehaviourTree tree;
     public BehaviourTreeView()
     {
         Insert(0, new GridBackground());
@@ -44,7 +47,7 @@ public class BehaviourTreeView : GraphView
         DeleteElements(graphElements);
         graphViewChanged += OnGraphViewChanged;
 
-        if(tree.root == null)
+        if (tree.root == null)
         {
             tree.root = tree.CreateNode(typeof(RootNode)) as RootNode;
             EditorUtility.SetDirty(tree);
@@ -72,24 +75,25 @@ public class BehaviourTreeView : GraphView
     public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
     {
         return ports.ToList().Where(endPort =>
-        endPort.direction != startPort.direction && 
+        endPort.direction != startPort.direction &&
         endPort.node != startPort.node).ToList();
     }
 
+    
     private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
     {
-        if(graphViewChange.elementsToRemove != null)
+        if (graphViewChange.elementsToRemove != null)
         {
             graphViewChange.elementsToRemove.ForEach(elem =>
             {
                 NodeView nodeView = elem as NodeView;
-                if(nodeView != null)
+                if (nodeView != null)
                 {
                     tree.DeleteNode(nodeView.node);
                 }
 
                 Edge edge = elem as Edge;
-                if(edge != null)
+                if (edge != null)
                 {
                     NodeView parentView = edge.output.node as NodeView;
                     NodeView childView = edge.input.node as NodeView;
@@ -98,7 +102,7 @@ public class BehaviourTreeView : GraphView
             });
         }
 
-        if(graphViewChange.edgesToCreate != null)
+        if (graphViewChange.edgesToCreate != null)
         {
             graphViewChange.edgesToCreate.ForEach(edge =>
             {
@@ -108,7 +112,7 @@ public class BehaviourTreeView : GraphView
             });
         }
 
-        if(graphViewChange.movedElements != null)
+        if (graphViewChange.movedElements != null)
         {
             nodes.ForEach(node =>
             {
@@ -121,12 +125,12 @@ public class BehaviourTreeView : GraphView
 
     public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
     {
-
         {
             var types = TypeCache.GetTypesDerivedFrom<ActionNode>();
-            foreach(var type in types)
+            foreach (var type in types)
             {
-                evt.menu.AppendAction($"[{type.BaseType.Name}] {type.Name}", (a) => CreateNode(type));
+                string typeName = type.Name.Replace("Node", "");
+                evt.menu.AppendAction($"{type.BaseType.Name}/{typeName}", (a) => CreateNode(type));
             }
         }
 
@@ -134,7 +138,8 @@ public class BehaviourTreeView : GraphView
             var types = TypeCache.GetTypesDerivedFrom<CompositeNode>();
             foreach (var type in types)
             {
-                evt.menu.AppendAction($"[{type.BaseType.Name}] {type.Name}", (a) => CreateNode(type));
+                string typeName = type.Name.Replace("Node", "");
+                evt.menu.AppendAction($"{type.BaseType.Name}/{typeName}", (a) => CreateNode(type));
             }
         }
 
@@ -142,7 +147,8 @@ public class BehaviourTreeView : GraphView
             var types = TypeCache.GetTypesDerivedFrom<DecoratorNode>();
             foreach (var type in types)
             {
-                evt.menu.AppendAction($"[{type.BaseType.Name}] {type.Name}", (a) => CreateNode(type));
+                string typeName = type.Name.Replace("Node", "");
+                evt.menu.AppendAction($"{type.BaseType.Name}/{typeName}", (a) => CreateNode(type));
             }
         }
 
@@ -150,9 +156,20 @@ public class BehaviourTreeView : GraphView
             var types = TypeCache.GetTypesDerivedFrom<RootNode>();
             foreach (var type in types)
             {
-                evt.menu.AppendAction($"[{type.BaseType.Name}] {type.Name}", (a) => CreateNode(type));
+                string typeName = type.Name.Replace("Node", "");
+                evt.menu.AppendAction($"{type.BaseType.Name}/{typeName}", (a) => CreateNode(type));
             }
         }
+
+        {
+            var types = TypeCache.GetTypesDerivedFrom<ConditionalNode>();
+            foreach (var type in types)
+            {
+                string typeName = type.Name.Replace("Node", "");
+                evt.menu.AppendAction($"{type.BaseType.Name}/{typeName}", (a) => CreateNode(type));
+            }
+        }
+
 
 
     }
@@ -177,5 +194,6 @@ public class BehaviourTreeView : GraphView
             NodeView view = n as NodeView;
             view.UpdateState();
         });
+
     }
 }

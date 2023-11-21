@@ -23,6 +23,7 @@ namespace RPG.Combat.AI.BehaviourTree
         }
 
         Dictionary<string, object> dataContext = new Dictionary<string, object>();
+        public Dictionary<string, object> GetDataContext() => dataContext;
 
         public void SetData(string key, object value)
         {

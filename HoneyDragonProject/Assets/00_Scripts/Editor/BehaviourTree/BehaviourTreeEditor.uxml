@@ -4,9 +4,11 @@
         <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" text="Assets" />
     </uie:Toolbar>
     <SplitView fixed-pane-initial-dimension="300">
-        <ui:VisualElement name="left-panel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
-            <ui:Label tabindex="-1" text="Inspector" display-tooltip-when-elided="true" style="background-color: rgb(32, 32, 32);" />
-            <InspectorView />
+        <ui:VisualElement name="left-panel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 363px; flex-shrink: 0; align-items: stretch; justify-content: flex-start; flex-basis: auto; align-self: auto;">
+            <ui:Label tabindex="-1" text="InspectorView" display-tooltip-when-elided="true" picking-mode="Ignore" style="background-color: rgb(32, 32, 32);" />
+            <InspectorView style="border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(94, 94, 94); border-right-color: rgb(94, 94, 94); border-top-color: rgb(94, 94, 94); border-bottom-color: rgb(94, 94, 94); position: relative; flex-grow: 0; flex-basis: auto; max-width: none; align-items: stretch; height: auto;" />
+            <ui:Label tabindex="-1" text="BlackboardView" display-tooltip-when-elided="true" picking-mode="Ignore" style="background-color: rgb(32, 32, 32); height: auto; width: auto;" />
+            <BlackboardView name="BlackboardView" style="border-left-color: rgb(94, 94, 94); border-right-color: rgb(94, 94, 94); border-top-color: rgb(94, 94, 94); border-bottom-color: rgb(94, 94, 94); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; position: relative; left: auto; top: auto; right: auto; bottom: auto; background-color: rgba(0, 0, 0, 0); flex-grow: 0; flex-basis: auto;" />
         </ui:VisualElement>
         <ui:VisualElement name="right-panel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
             <ui:Label tabindex="-1" text="Tree View" display-tooltip-when-elided="true" style="background-color: rgb(32, 32, 32);" />

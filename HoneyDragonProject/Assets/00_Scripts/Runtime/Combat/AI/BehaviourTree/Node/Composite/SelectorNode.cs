@@ -5,28 +5,25 @@ namespace RPG.Combat.AI.BehaviourTree.Node
     [CreateAssetMenu(menuName = "BehaviourTree/Node/Composite/Selector")]
     public class SelectorNode : CompositeNode
     {
-        protected override void OnAwake()
-        {
-        }
-
-        protected override void OnEnd()
-        {
-        }
-
-        protected override void OnStart()
-        {
-        }
-
         protected override NodeState OnUpdate()
         {
-            for(int i= 0; i < Children.Count; ++i)
+            for (; currentChildIndex < Children.Count; currentChildIndex++)
             {
-                var childState = Children[i].Evaluate();
-                if (childState == NodeState.Success || childState == NodeState.Running)
-                    return childState;
+                if(abortedNode != null && abortedNode == Children[currentChildIndex])
+                {
+                    abortedNode = null;
+                    return NodeState.Success;
+                }
+
+                var state = Children[currentChildIndex].Evaluate();
+
+                if (state == NodeState.Success || state == NodeState.Running)
+                {
+                    return state;
+                }
             }
 
-            return NodeState.Failure; 
+            return NodeState.Failure;
         }
     }
 }

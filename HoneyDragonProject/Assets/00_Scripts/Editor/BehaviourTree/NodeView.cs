@@ -1,5 +1,6 @@
 ﻿using RPG.Combat.AI.BehaviourTree.Node;
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -19,7 +20,6 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
         this.viewDataKey = node.guid;
         style.left = node.position.x;
         style.top = node.position.y;
-
 
         CreateInputPorts();
         CreateOutputPorts();
@@ -44,11 +44,19 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
         {
             AddToClassList("root");
         }
+        else if (node is ConditionalNode)
+        {
+            AddToClassList("condition");
+        }
     }
 
     private void CreateInputPorts()
     {
-        if(node is ActionNode)
+        if (node is ActionNode)
+        {
+            input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
+        }
+        else if (node is ConditionalNode)
         {
             input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
         }
@@ -136,8 +144,10 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
         RemoveFromClassList("success");
         RemoveFromClassList("failure");
         RemoveFromClassList("running");
-        if(Application.isPlaying)
+        
+        if (Application.isPlaying)
         {
+            if (node is ConditionalNode) return;
             switch (node.State)
             {
                 case NodeState.Success:

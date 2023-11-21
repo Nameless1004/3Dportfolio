@@ -119,8 +119,8 @@
     background-color: rgb(218, 44, 56);
 }
 
-.service #input {
-    background-color: rgb(240, 128, 128);
+.condition #input {
+    background-color: rgb(17, 99, 195);
 }
 
 #node-state {

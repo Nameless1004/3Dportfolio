@@ -20,15 +20,9 @@ namespace RPG.Combat.AI.BehaviourTree.Node
             }
         }
 
-        protected override void OnAwake() { }
-
         protected override void OnStart()
         {
             elapsedTime = 0f;
-        }
-
-        protected override void OnEnd()
-        {
         }
 
     }

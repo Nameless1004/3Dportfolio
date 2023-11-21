@@ -16,13 +16,6 @@ namespace RPG.Combat.AI.BehaviourTree.Node
         private float followSpeed;
         private float playerRange;
 
-        protected override void OnAwake()
-        {
-        }
-
-        protected override void OnEnd()
-        {
-        }
 
         protected override void OnStart()
         {
@@ -41,11 +34,10 @@ namespace RPG.Combat.AI.BehaviourTree.Node
 
             // 범위 1/2에 들어오게
             float dist = player.transform.position.GetDistance(owner.position);
-            Debug.Log(dist);
-            if (player.transform.position.GetDistance(owner.position) < playerRange)
-            {
-                return NodeState.Success;
-            }
+            //if (player.transform.position.GetDistance(owner.position) < playerRange)
+            //{
+            //    return NodeState.Success;
+            //}
             return NodeState.Running;
 
         }

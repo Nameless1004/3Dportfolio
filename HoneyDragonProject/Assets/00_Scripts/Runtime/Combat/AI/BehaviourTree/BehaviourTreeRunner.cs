@@ -13,6 +13,7 @@ namespace RPG.Combat.AI.BehaviourTree
     {
         public int milliseconds;
         public BehaviourTree tree;
+        public NodeState TreeState = NodeState.Running;
 
         private bool isTreeRunning = false;
 
@@ -37,7 +38,10 @@ namespace RPG.Combat.AI.BehaviourTree
         {
             while(true)
             {
-               tree.TreeUpdate();
+                if(TreeState == NodeState.Running)
+                {
+                    TreeState = tree.TreeUpdate();
+                }
 
                 if (milliseconds > 0)
                 {

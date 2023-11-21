@@ -5,10 +5,6 @@ namespace RPG.Combat.AI.BehaviourTree.Node
     [CreateAssetMenu(menuName = "BehaviourTree/Node/Composite/RandomSelector")]
     public class RandomSelectors : CompositeNode
     {
-        protected override void OnAwake()
-        {
-        }
-
         protected override void OnEnd()
         {
         }

@@ -5,19 +5,6 @@ namespace RPG.Combat.AI.BehaviourTree.Node
     [CreateAssetMenu(menuName = "BehaviourTree/Node/Decorator/RepeatUntilFail")]
     public class RepeatUntilFailNode : DecoratorNode
     {
-        protected override void OnAwake()
-        {
-        }
-
-        protected override void OnEnd()
-        {
-
-        }
-
-        protected override void OnStart()
-        {
-
-        }
 
         protected override NodeState OnUpdate()
         {

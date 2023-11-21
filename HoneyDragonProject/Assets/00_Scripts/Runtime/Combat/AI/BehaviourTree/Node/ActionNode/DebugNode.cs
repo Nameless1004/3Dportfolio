@@ -20,9 +20,5 @@ namespace RPG.Combat.AI.BehaviourTree.Node
         protected override void OnEnd()
         {
         }
-
-        protected override void OnAwake()
-        {
-        }
     }
 }

@@ -9,14 +9,6 @@
             return Child.Evaluate();
         }
 
-        protected override void OnStart()
-        {
-        }
-
-        protected override void OnEnd()
-        {
-        }
-
         public override NodeBase Clone()
         {
             RootNode root = Instantiate(this);
@@ -24,8 +16,5 @@
             return root;
         }
 
-        protected override void OnAwake()
-        {
-        }
     }
 }

@@ -22,11 +22,7 @@ namespace RPG.Combat.AI.BehaviourTree.Node
         [HideInInspector] public Vector2 position;
         [HideInInspector] public Blackboard blackboard;
         public BehaviourTree tree;
-
-        private void Awake()
-        {
-            OnAwake();
-        }
+        public NodeBase Parent = null;
 
         public virtual NodeState Evaluate()
         {
@@ -51,13 +47,19 @@ namespace RPG.Combat.AI.BehaviourTree.Node
         /// <summary>
         /// 한 번만 실행되는 초기화 함수입니다.
         /// </summary>
-        protected abstract void OnAwake();
+        public virtual void OnAwake() { }
 
         /// <summary>
         /// OnEnd() 호출을 했다면 다음 노드를 실행할 때 OnStart가 호출됩니다
         /// </summary>
-        protected abstract void OnStart();
-        protected abstract void OnEnd();
+        protected virtual void OnStart(){}
+        protected virtual void OnEnd() { }
+
+        public virtual void OnAbort()
+        {
+            OnEnd();
+        }
+
         // 노드 평가 함수
         protected abstract NodeState OnUpdate();
 

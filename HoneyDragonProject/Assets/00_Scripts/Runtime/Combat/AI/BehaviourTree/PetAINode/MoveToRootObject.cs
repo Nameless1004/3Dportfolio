@@ -16,14 +16,6 @@ namespace RPG.Combat.AI.BehaviourTree.Node
         public float moveSpeed;
         public float pickupRange;
 
-        protected override void OnAwake()
-        {
-        }
-
-        protected override void OnEnd()
-        {
-        }
-
         protected override void OnStart()
         {
             lootObject = blackboard["LootObject"] as GameObject;

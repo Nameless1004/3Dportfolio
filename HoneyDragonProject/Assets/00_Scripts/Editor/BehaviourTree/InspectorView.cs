@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RPG.Combat.AI.BehaviourTree.Node;
+using System;
 using UnityEditor;
 using UnityEngine.UIElements;
 
@@ -14,12 +15,15 @@ public class InspectorView : VisualElement
         Clear();
         UnityEngine.Object.DestroyImmediate(editor);
         editor = Editor.CreateEditor(nodeView.node);
-        IMGUIContainer container = new IMGUIContainer(()=>{
-            if (editor.target)
-            {
-                editor.OnInspectorGUI();
-            }
-        });
-        Add(container);
+        if(editor != null )
+        {
+            IMGUIContainer container = new IMGUIContainer(()=>{
+                if (editor.target)
+                {
+                    editor.OnInspectorGUI();
+                }
+            });
+            Add(container);
+        }
     }
 }

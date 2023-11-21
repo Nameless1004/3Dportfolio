@@ -9,6 +9,7 @@ public class BehaviourTreeEditor : EditorWindow
 {
     BehaviourTreeView treeView;
     InspectorView inspectorView;
+    BlackboardView blackboardView;
 
     [MenuItem("BehaviourTree/Editor ...")]
     public static void OpenWindow()
@@ -44,6 +45,8 @@ public class BehaviourTreeEditor : EditorWindow
 
         treeView = root.Q<BehaviourTreeView>();
         inspectorView= root.Q<InspectorView>();
+        blackboardView = root.Q<BlackboardView>();
+
         treeView.OnNodeSelected = OnNodeSelectionChanged;
         OnSelectionChange();
     }
@@ -115,5 +118,6 @@ public class BehaviourTreeEditor : EditorWindow
     private void OnInspectorUpdate()
     {
         treeView?.UpdateNodeState();
+        blackboardView.UpdateBlackboard(treeView);
     }
 }

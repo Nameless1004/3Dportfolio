@@ -2,18 +2,6 @@
 {
     public class Inverter : DecoratorNode
     {
-        protected override void OnAwake()
-        {
-        }
-
-        protected override void OnEnd()
-        {
-        }
-
-        protected override void OnStart()
-        {
-        }
-
         protected override NodeState OnUpdate()
         {
             var stat = Child.Evaluate();

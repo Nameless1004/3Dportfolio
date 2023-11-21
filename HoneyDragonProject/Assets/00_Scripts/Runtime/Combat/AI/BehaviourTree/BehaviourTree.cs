@@ -1,6 +1,7 @@
 using RPG.Combat.AI.BehaviourTree.Node;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,16 +12,26 @@ namespace RPG.Combat.AI.BehaviourTree
         public RootNode root;
         public GameObject owner;
         protected Blackboard blackboard;
+        public Blackboard Blackboard { get { return blackboard; } }
         public List<NodeBase> nodes = new List<NodeBase>();
 
         public NodeBase currentExecutionNode;
+        public NodeState BehaviourTreeState = NodeState.Running;
 
 
         protected abstract void CreateBlackboard(GameObject owner);
 
         public NodeState TreeUpdate()
         {
-            return root.Evaluate();
+            if (BehaviourTreeState == NodeState.Running)
+            {
+                BehaviourTreeState = root.Evaluate();
+            }
+            else
+            {
+                BehaviourTreeState = NodeState.Failure;
+            }
+            return BehaviourTreeState;
         }
 
         public void Traverse(NodeBase node, Action<NodeBase> visiter)
@@ -43,6 +54,7 @@ namespace RPG.Combat.AI.BehaviourTree
                 tree.nodes.Add(n);
                 n.name = n.GetType().Name;
                 n.tree = this;
+                n.OnAwake();
             });
 
             return tree;
@@ -51,7 +63,7 @@ namespace RPG.Combat.AI.BehaviourTree
         // 오너 게임오브젝트도 등록
         public void Bind(GameObject owner)
         {
-            if(blackboard == null)
+            if (blackboard == null)
             {
                 CreateBlackboard(owner);
             }
@@ -63,11 +75,11 @@ namespace RPG.Combat.AI.BehaviourTree
 
         }
 
-//#if UNITY_EDITOR
+        //#if UNITY_EDITOR
         public NodeBase CreateNode(Type type)
         {
             NodeBase node = ScriptableObject.CreateInstance(type) as NodeBase;
-            node.name = type.Name;
+            node.name = type.Name.Replace("Node","");
             node.guid = GUID.Generate().ToString();
 
             Undo.RecordObject(this, "Behaviour Tree(CreateNode)");
@@ -87,7 +99,7 @@ namespace RPG.Combat.AI.BehaviourTree
         {
             Undo.RecordObject(this, "Behaviour Tree(DeleteNode)");
             nodes.Remove(node);
-            //AssetDatabase.RemoveObjectFromAsset(node);
+
             Undo.DestroyObjectImmediate(node);
             AssetDatabase.SaveAssets();
         }
@@ -121,6 +133,7 @@ namespace RPG.Combat.AI.BehaviourTree
 
         public void RemoveChild(NodeBase parent, NodeBase child)
         {
+            child.Parent = null;
             DecoratorNode decorator = parent as DecoratorNode;
             if (decorator)
             {
@@ -146,7 +159,8 @@ namespace RPG.Combat.AI.BehaviourTree
                 EditorUtility.SetDirty(composite);
             }
         }
-//#endif
+
+        //#endif
 
         public List<NodeBase> GetChildren(NodeBase parent)
         {
@@ -167,7 +181,7 @@ namespace RPG.Combat.AI.BehaviourTree
             CompositeNode composite = parent as CompositeNode;
             if (composite && composite.Children != null)
             {
-                return composite.Children;
+                children.AddRange(composite.Children.ToList());
             }
             return children;
         }
