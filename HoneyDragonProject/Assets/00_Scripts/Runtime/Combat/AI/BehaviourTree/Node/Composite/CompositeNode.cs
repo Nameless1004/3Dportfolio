@@ -94,7 +94,7 @@ namespace RPG.Combat.AI.BehaviourTree.Node
         }
 
         // -1이면 node가 자식에 없는 것
-        public int GetChildIndex(NodeBase node)
+        protected virtual int GetChildIndex(NodeBase node)
         {
             for (int i = 0; i < Children.Count; ++i)
             {
@@ -107,7 +107,7 @@ namespace RPG.Combat.AI.BehaviourTree.Node
             return -1;
         }
 
-        private bool IsContains(NodeBase findNode, NodeBase compareNode, int index)
+        protected bool IsContains(NodeBase findNode, NodeBase compareNode, int index)
         {
             if (findNode == compareNode) return true;
             if (compareNode is DecoratorNode)
@@ -131,8 +131,8 @@ namespace RPG.Combat.AI.BehaviourTree.Node
         {
             if(abortedNode != null)
             {
-                int index = GetChildIndex(abortedNode);
-                currentChildIndex = index;
+                Children[currentChildIndex].OnAbort();
+                currentChildIndex = GetChildIndex(abortedNode);
             }
         }
 
@@ -152,7 +152,7 @@ namespace RPG.Combat.AI.BehaviourTree.Node
             // 중단된 노드의 인덱스로 이동
             if(abortedNode != null)
             {
-                currentChildIndex = GetChildIndex(abortedNode);
+                OnAbort();
             }
 
             State = OnUpdate();

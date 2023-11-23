@@ -16,6 +16,8 @@
 
 #input {
     align-items: center;
+    background-image: none;
+    flex-grow: 1;
 }
 
 #output {
@@ -159,6 +161,8 @@
     border-bottom-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    transition-property: background-color;
+    transition-duration: 1s;
 }
 
 .success #node-state {
@@ -175,6 +179,10 @@
     border-bottom-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    transition-property: background-color;
+    transition-duration: 1s;
+    transition-delay: 0s;
+    background-image: url('project://database/Assets/@PackageFiles/AwesomeFolders/Editor/Textures/Styles/Custom/-1;21;Linux_16.png?fileID=2800000&guid=1c5c7962ca043144c9d91840d3f91ef5&type=3#-1;21;Linux_16');
 }
 
 .failure #node-state {

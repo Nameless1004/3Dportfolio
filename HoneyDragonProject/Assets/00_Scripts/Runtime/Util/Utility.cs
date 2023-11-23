@@ -1,6 +1,7 @@
 ﻿using RPG.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
@@ -115,6 +116,39 @@ namespace RPG.Util
 
     public static class Utility
     {
+        /// <summary>
+        /// Durstenfeld 셔플 알고리즘을 사용합니다.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        public static void Shuffle<T>(List<T> list)
+        {
+            for(int i = list.Count - 1; i >= 0; i--)
+            {
+                int randomIndex = UnityEngine.Random.Range(0, i + 1);
+
+                T temp = list[randomIndex];
+                list[randomIndex] = list[i];
+                list[i] = temp;
+            }
+        }
+
+        /// <summary>
+        /// Durstenfeld 셔플 알고리즘을 사용합니다.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array"></param>
+        public static void Shuffle<T>(T[] array)
+        {
+            for (int i = array.Length - 1; i >= 0; i--)
+            {
+                int randomIndex = UnityEngine.Random.Range(0, i + 1);
+
+                T temp = array[randomIndex];
+                array[randomIndex] = array[i];
+                array[i] = temp;
+            }
+        }
 
         public static Transform FindNearestObject(Transform initiator, float range, int layerMask)
         {
