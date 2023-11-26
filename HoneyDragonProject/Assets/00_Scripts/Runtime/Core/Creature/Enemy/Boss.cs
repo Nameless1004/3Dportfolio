@@ -18,6 +18,7 @@ namespace RPG.Core
             Target = Managers.Instance.Game.CurrentPlayer;
             // temp
             Data = Managers.Instance.Data.BossDataDict[10000];
+            SetHp(Data.Hp);
         }
 
         private void OnEnable()
@@ -34,6 +35,7 @@ namespace RPG.Core
         protected override void OnDie()
         {
             // Managers.Instance.Loot.Spawn(LootSpawManager.LootType.Exp, transform.position);
+            Destroy(gameObject);
         }
 
         public bool IsTargetInAttackRange()

@@ -50,7 +50,7 @@ public class GridController : MonoBehaviour
         InitializedFlowField();
         while (true)
         {
-            if (Managers.Instance.Game.GameScene.Player != null)
+            if (Managers.Instance.Game.GameScene && Managers.Instance.Game.GameScene.Player)
             {
                 Cell destinationCell = CurFlowField.GetCellFromWorldPos(Managers.Instance.Game.GameScene.Player.transform.position);
                 if (prevDestCell == destinationCell)

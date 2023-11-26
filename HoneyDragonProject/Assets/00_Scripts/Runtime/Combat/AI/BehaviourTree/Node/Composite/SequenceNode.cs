@@ -5,18 +5,14 @@ using static Unity.VisualScripting.Metadata;
 
 namespace RPG.Combat.AI.BehaviourTree.Node
 {
-    public class SequenceNode : CompositeNode
+    [Description("모든 자식이 성공하면 Success\n하나라도 실패한다면 Failure 반환")]
+    public class SequenceNode : Composite
     {
         protected override NodeState OnUpdate()
         {
             for (; currentChildIndex < Children.Count; currentChildIndex++)
             {
-                if (abortedNode == Children[currentChildIndex])
-                {
-                    abortedNode.State = NodeState.Success;
-                    abortedNode = null;
-                    continue;
-                }
+                if (Children[currentChildIndex] is Conditional) continue;
 
                 var state = Children[currentChildIndex].Evaluate();
 

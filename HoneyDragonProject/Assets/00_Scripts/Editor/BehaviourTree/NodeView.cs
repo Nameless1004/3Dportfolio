@@ -1,6 +1,7 @@
-﻿using RPG.Combat.AI.BehaviourTree.Node;
+﻿using RPG.Combat.AI.BehaviourTree;
+using RPG.Combat.AI.BehaviourTree.Node;
 using System;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -12,9 +13,21 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
     public NodeBase node;
     public Port input;
     public Port output;
-
+    public Label descriptionLabel;
     public NodeView(NodeBase node) : base("Assets/00_Scripts/Editor/BehaviourTree/NodeView.uxml")
     {
+        var fold = mainContainer.Q<Foldout>();
+        var desc = (DescriptionAttribute)node.GetType().GetCustomAttribute(typeof(DescriptionAttribute));
+        if(desc != null )
+        {
+            fold.SetEnabled(true);
+            fold.value = false;
+            fold.contentContainer.Add(new Label(desc.Description));
+        }
+        else
+        {
+            fold.SetEnabled(false);
+        }
         this.node = node;
         this.title = node.name;
         this.viewDataKey = node.guid;
@@ -26,25 +39,39 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
         SetupClasses();
     }
 
+    public NodeView(NodeBase node, Vector2 pos) : base("Assets/00_Scripts/Editor/BehaviourTree/NodeView.uxml")
+    {
+        this.capabilities &= ~(Capabilities.Snappable);
+        this.node = node;
+        this.title = node.name;
+        this.viewDataKey = node.guid;
+        style.left = pos.x;
+        style.top = pos.y;
+
+        CreateInputPorts();
+        CreateOutputPorts();
+        SetupClasses();
+    }
+
     private void SetupClasses()
     {
-        if (node is ActionNode)
+        if (node is RPG.Combat.AI.BehaviourTree.Node.Action)
         {
             AddToClassList("action");
         }
-        else if (node is CompositeNode)
+        else if (node is Composite)
         {
             AddToClassList("composite");
         }
-        else if (node is DecoratorNode)
+        else if (node is Decorator)
         {
             AddToClassList("decorator");
         }
-        else if (node is RootNode)
+        else if (node is Root)
         {
             AddToClassList("root");
         }
-        else if (node is ConditionalNode)
+        else if (node is Conditional)
         {
             AddToClassList("condition");
         }
@@ -52,23 +79,23 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
 
     private void CreateInputPorts()
     {
-        if (node is ActionNode)
+        if (node is RPG.Combat.AI.BehaviourTree.Node.Action)
         {
-            input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
+            input = base.InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
         }
-        else if (node is ConditionalNode)
+        else if (node is Conditional)
         {
-            input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
+            input = base.InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
         }
-        else if (node is CompositeNode)
+        else if (node is Composite)
         {
-            input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
+            input = base.InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
         }
-        else if(node is DecoratorNode)
+        else if(node is Decorator)
         {
-            input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
+            input = base.InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
         }
-        else if (node is RootNode)
+        else if (node is Root)
         {
            
         }
@@ -77,32 +104,34 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
         {
             input.portName = "";
             input.style.flexDirection = FlexDirection.Column;
+            input.style.width = 100;
             inputContainer.Add(input);
         }
     }
 
     private void CreateOutputPorts()
     {
-        if (node is ActionNode)
+        if (node is RPG.Combat.AI.BehaviourTree.Node.Action)
         {
         }
-        else if (node is CompositeNode)
+        else if (node is Composite)
         {
-            output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(bool));
+            output = base.InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(bool));
         }
-        else if (node is DecoratorNode)
+        else if (node is Decorator)
         {
-            output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(bool));
+            output = base.InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(bool));
         }
-        else if (node is RootNode)
+        else if (node is Root)
         {
-            output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(bool));
+            output = base.InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(bool));
         }
 
         if (output != null)
         {
             output.portName = "";
             output.style.flexDirection = FlexDirection.ColumnReverse;
+            output.style.width = 40;
             outputContainer.Add(output);
         }
     }
@@ -127,7 +156,7 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
 
     public void SortChildren()
     {
-        CompositeNode composite = node as CompositeNode;
+        Composite composite = node as Composite;
         if(composite)
         {
             composite.Children.Sort(SortByHorizontalPosition);
@@ -147,7 +176,7 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
         
         if (Application.isPlaying)
         {
-            if (node is ConditionalNode) return;
+            if (node is Conditional) return;
             switch (node.State)
             {
                 case NodeState.Success:

@@ -1,5 +1,6 @@
 using RPG.Combat.AI.BehaviourTree;
 using System;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
@@ -7,9 +8,10 @@ using UnityEngine.UIElements;
 
 public class BehaviourTreeEditor : EditorWindow
 {
-    BehaviourTreeView treeView;
-    InspectorView inspectorView;
-    BlackboardView blackboardView;
+    public static BehaviourTreeEditor Instance;
+    [HideInInspector] public BehaviourTreeView treeView;
+    [HideInInspector] public InspectorView inspectorView;
+    [HideInInspector] public BlackboardView blackboardView;
 
     [MenuItem("BehaviourTree/Editor ...")]
     public static void OpenWindow()
@@ -32,6 +34,7 @@ public class BehaviourTreeEditor : EditorWindow
 
     public void CreateGUI()
     {
+        Instance = this;
         // Each editor window contains a root VisualElement object
         VisualElement root = rootVisualElement;
 

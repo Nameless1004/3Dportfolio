@@ -25,11 +25,6 @@ namespace RPG.Control
             SkillDict = new Dictionary<int, SkillBase>();
             SkillList = new List<SkillBase>();
             owner = GetComponent<Player>();
-            GetComponent<Health>().OnDie += () =>
-            {
-                DestroySkill();
-                Destroy(this);
-            };
         }
 
         private void Start()

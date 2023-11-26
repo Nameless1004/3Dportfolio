@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using RPG.Combat;
 using RPG.Core.Manager;
 using RPG.Core.UI;
 using RPG.Util;
@@ -25,13 +26,16 @@ namespace RPG.Core.Scene
         [field: SerializeField] public Camera MainCamera { get; set; }
         // [field: SerializeField] public MinimapCameraMovement MinimapCamera { get; set; }
         [field: SerializeField] public CinemachineVirtualCamera MainVirtualCam { get; set; }
+        [field: SerializeField] public CinemachineVirtualCamera CharacterFaceCam { get; set; }
 
         private MonsterSpawner monsterSpawner;
         public MonsterSpawner MonsterSpawner => monsterSpawner;
 
         public event Action<float> OnTimeChanged;
+        public event Action OnGameClear;
         public float GameElapsedTime => gameElapsedTime;
         private float gameElapsedTime = 0f;
+        private bool isStopTimer = false;
         
         public override void Clear()
         {
@@ -46,8 +50,8 @@ namespace RPG.Core.Scene
             Managers.Instance.Game.GameScene = this;
             monsterSpawner = FindObjectOfType<MonsterSpawner>();
             currentPlayer = CreatePlayer(Managers.Instance.Game.selectedCharacterId);
-
-            // r
+            currentPlayer.GetComponent<Health>().OnDie += StopTimer;
+            
             Managers.Instance.Stage.InitStage(1);
             monsterSpawner.OnStageChanged(1);
             monsterSpawner.SetMapBoundData(Managers.Instance.Stage.CurrentStage.Grid);
@@ -73,10 +77,6 @@ namespace RPG.Core.Scene
 
 
             MainCamera = Camera.main;
-            var vcams = MonoBehaviour.FindObjectsOfType<CinemachineVirtualCamera>(true);
-            MainVirtualCam = vcams[0];
-            vcams[0].gameObject.SetActive(true);
-            vcams[1].gameObject.SetActive(false);
 
             MainVirtualCam.transform.position = currentPlayer.transform.position + (Vector3.up * 30f);
             MainVirtualCam.Follow = currentPlayer.transform;
@@ -87,8 +87,30 @@ namespace RPG.Core.Scene
 
         private void Update()
         {
-            gameElapsedTime = Time.timeSinceLevelLoad;
-            OnTimeChanged?.Invoke(gameElapsedTime);
+            if(isStopTimer == false)
+            {
+                gameElapsedTime += Time.deltaTime;
+                OnTimeChanged?.Invoke(gameElapsedTime);
+            }
+            if(Input.GetKeyDown(KeyCode.Q)) 
+            {
+                MainVirtualCam.gameObject.SetActive(false);
+                CharacterFaceCam.gameObject.SetActive(true);
+                CharacterFaceCam.transform.position = currentPlayer.position + currentPlayer.forward * 3f + Vector3.up * 1.5f;
+                CharacterFaceCam.LookAt = currentPlayer.transform;
+            }
+
+        }
+
+        private void StopTimer()
+        {
+            isStopTimer = true;
+        }
+
+        public void GameClear()
+        {
+            Debug.Log("GameClear");
+            OnGameClear?.Invoke();
         }
     }
 }

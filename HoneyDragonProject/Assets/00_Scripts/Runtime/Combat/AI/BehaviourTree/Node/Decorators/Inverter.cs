@@ -1,6 +1,6 @@
 ﻿namespace RPG.Combat.AI.BehaviourTree.Node
 {
-    public class Inverter : DecoratorNode
+    public class Inverter : Decorator
     {
         protected override NodeState OnUpdate()
         {

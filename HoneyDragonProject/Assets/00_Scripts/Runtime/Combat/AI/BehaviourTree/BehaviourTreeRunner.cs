@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace RPG.Combat.AI.BehaviourTree
 {
@@ -15,20 +16,22 @@ namespace RPG.Combat.AI.BehaviourTree
         public BehaviourTree tree;
         public NodeState TreeState = NodeState.Running;
 
+        private GameObject owner;
         private bool isTreeRunning = false;
 
-        public void TreeInit()
+        public void TreeInit(GameObject ownerObject)
         {
+            owner = ownerObject;
             isTreeRunning = true;
             tree = tree.Clone();
-            tree.Bind(gameObject);
+            tree.Bind(owner);
         }
 
         public void Run()
         {
             if(isTreeRunning == false)
             {
-                TreeInit();
+                TreeInit(owner);
             }
 
             TreeUpdate().Forget();

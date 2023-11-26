@@ -49,7 +49,7 @@ public class BehaviourTreeView : GraphView
 
         if (tree.root == null)
         {
-            tree.root = tree.CreateNode(typeof(RootNode)) as RootNode;
+            tree.root = tree.CreateNode(typeof(Root)) as Root;
             EditorUtility.SetDirty(tree);
             AssetDatabase.SaveAssets();
         }
@@ -125,53 +125,52 @@ public class BehaviourTreeView : GraphView
 
     public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
     {
+        Vector2 mousePosition = GUIUtility.GUIToScreenPoint(evt.mousePosition);
+
         {
-            var types = TypeCache.GetTypesDerivedFrom<ActionNode>();
+            var types = TypeCache.GetTypesDerivedFrom<RPG.Combat.AI.BehaviourTree.Node.Action>();
             foreach (var type in types)
             {
-                string typeName = type.Name.Replace("Node", "");
-                evt.menu.AppendAction($"{type.BaseType.Name}/{typeName}", (a) => CreateNode(type));
+                string typeName = type.Name;
+                evt.menu.AppendAction($"{type.BaseType.Name}/{typeName}", (a) => CreateNode(type, mousePosition));
             }
         }
 
         {
-            var types = TypeCache.GetTypesDerivedFrom<CompositeNode>();
+            var types = TypeCache.GetTypesDerivedFrom<Composite>();
             foreach (var type in types)
             {
-                string typeName = type.Name.Replace("Node", "");
-                evt.menu.AppendAction($"{type.BaseType.Name}/{typeName}", (a) => CreateNode(type));
+                string typeName = type.Name;
+                evt.menu.AppendAction($"{type.BaseType.Name}/{typeName}", (a) => CreateNode(type, mousePosition));
             }
         }
 
         {
-            var types = TypeCache.GetTypesDerivedFrom<DecoratorNode>();
+            var types = TypeCache.GetTypesDerivedFrom<Decorator>();
             foreach (var type in types)
             {
-                string typeName = type.Name.Replace("Node", "");
-                evt.menu.AppendAction($"{type.BaseType.Name}/{typeName}", (a) => CreateNode(type));
+                string typeName = type.Name;
+                evt.menu.AppendAction($"{type.BaseType.Name}/{typeName}", (a) => CreateNode(type, mousePosition));
             }
         }
 
         {
-            var types = TypeCache.GetTypesDerivedFrom<RootNode>();
+            var types = TypeCache.GetTypesDerivedFrom<Root>();
             foreach (var type in types)
             {
-                string typeName = type.Name.Replace("Node", "");
-                evt.menu.AppendAction($"{type.BaseType.Name}/{typeName}", (a) => CreateNode(type));
+                string typeName = type.Name;
+                evt.menu.AppendAction($"{type.BaseType.Name}/{typeName}", (a) => CreateNode(type, mousePosition));
             }
         }
 
         {
-            var types = TypeCache.GetTypesDerivedFrom<ConditionalNode>();
+            var types = TypeCache.GetTypesDerivedFrom<Conditional>();
             foreach (var type in types)
             {
-                string typeName = type.Name.Replace("Node", "");
-                evt.menu.AppendAction($"{type.BaseType.Name}/{typeName}", (a) => CreateNode(type));
+                string typeName = type.Name;
+                evt.menu.AppendAction($"{type.BaseType.Name}/{typeName}", (a) => CreateNode(type, mousePosition));
             }
         }
-
-
-
     }
 
     void CreateNode(Type type)
@@ -180,9 +179,27 @@ public class BehaviourTreeView : GraphView
         CreateNodeView(node);
     }
 
+    void CreateNode(Type type, Vector2 screenMousePosition)
+    {
+        NodeBase node = tree.CreateNode(type, screenMousePosition);
+        CreateNodeView(node, screenMousePosition);
+    }
+
     void CreateNodeView(NodeBase node)
     {
         NodeView nodeView = new NodeView(node);
+        nodeView.OnNodeSelected += OnNodeSelected;
+        AddElement(nodeView);
+    }
+
+    void CreateNodeView(NodeBase node, Vector2 screenMousePosition)
+    {
+        BehaviourTreeEditor editorWindow = BehaviourTreeEditor.Instance;
+        var windowMousePosition = editorWindow.rootVisualElement.ChangeCoordinatesTo(editorWindow.rootVisualElement.parent, screenMousePosition - editorWindow.position.position);
+        var graphMousePosition = editorWindow.treeView.contentViewContainer.WorldToLocal(windowMousePosition);
+        var nodeOffset = new Vector2(-75, -20);
+        var nodePosition = graphMousePosition + nodeOffset;
+        NodeView nodeView = new NodeView(node, nodePosition);
         nodeView.OnNodeSelected += OnNodeSelected;
         AddElement(nodeView);
     }

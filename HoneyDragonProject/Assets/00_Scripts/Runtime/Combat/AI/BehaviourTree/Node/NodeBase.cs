@@ -1,4 +1,5 @@
 ﻿using System;
+using UniRx;
 using UnityEngine;
 
 namespace RPG.Combat.AI.BehaviourTree.Node
@@ -11,10 +12,9 @@ namespace RPG.Combat.AI.BehaviourTree.Node
         Running
     }
 
-    public interface INode { }
-
-    [CreateAssetMenu(fileName = "Node", menuName = "Node/"), Serializable]
-    public abstract class NodeBase : ScriptableObject, INode
+    [CreateAssetMenu(fileName = "Node", menuName = "Node/"), Serializable,
+        Tooltip("노드의 베이스")]
+    public abstract class NodeBase : ScriptableObject
     {
         [HideInInspector] public NodeState State = NodeState.Running;
         [HideInInspector] public bool Started = false;

@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using RPG.Combat;
 using RPG.Core.Data;
+using RPG.Core.Manager;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,24 +16,55 @@ namespace RPG.Control
         private Vector3 direction;
         private Vector3 moveVec;
         private float currentVelocity;
-        Rigidbody rig;
-        PlayerInput input;
-        Animator animator;
+        private PlayerSkillController skillController;
+        private Rigidbody rig;
+        private PlayerInput input;
+        private Animator animator;
+        private Collider collider;
+        private Health health;
 
         public bool initialized = false;
 
         // 플레이어 모델 생성해주고 바인딩
         public void Init(PlayerData playerData)
         {
+            skillController = GetComponent<PlayerSkillController>();
             rig = GetComponent<Rigidbody>();
             input = GetComponent<PlayerInput>();
             animator = GetComponentInChildren<Animator>();
+            collider = GetComponentInChildren<Collider>();
+            health = GetComponent<Health>();
+
             moveSpeed = playerData.MoveSpeed;
-            GetComponent<Health>().OnDie += () => {
-                rig.velocity = Vector3.zero;
-                Destroy(this);
-                };
+
             initialized = true;
+
+            health.OnDie -= OnPlayerDie;
+            health.OnDie += OnPlayerDie;
+
+            Managers.Instance.Game.GameScene.OnGameClear -= OnGameClear;
+            Managers.Instance.Game.GameScene.OnGameClear += OnGameClear;
+        }
+
+        private void OnGameClear()
+        {
+            animator.SetTrigger("Victory");
+            PlayerDieProcess();
+        }
+
+        private void OnPlayerDie()
+        {
+            animator.SetTrigger("Die");
+            PlayerDieProcess();
+        }
+
+        private void PlayerDieProcess()
+        {
+            rig.velocity = Vector3.zero;
+            collider.enabled = false;
+            skillController.DestroySkill();
+            Destroy(skillController);
+            Destroy(this);
         }
 
         private void Update()

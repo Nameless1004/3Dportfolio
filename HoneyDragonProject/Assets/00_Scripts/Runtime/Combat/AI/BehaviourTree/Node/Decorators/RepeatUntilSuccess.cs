@@ -2,17 +2,15 @@
 
 namespace RPG.Combat.AI.BehaviourTree.Node
 {
-    [CreateAssetMenu(menuName = "BehaviourTree/Node/Decorator/RepeatUntilSuccess")]
-    public class RepeatUntilSuccess : DecoratorNode
+    [Description("성공할때까지 재평가")]
+    public class RepeatUntilSuccess : Decorator
     {
 
         protected override NodeState OnUpdate()
         {
-            var state = Child.Evaluate();
-
-            if(state == NodeState.Success)
+            if(Child.Evaluate() == NodeState.Success)
             {
-                return state;
+                return NodeState.Success;
             }
 
             return NodeState.Running;

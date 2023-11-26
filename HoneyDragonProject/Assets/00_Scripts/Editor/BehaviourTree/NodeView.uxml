@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="project://database/Assets/00_Scripts/Editor/BehaviourTree/NodeView.uss?fileID=7433441132597879392&amp;guid=a03591a161e51114888d90863869688f&amp;type=3#NodeView" />
     <ui:VisualElement name="node-state" picking-mode="Ignore" />
-    <ui:VisualElement name="node-border">
+    <ui:VisualElement name="node-border" style="align-items: stretch;">
         <ui:VisualElement name="contents">
             <ui:VisualElement name="top">
                 <ui:VisualElement name="input" style="flex-grow: 0; flex-direction: column;" />
@@ -14,7 +14,7 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:Label tabindex="-1" text="This is description" display-tooltip-when-elided="true" name="description" />
+                <ui:Foldout text="Description" style="display: flex; font-size: 12px;" />
                 <ui:VisualElement name="divider" class="horizontal" />
                 <ui:VisualElement name="output" style="flex-direction: column; flex-grow: 0;" />
             </ui:VisualElement>

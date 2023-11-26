@@ -7,6 +7,7 @@ using RPG.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 using Random = UnityEngine.Random;
@@ -65,13 +66,20 @@ public class MonsterSpawner : MonoBehaviour
     private void OnEnable()
     {
         Managers.Instance.Stage.OnStageChanged += OnStageChanged;
+        Managers.Instance.Game.GameScene.OnGameClear += OnGameClear;
     }
 
     private void OnDisable()
     {
         Managers.Instance.Stage.OnStageChanged -= OnStageChanged;
+        Managers.Instance.Game.GameScene.OnGameClear -= OnGameClear;
     }
 
+    public void OnGameClear()
+    {
+        ClearEnemyPool();
+        Destroy(gameObject);
+    }
     public void OnTimeChanged(float time)
     {
         if(isBossSpawned == false && time > currentStageData.BossSpawnTime)
@@ -84,7 +92,11 @@ public class MonsterSpawner : MonoBehaviour
             if (bossPrefab != null)
             {
                 var randomPos = GetRandomPositionInsideSpawnArea();
-                Instantiate(bossPrefab, randomPos, Quaternion.identity);
+                var boss = Instantiate(bossPrefab, randomPos, Quaternion.identity);
+                var bossHealth = boss.GetComponent<Health>();
+
+                bossHealth.OnDie -= Managers.Instance.Game.GameScene.GameClear;
+                bossHealth.OnDie += Managers.Instance.Game.GameScene.GameClear;
             }
         }
     }
@@ -128,11 +140,14 @@ public class MonsterSpawner : MonoBehaviour
 
     private void ClearEnemyPool()
     {
-
         // 소환된 적들을 오브젝트 풀로 보낸다.
         foreach (var i in spawnedEnemies)
         {
             poolers[i.Data.Id].Release(i);
+        }
+        foreach(var i in spawnedEnemies)
+        {
+            Destroy(i.gameObject);
         }
 
         // 오브젝트 풀에서 일괄 클리어 시킴.
@@ -162,7 +177,7 @@ public class MonsterSpawner : MonoBehaviour
                 if (maxSpawnCount > LiveMonsterCount)
                 {
                     spawnAfterElapsedTime = 0f;
-                    SpawnEnemy().Forget();
+                    SpawnEnemy();
                 }
                 else
                 {
@@ -177,7 +192,7 @@ public class MonsterSpawner : MonoBehaviour
         }
     }
 
-    private async UniTaskVoid SpawnEnemy()
+    private void SpawnEnemy()
     {
         int max = currentSpawnInfos.Count;
         int randomEnemyId = currentSpawnInfos[Random.Range(0, max)];

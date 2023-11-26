@@ -9,17 +9,23 @@ namespace RPG.Core.Manager
     {
         public int selectedCharacterId;
 
-        public GameScene GameScene{get; set;}
-
-        public Player CurrentPlayer { get
+        private GameScene gameScene;
+        public GameScene GameScene{ 
+            get 
             {
-                if(GameScene == null)
+                if(gameScene == null)
                 {
-                    GameScene = Transform.FindObjectOfType<GameScene>();
+                    gameScene = Transform.FindObjectOfType<GameScene>();
                 }
-                return GameScene.Player;
+                return gameScene;   
             } 
+            set
+            {
+                gameScene = value;
+            }
         }
+
+        public Player CurrentPlayer => GameScene.Player;
 
         public void Init()
         {
@@ -27,7 +33,11 @@ namespace RPG.Core.Manager
 
         public void Clear()
         {
+        }
 
+        public void GameClear()
+        {
+            GameScene.GameClear();
         }
     }
 }

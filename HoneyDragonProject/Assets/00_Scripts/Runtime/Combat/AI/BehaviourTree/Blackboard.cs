@@ -25,7 +25,7 @@ namespace RPG.Combat.AI.BehaviourTree
         Dictionary<string, object> dataContext = new Dictionary<string, object>();
         public Dictionary<string, object> GetDataContext() => dataContext;
 
-        public void SetData(string key, object value)
+        public void SetData<T>(string key, T value) where T : class
         {
             if(dataContext.TryGetValue(key, out var data) == false)
             {
@@ -52,7 +52,7 @@ namespace RPG.Combat.AI.BehaviourTree
             return value;
         }
 
-        public T GetData<T>(string key)
+        public T GetData<T>(string key) where T : class
         {
             if (dataContext.TryGetValue(key, out var value) == false)
             {

@@ -17,7 +17,8 @@
 #input {
     align-items: center;
     background-image: none;
-    flex-grow: 1;
+    flex-grow: 0;
+    -unity-text-align: upper-left;
 }
 
 #output {
@@ -90,12 +91,14 @@
     font-size: 16px;
     align-items: center;
     align-self: center;
+    min-height: 30px;
 }
 
 #description {
     font-size: 12px;
     align-items: center;
     align-self: center;
+    max-width: 140px;
 }
 
 #divider {
@@ -104,25 +107,32 @@
 }
 
 .action #input {
-    background-color: rgb(26, 117, 159);
+    background-color: rgb(185, 243, 0);
+    align-items: center;
 }
 
 .decorator #input {
     background-color: rgb(199, 249, 204);
+    align-items: center;
 }
 
 .root #input {
     background-color: rgb(140, 179, 105);
     min-height: 20px;
+    align-items: center;
 }
 
 .composite #input {
     -unity-text-outline-color: rgba(0, 0, 0, 0);
     background-color: rgb(218, 44, 56);
+    align-items: center;
+    justify-content: flex-start;
+    rotate: 0;
 }
 
 .condition #input {
-    background-color: rgb(17, 99, 195);
+    background-color: rgb(255, 57, 0);
+    align-items: center;
 }
 
 #node-state {
@@ -207,4 +217,5 @@
     border-top-color: rgba(255, 236, 0, 0);
     border-bottom-color: rgba(255, 236, 0, 0);
     background-color: rgb(255, 217, 0);
+    align-items: center;
 }

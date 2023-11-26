@@ -28,7 +28,6 @@ namespace RPG.Control
             RigidBody = GetComponentInChildren<Rigidbody>();
             Animator = GetComponentInChildren<Animator>();
 
-            // Test
             gridController = Managers.Instance.Stage.CurrentStage.Grid;
         }
 

@@ -32,7 +32,8 @@ static class Extensions
 
 		for (int i = 0; i < childCount; i++)
 		{
-			MonoBehaviour.Destroy(transform.GetChild(i).gameObject);
+			DestroyChildren(transform.GetChild(i));
+            MonoBehaviour.Destroy(transform.GetChild(i).gameObject);
 		}
 	}
 

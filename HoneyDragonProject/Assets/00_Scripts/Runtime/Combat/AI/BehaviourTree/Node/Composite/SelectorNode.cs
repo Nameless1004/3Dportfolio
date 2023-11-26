@@ -2,18 +2,14 @@
 
 namespace RPG.Combat.AI.BehaviourTree.Node
 {
-    [CreateAssetMenu(menuName = "BehaviourTree/Node/Composite/Selector")]
-    public class SelectorNode : CompositeNode
+    [Description("자식 중 하나라도 성공하면 Success 반환\n모두 실패하면 Failure반환")]
+    public class SelectorNode : Composite
     {
         protected override NodeState OnUpdate()
         {
             for (; currentChildIndex < Children.Count; currentChildIndex++)
             {
-                if(abortedNode != null && abortedNode == Children[currentChildIndex])
-                {
-                    abortedNode = null;
-                    return NodeState.Success;
-                }
+                if (Children[currentChildIndex] is Conditional) continue;
 
                 var state = Children[currentChildIndex].Evaluate();
 

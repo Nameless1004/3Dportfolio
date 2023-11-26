@@ -9,7 +9,7 @@ namespace RPG.Combat.AI.BehaviourTree
 {
     public abstract class BehaviourTree : ScriptableObject
     {
-        public RootNode root;
+        public Root root;
         public GameObject owner;
         protected Blackboard blackboard;
         public Blackboard Blackboard { get { return blackboard; } }
@@ -47,7 +47,7 @@ namespace RPG.Combat.AI.BehaviourTree
         public BehaviourTree Clone()
         {
             BehaviourTree tree = Instantiate(this);
-            tree.root = (RootNode)root.Clone();
+            tree.root = (Root)root.Clone();
             tree.nodes = new List<NodeBase>();
             Traverse(tree.root, (n) =>
             {
@@ -76,10 +76,30 @@ namespace RPG.Combat.AI.BehaviourTree
         }
 
         //#if UNITY_EDITOR
-        public NodeBase CreateNode(Type type)
+        public NodeBase CreateNode(Type type, Vector2 pos)
         {
             NodeBase node = ScriptableObject.CreateInstance(type) as NodeBase;
             node.name = type.Name.Replace("Node","");
+            node.guid = GUID.Generate().ToString();
+            node.position = pos;
+
+            Undo.RecordObject(this, "Behaviour Tree(CreateNode)");
+            nodes.Add(node);
+
+            if (!Application.isPlaying)
+            {
+                AssetDatabase.AddObjectToAsset(node, this);
+            }
+            Undo.RegisterCreatedObjectUndo(node, "Behaviour Tree(CreateNode)");
+            AssetDatabase.SaveAssets();
+            return node;
+
+        }
+
+        public NodeBase CreateNode(Type type)
+        {
+            NodeBase node = ScriptableObject.CreateInstance(type) as NodeBase;
+            node.name = type.Name.Replace("Node", "");
             node.guid = GUID.Generate().ToString();
 
             Undo.RecordObject(this, "Behaviour Tree(CreateNode)");
@@ -106,7 +126,7 @@ namespace RPG.Combat.AI.BehaviourTree
 
         public void AddChild(NodeBase parent, NodeBase child)
         {
-            DecoratorNode decorator = parent as DecoratorNode;
+            Decorator decorator = parent as Decorator;
             if (decorator)
             {
                 Undo.RecordObject(decorator, "Behaviour Tree(AddChild)");
@@ -114,7 +134,7 @@ namespace RPG.Combat.AI.BehaviourTree
                 EditorUtility.SetDirty(decorator);
             }
 
-            RootNode root = parent as RootNode;
+            Root root = parent as Root;
             if (root)
             {
                 Undo.RecordObject(root, "Behaviour Tree(AddChild)");
@@ -122,7 +142,7 @@ namespace RPG.Combat.AI.BehaviourTree
                 EditorUtility.SetDirty(root);
             }
 
-            CompositeNode composite = parent as CompositeNode;
+            Composite composite = parent as Composite;
             if (composite)
             {
                 Undo.RecordObject(composite, "Behaviour Tree(AddChild)");
@@ -134,7 +154,7 @@ namespace RPG.Combat.AI.BehaviourTree
         public void RemoveChild(NodeBase parent, NodeBase child)
         {
             child.Parent = null;
-            DecoratorNode decorator = parent as DecoratorNode;
+            Decorator decorator = parent as Decorator;
             if (decorator)
             {
                 Undo.RecordObject(decorator, "Behaviour Tree(RemoveChild)");
@@ -142,7 +162,7 @@ namespace RPG.Combat.AI.BehaviourTree
                 EditorUtility.SetDirty(decorator);
             }
 
-            RootNode root = parent as RootNode;
+            Root root = parent as Root;
             if (root)
             {
                 Undo.RecordObject(root, "Behaviour Tree(RemoveChild)");
@@ -151,7 +171,7 @@ namespace RPG.Combat.AI.BehaviourTree
             }
 
 
-            CompositeNode composite = parent as CompositeNode;
+            Composite composite = parent as Composite;
             if (composite)
             {
                 Undo.RecordObject(composite, "Behaviour Tree(RemoveChild)");
@@ -166,19 +186,19 @@ namespace RPG.Combat.AI.BehaviourTree
         {
             List<NodeBase> children = new List<NodeBase>();
 
-            DecoratorNode decorator = parent as DecoratorNode;
+            Decorator decorator = parent as Decorator;
             if (decorator && decorator.Child != null)
             {
                 children.Add(decorator.Child);
             }
 
-            RootNode root = parent as RootNode;
+            Root root = parent as Root;
             if (root && root.Child != null)
             {
                 children.Add(root.Child);
             }
 
-            CompositeNode composite = parent as CompositeNode;
+            Composite composite = parent as Composite;
             if (composite && composite.Children != null)
             {
                 children.AddRange(composite.Children.ToList());
