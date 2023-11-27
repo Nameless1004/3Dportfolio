@@ -32,8 +32,8 @@ namespace RPG.Core.Manager
         private T SimpleLoadJson<T>(string path)
         {
             // TODO: 
-            // var textAsset = Resources.Load<TextAsset>($"Data/{path}");
-            var textAsset = Resources.Load<TextAsset>($"EncryptedData/{path}");
+            // var textAsset = Util.ResourceCache.Load<TextAsset>($"Data/{path}");
+            var textAsset = Util.ResourceCache.Load<TextAsset>($"EncryptedData/{path}");
             return JsonUtility.FromJson<T>(JsonUtil.Decrypt("test", textAsset.text));
         }
 
@@ -41,15 +41,15 @@ namespace RPG.Core.Manager
         Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
         {
             // TODO: 
-            // var textAsset = Resources.Load<TextAsset>($"Data/{path}");
-            var textAsset = Resources.Load<TextAsset>($"EncryptedData/{path}");
+            // var textAsset = Util.ResourceCache.Load<TextAsset>($"Data/{path}");
+            var textAsset = Util.ResourceCache.Load<TextAsset>($"EncryptedData/{path}");
             return JsonUtility.FromJson<Loader>(JsonUtil.Decrypt("test", textAsset.text));
         }
 
         Dictionary<Key, Value> LoadJsonAll<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
         {
             // TODO: 
-            // var textAsset = Resources.LoadAll<TextAsset>($"Data/{path}");
+            // var textAsset = Util.ResourceCache.LoadAll<TextAsset>($"Data/{path}");
             var textAsset = Resources.LoadAll<TextAsset>($"EncryptedData/{path}");
             List<Dictionary<Key, Value>> dicts = new List<Dictionary<Key, Value>>();
 

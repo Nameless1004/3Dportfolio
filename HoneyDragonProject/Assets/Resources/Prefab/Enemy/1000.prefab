@@ -119,7 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHp: 50000
   CurrentHp: 0
-  FloatingDamage: {fileID: 6144941363728431848, guid: 0595d6061c489c34b93cea985bad21a3,
+  FloatingDamage: {fileID: 376461781358311525, guid: e7f8200073adb824dbb562ed997d47bb,
     type: 3}
 --- !u!136 &8823117951249904832
 CapsuleCollider:
@@ -195,6 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74fc1e21df9ccae43ad7799e1e1f3556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsReleased: 0
 --- !u!1001 &3357235750481465353
 PrefabInstance:
   m_ObjectHideFlags: 0

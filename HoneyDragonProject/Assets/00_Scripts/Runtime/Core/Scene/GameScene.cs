@@ -87,19 +87,11 @@ namespace RPG.Core.Scene
 
         private void Update()
         {
-            if(isStopTimer == false)
+            if (isStopTimer == false)
             {
                 gameElapsedTime += Time.deltaTime;
                 OnTimeChanged?.Invoke(gameElapsedTime);
             }
-            if(Input.GetKeyDown(KeyCode.Q)) 
-            {
-                MainVirtualCam.gameObject.SetActive(false);
-                CharacterFaceCam.gameObject.SetActive(true);
-                CharacterFaceCam.transform.position = currentPlayer.position + currentPlayer.forward * 3f + Vector3.up * 1.5f;
-                CharacterFaceCam.LookAt = currentPlayer.transform;
-            }
-
         }
 
         private void StopTimer()
@@ -110,6 +102,11 @@ namespace RPG.Core.Scene
         public void GameClear()
         {
             Debug.Log("GameClear");
+            StopTimer();
+            MainVirtualCam.gameObject.SetActive(false);
+            CharacterFaceCam.gameObject.SetActive(true);
+            CharacterFaceCam.transform.position = currentPlayer.position + currentPlayer.forward * 3f + Vector3.up * 1.5f;
+            CharacterFaceCam.LookAt = currentPlayer.transform;
             OnGameClear?.Invoke();
         }
     }

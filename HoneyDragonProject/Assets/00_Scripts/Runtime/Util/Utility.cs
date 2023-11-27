@@ -10,18 +10,18 @@ namespace RPG.Util
 {
     public static class ResourceCache
     {
-        private static readonly Dictionary<string, UnityEngine.Object> dict = new Dictionary<string, UnityEngine.Object>();
+        private static readonly Dictionary<string, UnityEngine.Object> resources = new Dictionary<string, UnityEngine.Object>();
 
         public static T Load<T>(string path) where T : UnityEngine.Object
         {
-            if(dict.TryGetValue(path, out var obj) == true)
+            if(resources.TryGetValue(path, out var obj) == true)
             {
-                return dict[path] as T;
+                return resources[path] as T;
             }
 
             T loaded = Resources.Load<T>(path);
             Logger.Assert(loaded is not null, $"Invalid Prefab Path: {path}");
-            dict.Add(path, loaded);
+            resources.Add(path, loaded);
             return loaded;
         }
     }

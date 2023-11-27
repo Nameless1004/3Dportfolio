@@ -26,7 +26,7 @@ namespace RPG.Core.Manager
             {
                 UnityEngine.Object.Destroy(CurrentStage);
             }
-            CurrentStage = MonoBehaviour.Instantiate(Resources.Load<Stage>(stageDataDict[CurrentStageNum].Prefab));
+            CurrentStage = MonoBehaviour.Instantiate(Util.ResourceCache.Load<Stage>(stageDataDict[CurrentStageNum].Prefab));
             Managers.Instance.Game.CurrentPlayer.position = CurrentStage.StartPosition.position;
             OnStageChanged?.Invoke(CurrentStageNum);
         }

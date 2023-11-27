@@ -93,7 +93,7 @@ namespace RPG.Core
 
         public void SetModel(string modelPrefabPath)
         {
-            var model = Instantiate(Resources.Load<GameObject>(modelPrefabPath), Model);
+            var model = Instantiate(Util.ResourceCache.Load<GameObject>(modelPrefabPath), Model);
             if(modelObject != null)
             {
                 Destroy(modelObject);

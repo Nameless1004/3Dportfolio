@@ -87,7 +87,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHp: 50000
   CurrentHp: 0
-  FloatingDamage: {fileID: 6144941363728431848, guid: 0595d6061c489c34b93cea985bad21a3,
+  FloatingDamage: {fileID: 376461781358311525, guid: e7f8200073adb824dbb562ed997d47bb,
     type: 3}
 --- !u!136 &549992892243313695
 CapsuleCollider:
@@ -120,7 +120,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 115160902522600924}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 1.5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74fc1e21df9ccae43ad7799e1e1f3556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsReleased: 0
 --- !u!1 &5199473796606299132
 GameObject:
   m_ObjectHideFlags: 0

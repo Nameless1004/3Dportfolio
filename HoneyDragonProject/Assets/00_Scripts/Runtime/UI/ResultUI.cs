@@ -34,12 +34,6 @@ namespace RPG.Core.UI
         
         public override void Close()
         {
-            group = group == null ? GetComponent<CanvasGroup>() : group;
-
-            closeButton.onClick.RemoveListener(Close);
-            OnFadeinDone -= OnFadeInDone;
-            OnFadeoutDone -= OnFadeOutDone;
-
             group.interactable = false;
             SimpleFadeOut(FadeOutTime).Forget();
         }
@@ -49,11 +43,8 @@ namespace RPG.Core.UI
             group = group == null ? GetComponent<CanvasGroup>() : group;
 
             closeButton.onClick.AddListener(Close);
-
-            OnFadeinDone -= OnFadeInDone;
-            OnFadeoutDone -= OnFadeOutDone;
-            OnFadeinDone += OnFadeInDone;
-            OnFadeoutDone += OnFadeOutDone;
+            OnFadeinDone = OnFadeInDone;
+            OnFadeoutDone = OnFadeOutDone;
 
             group.alpha = 0f;
             group.interactable = false;
@@ -72,10 +63,10 @@ namespace RPG.Core.UI
             SkillListInfo.DestroyChildren();
             var currentPlayer = Managers.Instance.Game.CurrentPlayer;
             var skillList = currentPlayer.GetComponent<PlayerSkillController>().SkillList;
-            var skillIconPrefab = Resources.Load<Image>("Prefab/UI/SkillIcon");
+            var skillIconPrefab = Util.ResourceCache.Load<Image>("Prefab/UI/SkillIcon");
             skillList.ForEach(skill =>
             {
-                Instantiate<Image>(skillIconPrefab, SkillListInfo).sprite = Resources.Load<Sprite>(skill.Data.IconPath);
+                Instantiate<Image>(skillIconPrefab, SkillListInfo).sprite = Util.ResourceCache.Load<Sprite>(skill.Data.IconPath);
             });
         }
     }

@@ -11,6 +11,8 @@ namespace RPG.Core.UI
     {
         public float FadeInTime = 1f;
         public float FadeOutTime = 1f;
+        protected float elapsedTime = 0f;
+        public bool isFading;
 
         public abstract CanvasGroup CanvasGroup {get;}
         public Action OnFadeinDone;
@@ -21,6 +23,8 @@ namespace RPG.Core.UI
 
         public async virtual UniTaskVoid SimpleFadeIn(float fadeTime)
         {
+            if (isFading) return;
+            isFading = true;
             float elapsedTime = 0f;
             CanvasGroup.alpha = 0f;
             while (elapsedTime < fadeTime)
@@ -32,10 +36,13 @@ namespace RPG.Core.UI
             }
             CanvasGroup.alpha = 1f;
             OnFadeinDone?.Invoke();
+            isFading = false;
         }
 
         public async virtual UniTaskVoid SimpleFadeOut(float fadeTime)
         {
+            if (isFading) return;
+            isFading = true;
             float elapsedTime = 0f;
             CanvasGroup.alpha = 1f;
             while (elapsedTime < fadeTime)
@@ -47,6 +54,7 @@ namespace RPG.Core.UI
             }
             CanvasGroup.alpha = 0f;
             OnFadeoutDone?.Invoke();
+            isFading = false;
         }
     }
 }

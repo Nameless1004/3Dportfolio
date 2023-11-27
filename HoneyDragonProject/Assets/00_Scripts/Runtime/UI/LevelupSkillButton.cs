@@ -24,7 +24,7 @@ namespace RPG.Core.UI
                 return;
             }
             SkillData = skillData;
-            SkillIcon.sprite = Resources.Load<Sprite>(skillData.IconPath);
+            SkillIcon.sprite = Util.ResourceCache.Load<Sprite>(skillData.IconPath);
             string description = $"이름: {skillData.Name}\n{skillData.Description}";
             SkillLevelupDescription.text = description;
         }

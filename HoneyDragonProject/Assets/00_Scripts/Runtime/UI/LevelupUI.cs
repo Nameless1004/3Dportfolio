@@ -79,7 +79,7 @@ namespace RPG.Core.UI
             randomFilter = new HashSet<int>();
             currentPlayer = Managers.Instance.Game.CurrentPlayer;
             currentPlayerSkillController = currentPlayer.GetComponentInChildren<PlayerSkillController>();
-            levelupSkillButtonPrefab = Resources.Load<LevelupSkillButton>("Prefab/UI/SkillButton");
+            levelupSkillButtonPrefab = Util.ResourceCache.Load<LevelupSkillButton>("Prefab/UI/SkillButton");
             levelupSkillButtons = new List<LevelupSkillButton>();
             for (int i = 0; i < 3; ++i)
             {

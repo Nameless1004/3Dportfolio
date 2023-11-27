@@ -75,7 +75,7 @@ namespace RPG.Combat.AI.BehaviourTree
 
         }
 
-        //#if UNITY_EDITOR
+#if UNITY_EDITOR
         public NodeBase CreateNode(Type type, Vector2 pos)
         {
             NodeBase node = ScriptableObject.CreateInstance(type) as NodeBase;
@@ -180,7 +180,7 @@ namespace RPG.Combat.AI.BehaviourTree
             }
         }
 
-        //#endif
+#endif
 
         public List<NodeBase> GetChildren(NodeBase parent)
         {

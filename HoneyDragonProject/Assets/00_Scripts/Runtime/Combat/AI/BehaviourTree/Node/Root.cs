@@ -1,7 +1,4 @@
-﻿using UnityEditor.EditorTools;
-using UnityEngine;
-
-namespace RPG.Combat.AI.BehaviourTree.Node
+﻿namespace RPG.Combat.AI.BehaviourTree.Node
 {
     [Description("Entry Node")]
     public class Root : NodeBase

@@ -26,7 +26,7 @@ namespace RPG.Core.Manager
         public T GetSkill<T>(Creature owner, int id, int level, Transform parent = null) where T : SkillBase
         {
             var skillData = GetSkillData(id, level);
-            SkillBase skill = MonoBehaviour.Instantiate(Resources.Load<SkillBase>(skillData.PrefabPath), parent);
+            SkillBase skill = MonoBehaviour.Instantiate(Util.ResourceCache.Load<SkillBase>(skillData.PrefabPath), parent);
             skill.SetData(skillData);
             skill.SetOwner(owner);
             return (T)skill;

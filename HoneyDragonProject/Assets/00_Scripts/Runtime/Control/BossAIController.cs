@@ -1,6 +1,8 @@
-﻿using RPG.Combat.AI.BehaviourTree;
+﻿using RPG.Combat;
+using RPG.Combat.AI.BehaviourTree;
 using RPG.Core;
 using RPG.Core.Manager;
+using System.Linq;
 using UnityEngine;
 
 namespace RPG.Control
@@ -72,7 +74,13 @@ namespace RPG.Control
 
         private void HitCheck()
         {
-            Debug.Log("HitCheck");
+            var hit = Physics.OverlapSphere(transform.position, owner.Data.AttackRange, LayerMask.GetMask("Player"));
+            if(hit.Length > 0)
+            {
+                Debug.Log("HitCheck");
+                var takedamageable = hit[0].GetComponent<ITakeDamageable>();
+                takedamageable.TakeDamage(new DamageInfo(gameObject, owner.Data.AttackPower));
+            }
         }
     }
 }

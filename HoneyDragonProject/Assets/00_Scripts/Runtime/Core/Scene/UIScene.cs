@@ -18,7 +18,9 @@ namespace RPG.Core.Scene
             });
 
             Managers.Instance.Game.CurrentPlayer.GetComponent<Health>().OnDie += OnPlayerDie;
+            Managers.Instance.Game.GameScene.OnGameClear += OnGameClear;
         }
+
 
         public override void Clear()
         {
@@ -26,7 +28,17 @@ namespace RPG.Core.Scene
 
         private void OnPlayerDie() 
         {
-            Instantiate(Resources.Load<ResultUI>("Prefab/UI/ResultUI"), MainCanvas.transform).transform.SetAsLastSibling();
+            var resultUI = Instantiate(Util.ResourceCache.Load<ResultUI>("Prefab/UI/ResultUI"), MainCanvas.transform);
+            resultUI.transform.SetAsLastSibling();
+            resultUI.Open();
+        }
+
+        private void OnGameClear()
+        {
+            var resultUI = Instantiate(Util.ResourceCache.Load<ResultUI>("Prefab/UI/ResultUI"), MainCanvas.transform);
+            resultUI.transform.SetAsLastSibling();
+            resultUI.FadeInTime = 5f;
+            resultUI.Open();
         }
     }
 }

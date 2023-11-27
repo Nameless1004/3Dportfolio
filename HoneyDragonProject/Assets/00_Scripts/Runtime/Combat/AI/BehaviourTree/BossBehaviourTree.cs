@@ -22,7 +22,7 @@ namespace RPG.Combat.AI.BehaviourTree
             blackboard.SetData<Transform>("Target", Managers.Instance.Game.CurrentPlayer.transform);
             blackboard.SetData<SharedFloat>("BossBattleElapsedTime", 0f);
             blackboard.SetData<SharedFloat>("BossBattleLimitTime", 500f);
-            blackboard.SetData<SharedFloat>("BossAttackRange", 5f);
+            blackboard.SetData<SharedFloat>("BossAttackRange", (blackboard["Boss"] as Boss).Data.AttackRange);
         }
     }
 }

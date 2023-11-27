@@ -31,6 +31,8 @@ public class MonsterSpawner : MonoBehaviour
     public event Action OnBossSpawned;
 
     // 캐싱
+    public Boss CurrentBoss { get; private set; }
+    public EnemyData CurrentBossData { get; private set; }
     private Dictionary<int, EnemyData> enemyData;
     private Dictionary<int, EnemyData> bossData;
 
@@ -65,14 +67,16 @@ public class MonsterSpawner : MonoBehaviour
 
     private void OnEnable()
     {
+        Managers.Instance.Stage.OnStageChanged -= OnStageChanged;
         Managers.Instance.Stage.OnStageChanged += OnStageChanged;
+
+        Managers.Instance.Game.GameScene.OnGameClear -= OnGameClear;
         Managers.Instance.Game.GameScene.OnGameClear += OnGameClear;
     }
 
     private void OnDisable()
     {
         Managers.Instance.Stage.OnStageChanged -= OnStageChanged;
-        Managers.Instance.Game.GameScene.OnGameClear -= OnGameClear;
     }
 
     public void OnGameClear()
@@ -85,18 +89,22 @@ public class MonsterSpawner : MonoBehaviour
         if(isBossSpawned == false && time > currentStageData.BossSpawnTime)
         {
             isBossSpawned = true;
-            // 보스가 등장할 때 처리를 위한 이벤트
-            OnBossSpawned?.Invoke();
+
             int a = currentStageData.BossId;
-            var bossPrefab = Resources.Load(Managers.Instance.Data.BossDataDict[a].PrefabPath);
+            CurrentBossData = bossData[a];
+
+            var bossPrefab = ResourceCache.Load<GameObject>(bossData[a].PrefabPath);
             if (bossPrefab != null)
             {
                 var randomPos = GetRandomPositionInsideSpawnArea();
                 var boss = Instantiate(bossPrefab, randomPos, Quaternion.identity);
+                CurrentBoss = boss.GetComponent<Boss>();
                 var bossHealth = boss.GetComponent<Health>();
 
                 bossHealth.OnDie -= Managers.Instance.Game.GameScene.GameClear;
                 bossHealth.OnDie += Managers.Instance.Game.GameScene.GameClear;
+
+                OnBossSpawned?.Invoke();
             }
         }
     }
@@ -143,14 +151,16 @@ public class MonsterSpawner : MonoBehaviour
         // 소환된 적들을 오브젝트 풀로 보낸다.
         foreach (var i in spawnedEnemies)
         {
-            poolers[i.Data.Id].Release(i);
+            if(i.IsReleased == false)
+            { 
+                poolers[i.Data.Id].Release(i);
+            }
         }
         foreach(var i in spawnedEnemies)
         {
             Destroy(i.gameObject);
         }
 
-        // 오브젝트 풀에서 일괄 클리어 시킴.
         foreach (var enemy in poolers)
         {
             enemy.Value.Clear();
@@ -160,7 +170,7 @@ public class MonsterSpawner : MonoBehaviour
         poolers.Clear();
     }
 
-    public int KillCount { get; set; }
+    public int KillCount { get; set; } = 0;
 
     public void OnDieEnemy()
     {

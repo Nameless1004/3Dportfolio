@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-using static Unity.VisualScripting.Metadata;
+﻿using Unity.VisualScripting;
 
 namespace RPG.Combat.AI.BehaviourTree.Node
 {

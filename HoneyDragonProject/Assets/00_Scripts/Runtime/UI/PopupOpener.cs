@@ -1,5 +1,4 @@
-﻿using Ricimi;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +22,6 @@ namespace RPG.Core.UI
                 if(isOpen == false)
                 {
                     Open();
-                    isOpen = true;
                 }
                 else
                 {
@@ -34,15 +32,15 @@ namespace RPG.Core.UI
 
         public void Open()
         {
-            if(popup == null)
-            {
-                popup = Instantiate(PopupPrefab, transform);
-                popup.OnFadeoutDone = () => {
-                    Destroy(popup.gameObject);
-                    isOpen = false;
-                    };
-                popup.transform.SetAsLastSibling();
-            }
+            if (popup != null) return;
+
+            popup = Instantiate(PopupPrefab, transform);
+            popup.OnFadeinDone = () => isOpen = true;
+            popup.OnFadeoutDone = () => {
+                Destroy(popup.gameObject);
+                isOpen = false;
+                };
+            popup.transform.SetAsLastSibling();
             popup.Open();
         }
 

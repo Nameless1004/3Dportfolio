@@ -82,7 +82,7 @@ namespace RPG.Core.Manager
         {
             if(audioClips.TryGetValue(path, out var clip) == false)
             {
-                clip = Resources.Load<AudioClip>(path);
+                clip = Util.ResourceCache.Load<AudioClip>(path);
                 audioClips.Add(path, clip);
                 return clip;
             }

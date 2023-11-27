@@ -52,7 +52,7 @@ public class EncryptJsonFiles : MonoBehaviour
             }
 
             string filePath = Path.Combine(at, json.Key);
-            if (Resources.Load(json.Key, typeof(TextAsset)) == null)
+            if (ResourceCache.Load<TextAsset>(json.Key) == null)
             {
                 Debug.Log($"FileCreate : {filePath}");
                 File.Create(filePath).Close();                

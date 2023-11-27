@@ -4,8 +4,9 @@
         {
             "Prefab" : "Prefab/Stage/Stage1",
             "StageNum" : "1",
-            "MaxSpawnCount" : "30",
-            "BossSpawnTime" : "1",
+            "MaxSpawnCount" : "100",
+            "BossSpawnTime" : "60",
+            "BossBattleLimitTime" : "100",
             "BossId" : "10000",
             "SpawnRate" : "1",
             "SpawnEnemyList" : 

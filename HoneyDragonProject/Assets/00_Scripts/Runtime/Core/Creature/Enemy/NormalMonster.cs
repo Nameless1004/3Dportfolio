@@ -9,6 +9,7 @@ namespace RPG.Core
     {
         public ObjectPool<NormalMonster> Owner { get; private set; }
         public NormalMonsterAIController Controller { get; private set; }
+        public bool IsReleased = false;
 
         private void OnEnable()
         {
@@ -51,11 +52,13 @@ namespace RPG.Core
         {
             gameObject.SetActive(true);
             Controller.Init();
+            IsReleased = false;
         }
 
         public void OnReleaseAction()
         {
             gameObject.SetActive(false);
+            IsReleased = true;
         }
 
         public void OnDestroyAction()

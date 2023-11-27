@@ -99,6 +99,8 @@ namespace RPG.Control
 
         private Quaternion Rotate()
         {
+            if(direction == Vector3.zero) return Quaternion.identity;
+
             var targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
             var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref currentVelocity, smoothTime);
             return Quaternion.Euler(0, angle, 0);

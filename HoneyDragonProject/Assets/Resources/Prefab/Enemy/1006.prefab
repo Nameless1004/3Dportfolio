@@ -571,6 +571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74fc1e21df9ccae43ad7799e1e1f3556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsReleased: 0
 --- !u!114 &-5891821497945111194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -598,7 +599,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHp: 0
   CurrentHp: 0
-  FloatingDamage: {fileID: 6144941363728431848, guid: 0595d6061c489c34b93cea985bad21a3,
+  FloatingDamage: {fileID: 376461781358311525, guid: e7f8200073adb824dbb562ed997d47bb,
     type: 3}
 --- !u!114 &-3072453881891512998
 MonoBehaviour:

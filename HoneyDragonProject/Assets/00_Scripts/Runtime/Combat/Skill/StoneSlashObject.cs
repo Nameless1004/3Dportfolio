@@ -33,7 +33,7 @@ namespace RPG.Combat.Skill
                 {
                     Damage = Random.Range(minDamage, maxDamage + 1),
                     IsKnockback = true,
-                    knockbackInfo = new KnockbackInfo(direction, 5f)
+                    knockbackInfo = new KnockbackInfo(direction, 10f)
                 });
             }
         }

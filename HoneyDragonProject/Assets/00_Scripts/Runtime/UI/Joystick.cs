@@ -16,7 +16,6 @@ namespace RPG.Core.UI
         private Vector2 pivot;
         private bool isPressed = false;
         public Vector2 Direction { get; private set; }
-        //
 
         public event Action<Vector2> OnValueChanged;
         private void Awake()
@@ -57,7 +56,15 @@ namespace RPG.Core.UI
             {
                 Handle.position = eventData.position;
             }
-            OnValueChanged?.Invoke(Direction);
+
+            if(Time.timeScale != 0)
+            {
+                OnValueChanged?.Invoke(Direction);
+            }
+            else
+            {
+                OnValueChanged?.Invoke(Vector2.zero);
+            }
         }
     }
 }

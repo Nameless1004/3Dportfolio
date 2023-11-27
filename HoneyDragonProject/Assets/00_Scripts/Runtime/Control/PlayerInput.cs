@@ -9,11 +9,15 @@ namespace RPG.Control
 
         private void Update()
         {
-#if UNITY_EDITOR
-            float x = Input.GetAxisRaw("Horizontal");
-            float y = Input.GetAxisRaw("Vertical");
-            MoveInput = new Vector3(x, 0, y).normalized;
-#endif
+//#if UNITY_EDITOR
+//            if (Time.timeScale == 0f) MoveInput = Vector3.zero;
+//            else
+//            {
+//                float x = Input.GetAxisRaw("Horizontal");
+//                float y = Input.GetAxisRaw("Vertical");
+//                MoveInput = new Vector3(x, 0, y).normalized;
+//            }
+//#endif
         }
         public void UpdateInputValue(Vector2 input)
         {

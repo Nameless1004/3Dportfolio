@@ -140,6 +140,7 @@ namespace RPG.Core.Data
         public int StageNum;
         public int MaxSpawnCount;
         public float BossSpawnTime;
+        public float BossBattleLimitTime;
         public int BossId;
         public float SpawnRate;
         public List<int> SpawnEnemyList;
