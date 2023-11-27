@@ -24,7 +24,7 @@ namespace RPG.Combat.Skill
                 collider = GetComponent<CapsuleCollider>();
             }
             linkedToken = CancellationTokenSource.CreateLinkedTokenSource(cancellationTokenSource.Token, this.GetCancellationTokenOnDestroy()).Token;
-            // todo
+            
             TargetUpdate().Forget();
             MoveToNearEnemy().Forget();
             HitCheck().Forget();

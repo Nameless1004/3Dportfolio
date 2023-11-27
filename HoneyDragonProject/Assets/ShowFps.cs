@@ -11,7 +11,6 @@ public class ShowFps : MonoBehaviour
     public int fontSize = 30;
     public Color color = new Color(0, 0, 0, 1);
     public float width, height;
-    private int minFps = int.MaxValue;
     private float elapsedTime = float.MaxValue;
 
     private int fps;

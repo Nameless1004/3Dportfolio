@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using TMPro;
 using UnityEngine;
 
 namespace RPG.Util
@@ -152,28 +153,48 @@ namespace RPG.Util
 
         public static Transform FindNearestObject(Transform initiator, float range, int layerMask)
         {
-            var collided = Physics.OverlapSphere(initiator.position, range, layerMask);
-            Collider nearest = null;
-            if (collided.Length > 0)
-            {
-                nearest = collided[0];
-                float minDist = float.MaxValue;
+            var collided = Physics.OverlapSphere(initiator.position, range, layerMask).ToList();
 
-                foreach (var enemy in collided)
-                {
-                    float dist = (initiator.position - enemy.transform.position).sqrMagnitude;
-                    if (minDist > dist)
-                    {
-                        nearest = enemy;
-                        minDist = dist;
-                    }
-                }
-                return nearest.transform;
-            }
-            else
+            collided.Sort((left, right) =>
             {
-                return null;
+                var leftDist = (initiator.position - left.transform.position).sqrMagnitude;
+                var rightDist = (initiator.position - right.transform.position).sqrMagnitude;
+                return leftDist.CompareTo(rightDist);
+            });
+
+            if (collided.Count == 0) return null;
+            Transform result = collided[0].transform;
+
+            return result;
+        }
+
+        public static List<Transform> FindNearestObjects(Transform initiator, float range, int findCount, int layerMask)
+        {
+            var result = new List<Transform>();
+
+            var collided = Physics.OverlapSphere(initiator.position, range, layerMask).ToList();
+
+            collided.Sort((left, right) =>
+            {
+                var leftDist = (initiator.position - left.transform.position).sqrMagnitude;
+                var rightDist = (initiator.position - right.transform.position).sqrMagnitude;
+                return leftDist.CompareTo(rightDist);
+            });
+
+            if(collided.Count == 0) return null;
+            Collider lastCollider = null;
+
+            for(int i = 0; i < findCount; ++i)
+            {
+                if (i < collided.Count && collided[i] != null)
+                {
+                    lastCollider = collided[i];
+                }
+
+                result.Add(lastCollider.transform);
             }
+
+            return result;
         }
     }
 }

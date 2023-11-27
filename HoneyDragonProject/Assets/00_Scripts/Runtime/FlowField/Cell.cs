@@ -19,7 +19,7 @@ public class Cell
     public ushort BestCost;
     public GridDirection BestDirection;
     public List<Cell> CardinalNeighbors;
-    public List<Cell> AllNeighbor;
+    public List<Cell> AllNeighbors;
 
     public bool IsObstacle { get; set; }
 

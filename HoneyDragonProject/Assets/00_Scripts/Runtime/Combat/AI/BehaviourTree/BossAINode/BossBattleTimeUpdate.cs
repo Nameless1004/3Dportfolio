@@ -1,9 +1,4 @@
-﻿using RPG.Combat.AI.BehaviourTree.Vairable;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RPG.Combat.AI.BehaviourTree.Variable;
 using UnityEngine;
 
 namespace RPG.Combat.AI.BehaviourTree.Node
@@ -12,10 +7,8 @@ namespace RPG.Combat.AI.BehaviourTree.Node
     {
         protected override NodeState OnUpdate()
         {
-            SharedFloat elapsedTime = blackboard.GetData<SharedFloat>("BossBattleElapsedTime");
+            SharedVariable<float> elapsedTime = blackboard.GetData<SharedVariable<float>>("BossBattleElapsedTime");
             elapsedTime.Value += Time.deltaTime;
-            blackboard.SetData("BossBattleElapsedTime", elapsedTime);
-            UnityEngine.Debug.Log(elapsedTime.Value);
             return NodeState.Success;
         }
     }

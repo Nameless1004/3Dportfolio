@@ -26,16 +26,21 @@ namespace RPG.Combat.Skill
 
         protected override async UniTaskVoid Activate(Creature initiator)
         {
+            var target = Utility.FindNearestObjects(initiator.transform, 50f,  Data.SpawnCount, LayerMask.GetMask("Enemy"));
             for (int i = 0; i < Data.SpawnCount; ++i)
             {
                 var get = projectiles.Get();
                 float randZ = Random.Range(-1f, 1f);
                 float randX = Random.Range(-1f, 1f);
                 Vector3 dir = new Vector3(randX, 0f, randZ).normalized;
-                var enem = Utility.FindNearestObject(initiator.transform, 50f, LayerMask.GetMask("Enemy"));
-                if (enem != null)
+                //var enem = Utility.FindNearestObject(initiator.transform, 50f, LayerMask.GetMask("Enemy"));
+                //if (enem != null)
+                //{
+                //    dir = (enem.transform.position - initiator.position).normalized;
+                //}
+                if (target != null)
                 {
-                    dir = (enem.transform.position - initiator.position).normalized;
+                    dir = (target[i].transform.position - initiator.position).normalized;
                 }
                 get.Fire(new DamageInfo(null, Random.Range(Data.MinDamage, Data.MaxDamage + 1), new KnockbackInfo(dir, 5f)), initiator.center, dir, Data.Speed, initiator);
                 Managers.Instance.Sound.PlaySound(SoundType.Effect, activeSoundResourcePath);

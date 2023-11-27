@@ -37,7 +37,7 @@ public class FlowField
     {
         foreach (Cell curCell in Grid)
         {
-            CalculateDirection(curCell, curCell.BestCost, curCell.AllNeighbor);
+            CalculateDirection(curCell, curCell.BestCost, curCell.AllNeighbors);
         }
     }
 
@@ -90,8 +90,8 @@ public class FlowField
 
         foreach (Cell curCell in Grid)
         {
-            curCell.AllNeighbor = GetNeighborCells(curCell.GridIndex, GridDirection.AllDirections);
-            curCell.CardinalNeighbors = curCell.AllNeighbor.Where(x => (x.GridIndex - curCell.GridIndex).sqrMagnitude == 1).ToList();
+            curCell.AllNeighbors = GetNeighborCells(curCell.GridIndex, GridDirection.AllDirections);
+            curCell.CardinalNeighbors = curCell.AllNeighbors.Where(x => (x.GridIndex - curCell.GridIndex).sqrMagnitude == 1).ToList();
         }
     }
 

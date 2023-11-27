@@ -1,9 +1,4 @@
-﻿using RPG.Combat.AI.BehaviourTree.Vairable;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RPG.Combat.AI.BehaviourTree.Variable;
 using UnityEngine;
 
 namespace RPG.Combat.AI.BehaviourTree.Node
@@ -14,7 +9,7 @@ namespace RPG.Combat.AI.BehaviourTree.Node
         float dist;
         protected override void OnStart()
         {
-            attackRagne = blackboard.GetData<SharedFloat>("BossAttackRange");
+            attackRagne = blackboard.GetData<SharedVariable<float>>("BossAttackRange");
             dist = blackboard.GetData<GameObject>("Owner").transform.position.GetDistance(blackboard.GetData<Transform>("Target").position);
         }
 

@@ -52,6 +52,7 @@ static class Extensions
 		target.y = 0f;
 		return Vector3.Distance(myVec, target);
 	}
+
 	public static void SetRandomDirectionXZ(this ref Vector3 vec)
 	{
         float randomX = Random.Range(0f, 1f);

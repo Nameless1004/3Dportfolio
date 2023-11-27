@@ -1,6 +1,4 @@
-﻿using RPG.Combat.AI.BehaviourTree.Vairable;
-using RPG.Control;
-using UnityEditor;
+﻿using RPG.Control;
 using UnityEngine;
 
 namespace RPG.Combat.AI.BehaviourTree.Node

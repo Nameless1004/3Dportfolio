@@ -1,7 +1,6 @@
-﻿using RPG.Combat.AI.BehaviourTree.Vairable;
+﻿using RPG.Combat.AI.BehaviourTree.Variable;
 using RPG.Control;
 using RPG.Core;
-using RPG.Core.Data;
 using RPG.Core.Manager;
 using UnityEngine;
 
@@ -20,9 +19,9 @@ namespace RPG.Combat.AI.BehaviourTree
             blackboard.SetData<Animator>("Animator", owner.GetComponentInChildren<Animator>());
             blackboard.SetData<Rigidbody>("RigidBody", owner.GetComponentInChildren<Rigidbody>());
             blackboard.SetData<Transform>("Target", Managers.Instance.Game.CurrentPlayer.transform);
-            blackboard.SetData<SharedFloat>("BossBattleElapsedTime", 0f);
-            blackboard.SetData<SharedFloat>("BossBattleLimitTime", 500f);
-            blackboard.SetData<SharedFloat>("BossAttackRange", (blackboard["Boss"] as Boss).Data.AttackRange);
+            blackboard.SetData<SharedVariable<float>>("BossBattleElapsedTime", 0f);
+            blackboard.SetData<SharedVariable<float>>("BossBattleLimitTime", 500f);
+            blackboard.SetData<SharedVariable<float>>("BossAttackRange", (blackboard["Boss"] as Boss).Data.AttackRange);
         }
     }
 }

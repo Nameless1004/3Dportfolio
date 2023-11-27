@@ -121,11 +121,6 @@ namespace RPG.Core.Item
                     {
                         (player as Player).GetExp(Amount);
                     }
-                    else if(player is Pet) 
-                    {
-                        (player as Pet).GetExp(Amount);
-                    }
-                    // 펫이면 else if()
                     owner.Release(this);
                     break;
                 }
