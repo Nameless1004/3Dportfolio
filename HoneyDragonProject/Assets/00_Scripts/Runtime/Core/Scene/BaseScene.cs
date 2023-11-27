@@ -9,7 +9,7 @@ namespace RPG.Core.Scene
         Lobby,
         Game,
         UI,
-        Unknown,
+        Unknown
     }
 
     public abstract class BaseScene : MonoBehaviour

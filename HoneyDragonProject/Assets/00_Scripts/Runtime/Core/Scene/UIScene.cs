@@ -12,7 +12,7 @@ namespace RPG.Core.Scene
         public override void Init()
         {
             // 현재 씬에 있는 BaseUI를 상속받은 모든 객체의 초기화를 UI Scene에서 해줌
-            FindObjectsOfType<BaseUI>().ToList().ForEach(x => {
+            MainCanvas.GetComponentsInChildren<BaseUI>().ToList().ForEach(x => {
                 x.Init();
                 Logger.Log(x.gameObject.name);
             });

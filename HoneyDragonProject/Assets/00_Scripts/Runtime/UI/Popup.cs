@@ -25,7 +25,7 @@ namespace RPG.Core.UI
             CanvasGroup.alpha = 0f;
             while (elapsedTime < fadeTime)
             {
-                elapsedTime += Time.deltaTime;
+                elapsedTime += Time.unscaledDeltaTime;
                 float ratio = (elapsedTime / fadeTime);
                 CanvasGroup.alpha = ratio;
                 await UniTask.Yield(this.GetCancellationTokenOnDestroy());
@@ -40,7 +40,7 @@ namespace RPG.Core.UI
             CanvasGroup.alpha = 1f;
             while (elapsedTime < fadeTime)
             {
-                elapsedTime += Time.deltaTime;
+                elapsedTime += Time.unscaledDeltaTime;
                 float ratio = 1f - (elapsedTime / fadeTime);
                 CanvasGroup.alpha = ratio;
                 await UniTask.Yield(this.GetCancellationTokenOnDestroy());

@@ -21,15 +21,6 @@ namespace RPG.Core.UI
         private CanvasGroup group;
         public override CanvasGroup CanvasGroup => group;
 
-        private void Awake()
-        {
-            group = GetComponent<CanvasGroup>();
-            closeButton.onClick.AddListener(Close);
-            OnFadeinDone += OnFadeInDone;
-            OnFadeoutDone += OnFadeOutDone;
-            Open();
-        }
-
 
         private void OnFadeInDone()
         {
@@ -43,12 +34,27 @@ namespace RPG.Core.UI
         
         public override void Close()
         {
+            group = group == null ? GetComponent<CanvasGroup>() : group;
+
+            closeButton.onClick.RemoveListener(Close);
+            OnFadeinDone -= OnFadeInDone;
+            OnFadeoutDone -= OnFadeOutDone;
+
             group.interactable = false;
             SimpleFadeOut(FadeOutTime).Forget();
         }
 
         public override void Open()
         {
+            group = group == null ? GetComponent<CanvasGroup>() : group;
+
+            closeButton.onClick.AddListener(Close);
+
+            OnFadeinDone -= OnFadeInDone;
+            OnFadeoutDone -= OnFadeOutDone;
+            OnFadeinDone += OnFadeInDone;
+            OnFadeoutDone += OnFadeOutDone;
+
             group.alpha = 0f;
             group.interactable = false;
             SetUIData();
