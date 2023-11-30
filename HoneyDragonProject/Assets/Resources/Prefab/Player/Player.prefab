@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 4802623935486117594}
   - component: {fileID: 6311008370530704763}
   - component: {fileID: 1842096748269004407}
-  - component: {fileID: 1697706862906609703}
   - component: {fileID: -3977093150694249494}
   - component: {fileID: 1022338687381564341}
   m_Layer: 3
@@ -121,19 +120,6 @@ MonoBehaviour:
   CurrentHp: 0
   FloatingDamage: {fileID: 6144941363728431848, guid: 0595d6061c489c34b93cea985bad21a3,
     type: 3}
---- !u!114 &1697706862906609703
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 622411404121796314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 277da4e4b2d1ad347b0868f9c9ddc6c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SkillList: []
 --- !u!54 &-3977093150694249494
 Rigidbody:
   m_ObjectHideFlags: 0

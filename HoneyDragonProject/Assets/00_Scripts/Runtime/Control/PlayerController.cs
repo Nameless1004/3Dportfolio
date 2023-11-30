@@ -4,6 +4,7 @@ using RPG.Core.Data;
 using RPG.Core.Manager;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace RPG.Control
@@ -28,7 +29,7 @@ namespace RPG.Control
         // 플레이어 모델 생성해주고 바인딩
         public void Init(PlayerData playerData)
         {
-            skillController = GetComponent<PlayerSkillController>();
+            skillController = gameObject.AddComponent<PlayerSkillController>();
             rig = GetComponent<Rigidbody>();
             input = GetComponent<PlayerInput>();
             animator = GetComponentInChildren<Animator>();

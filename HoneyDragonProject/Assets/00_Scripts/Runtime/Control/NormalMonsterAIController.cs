@@ -65,9 +65,12 @@ namespace RPG.Control
         float smoothTime = 0.2f;
         private void Rotate()
         {
-            var targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref currentVelocity, smoothTime);
-            transform.rotation = Quaternion.Euler(0, angle, 0);
+            if(Time.timeScale != 0f)
+            {
+                var targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+                var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref currentVelocity, smoothTime);
+                transform.rotation = Quaternion.Euler(0, angle, 0);
+            }
         }
 
         private void Update()

@@ -138,6 +138,26 @@ namespace RPG.Util
         /// Durstenfeld 셔플 알고리즘을 사용합니다.
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        public static List<T> GetShuffledList<T>(List<T> original)
+        {
+            var result = original.ToList();
+            for (int i = result.Count - 1; i >= 0; i--)
+            {
+                int randomIndex = UnityEngine.Random.Range(0, i + 1);
+
+                T temp = result[randomIndex];
+                result[randomIndex] = result[i];
+                result[i] = temp;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Durstenfeld 셔플 알고리즘을 사용합니다.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="array"></param>
         public static void Shuffle<T>(T[] array)
         {

@@ -17,11 +17,8 @@ namespace RPG.Control
         public Dictionary<int, SkillBase> SkillDict;
         public List<SkillBase> SkillList;
 
-        private HashSet<int> randomFilter;
-
         private void Awake()
         {
-            randomFilter = new HashSet<int>();
             SkillDict = new Dictionary<int, SkillBase>();
             SkillList = new List<SkillBase>();
             owner = GetComponent<Player>();
@@ -81,24 +78,14 @@ namespace RPG.Control
             var playerSkillIdList = Managers.Instance.Skill.SkillIdList;
             List<SkillData> randomSkillList = new List<SkillData>();
 
+            var result = Util.Utility.GetShuffledList(playerSkillIdList);
             // 플레이어가 이미 가지고 있는 스킬이면 레벨을 그다음레벨로
             // 만약 맥스 레벨이면 
             // 플레이어가 가지고 있는 스킬 중 랜덤으로
             for (int i = 0; i < count; ++i)
             {
-                int randomskillId = playerSkillIdList.GetRandomValue<int>();
+                int randomskillId = result[i];
 
-                // TODO: 플레이어 스킬 추가하면 삭제 예정
-                // 플레이어 스킬이 3개 미만일 때에는 중복허용 랜덤
-                if (playerSkillIdList.Count >= 3)
-                {
-                    while (randomFilter.Contains(randomskillId) == true)
-                    {
-                        randomskillId = playerSkillIdList.GetRandomValue<int>();
-                    }
-                }
-
-                randomFilter.Add(randomskillId);
 
                 // 플레이어가 소지중인 스킬 일 때
                 if (ContainsSkill(randomskillId, out SkillData skillData) == true)
@@ -115,7 +102,6 @@ namespace RPG.Control
                 }
 
             }
-            randomFilter.Clear();
 
             return randomSkillList;
         }

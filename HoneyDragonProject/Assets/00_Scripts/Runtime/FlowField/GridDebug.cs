@@ -65,40 +65,39 @@ public class GridDebug : MonoBehaviour
             switch (CurDisplayType)
             {
                 case FlowFieldDisplayType.CostField:
-                    foreach (Cell curCell in CurFlowField.Grid)
+                    for (int i = 0; i < CurFlowField.Grid.Length; ++i)
                     {
-                        Handles.Label(curCell.WorldPos, curCell.Cost.ToString(), style);
+                        for (int j = 0; j < CurFlowField.Grid[i].Length; ++j)
+                        {
+                            var curCell = CurFlowField.Grid[i][j];
+                            Handles.Label(curCell.WorldPos, curCell.Cost.ToString(), style);
+                        }
                     }
                     break;
                 case FlowFieldDisplayType.IntegrationField:
-                    foreach (Cell curCell in CurFlowField.Grid)
+                    for (int i = 0; i < CurFlowField.Grid.Length; ++i)
                     {
-                        Handles.Label(curCell.WorldPos, curCell.BestCost.ToString(), style);
+                        for (int j = 0; j < CurFlowField.Grid[i].Length; ++j)
+                        {
+                            var curCell = CurFlowField.Grid[i][j];
+                            Handles.Label(curCell.WorldPos, curCell.BestCost.ToString(), style);
+                        }
                     }
                     break;
                 case FlowFieldDisplayType.FlowField:
-                    foreach (Cell curCell in CurFlowField.Grid)
+                    for (int i = 0; i < CurFlowField.Grid.Length; ++i)
                     {
-                       // if (curCell.Cost == byte.MaxValue) continue;
+                        for (int j = 0; j < CurFlowField.Grid[i].Length; ++j)
+                        {
+                            var curCell = CurFlowField.Grid[i][j];
+                            string name = GetDirectionIconName(curCell.BestDirection);
+                            if (name == null) continue;
 
-                        string name = GetDirectionIconName(curCell.BestDirection);
-                        if (name == null) continue;
-
-                        Vector3 pos = curCell.WorldPos + Vector3.up;
-                        pos.y = .02f;
-                        Gizmos.color = Color.red;
-                        Gizmos.DrawIcon(pos, name + ".png");
-                    }
-                    break;
-                case FlowFieldDisplayType.HeatMap:
-                    Camera mainCam = Camera.main;
-                    foreach (Cell curCell in CurFlowField.Grid)
-                    {
-                        float heatRatio = Mathf.Clamp01(curCell.BestCost / (float)CurFlowField.MaxBestCost);
-                        Color heatColor = Color.Lerp(heatMapMax, heatMapMin, heatRatio);
-                        Gizmos.color = heatColor;
-                        Vector3 size = Vector3.one * cellRadius * 2;
-                        Gizmos.DrawWireCube(curCell.WorldPos, size);
+                            Vector3 pos = curCell.WorldPos + Vector3.up;
+                            pos.y = .02f;
+                            Gizmos.color = Color.red;
+                            Gizmos.DrawIcon(pos, name + ".png");
+                        }
                     }
                     break;
             }

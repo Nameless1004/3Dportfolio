@@ -17,7 +17,7 @@ namespace RPG.Combat.Skill
         protected Creature owner;
         public int Id;
         public Sprite Icon;
-        public int CurrentLevel;
+        public int CurrentLevel = 1;
 
         [field: SerializeField]
         public SkillData Data { get; protected set; }

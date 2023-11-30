@@ -25,7 +25,7 @@
             "Level": "1",
             "Hp" : "60",
             "Exp": "0.0",
-            "MoveSpeed": "2.5",
+            "MoveSpeed": "3",
             "AttackPower": "1",
             "Defense": "40"
         }

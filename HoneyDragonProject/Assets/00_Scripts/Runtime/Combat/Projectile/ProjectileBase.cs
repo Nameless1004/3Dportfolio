@@ -11,8 +11,6 @@ namespace RPG.Combat.Projectile
     public abstract class ProjectileBase : MonoBehaviour, IPoolable<ProjectileBase>
     {
         [SerializeField] protected float speed;
-        [SerializeField] protected float acceleration;
-        [SerializeField] protected float deceleration;
 
         protected DamageInfo dmgInfo;
         protected Vector3 startPos;

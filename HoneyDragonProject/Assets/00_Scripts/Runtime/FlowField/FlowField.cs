@@ -8,7 +8,7 @@ public class FlowField
 {
 
     public Vector2Int GridStartPoint;
-    public Cell[,] Grid { get; private set; }
+    public Cell[][] Grid { get; private set; }
     public Vector2Int GridSize { get; private set; }
     public float CellRadius { get; private set; }
     public int MaxBestCost { get; private set; }
@@ -35,9 +35,13 @@ public class FlowField
 
     private void CalculateFlowField()
     {
-        foreach (Cell curCell in Grid)
+        for (int i = 0; i < Grid.Length; ++i)
         {
-            CalculateDirection(curCell, curCell.BestCost, curCell.AllNeighbors);
+            for(int j = 0; j < Grid[i].Length; ++j)
+            {
+                var curCell = Grid[i][j];
+                CalculateDirection(curCell, curCell.BestCost, curCell.AllNeighbors);
+            }
         }
     }
 
@@ -55,7 +59,12 @@ public class FlowField
 
     public void CreateGrid()
     {
-        Grid = new Cell[GridSize.x, GridSize.y];
+        Grid = new Cell[GridSize.x][];
+        for (int i = 0; i < Grid.Length; ++i)
+        {
+            Grid[i] = new Cell[GridSize.y];
+        }
+
         Vector3 cellHalfExtents = Vector3.one * CellRadius;
         // 벽이나 장애물 있을 때 사용
         int obstacleMask = LayerMask.GetMask("Obstacle");
@@ -65,42 +74,54 @@ public class FlowField
             {
                 Vector3 worldPos = new Vector3(GridStartPoint.x + cellDiameter * x + CellRadius, 0, GridStartPoint.y + cellDiameter * y + CellRadius);
                 var curCell = new Cell(worldPos, new Vector2Int(x, y));
-                Grid[x, y] = curCell;
+                Grid[x][y] = curCell;
             }
         }
 
         // 이웃 셀 캐싱
-        foreach (Cell curCell in Grid)
+        for (int i = 0; i < Grid.Length; ++i)
         {
-            // 장애물 미리 설정
-            Collider[] obstacles = Physics.OverlapBox(curCell.WorldPos, cellHalfExtents, Quaternion.identity, obstacleMask);
-            if (obstacles.Length > 0)
+            for (int j = 0; j < Grid[i].Length; ++j)
             {
-                curCell.IncreaseCost(255);
-                curCell.BestCost = ushort.MaxValue;
-                Cell obstacle = GetCellFromWorldPos(obstacles[0].transform.position);
-                Vector2Int dir = curCell.GridIndex - obstacle.GridIndex;
-                dir.x = (int)Mathf.Sign(dir.x);
-                dir.y = (int)Mathf.Sign(dir.y);
-                GridDirection get = GridDirection.GetDirectionFromV2I(dir);
-                curCell.BestDirection = get;
-                curCell.IsObstacle = true;
+                var curCell = Grid[i][j];
+                // 장애물 미리 설정
+                Collider[] obstacles = Physics.OverlapBox(curCell.WorldPos, cellHalfExtents, Quaternion.identity, obstacleMask);
+                if (obstacles.Length > 0)
+                {
+                    curCell.IncreaseCost(255);
+                    curCell.BestCost = ushort.MaxValue;
+                    Cell obstacle = GetCellFromWorldPos(obstacles[0].transform.position);
+                    Vector2Int dir = curCell.GridIndex - obstacle.GridIndex;
+                    dir.x = (int)Mathf.Sign(dir.x);
+                    dir.y = (int)Mathf.Sign(dir.y);
+                    GridDirection get = GridDirection.GetDirectionFromV2I(dir);
+                    curCell.BestDirection = get;
+                    curCell.IsObstacle = true;
+                }
             }
         }
 
-        foreach (Cell curCell in Grid)
+        for (int i = 0; i < Grid.Length; ++i)
         {
-            curCell.AllNeighbors = GetNeighborCells(curCell.GridIndex, GridDirection.AllDirections);
-            curCell.CardinalNeighbors = curCell.AllNeighbors.Where(x => (x.GridIndex - curCell.GridIndex).sqrMagnitude == 1).ToList();
+            for (int j = 0; j < Grid[i].Length; ++j)
+            {
+                var curCell = Grid[i][j];
+                curCell.AllNeighbors = GetNeighborCells(curCell.GridIndex, GridDirection.AllDirections);
+                curCell.CardinalNeighbors = curCell.AllNeighbors.Where(x => (x.GridIndex - curCell.GridIndex).sqrMagnitude == 1).ToList();
+            }
         }
     }
 
     public void CreateCostField()
     {
-        foreach (Cell curCell in Grid)
+        for (int i = 0; i < Grid.Length; ++i)
         {
-            curCell.Cost = curCell.IsObstacle ? byte.MaxValue : (byte)1;
-            curCell.BestCost = ushort.MaxValue;
+            for (int j = 0; j < Grid[i].Length; ++j)
+            {
+                var curCell = Grid[i][j];
+                curCell.Cost = curCell.IsObstacle ? byte.MaxValue : (byte)1;
+                curCell.BestCost = ushort.MaxValue;
+            }
         }
     }
 
@@ -168,7 +189,7 @@ public class FlowField
         }
         else
         {
-            return Grid[finalPos.x - GridStartPoint.x, finalPos.y - GridStartPoint.y];
+            return Grid[finalPos.x - GridStartPoint.x][finalPos.y - GridStartPoint.y];
         }
     }
 
@@ -185,6 +206,6 @@ public class FlowField
 
         int x = Mathf.Clamp(Mathf.FloorToInt((GridSize.x) * percentX), 0, GridSize.x - 1);
         int y = Mathf.Clamp(Mathf.FloorToInt((GridSize.y) * percentY), 0, GridSize.y - 1);
-        return Grid[x, y];
+        return Grid[x][y];
     }
 }

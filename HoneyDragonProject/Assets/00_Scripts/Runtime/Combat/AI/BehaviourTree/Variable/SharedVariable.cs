@@ -9,7 +9,7 @@
             return sharedVariable.Value;
         }
 
-        public static implicit operator SharedVariable<T>(T val)
+        public static explicit operator SharedVariable<T>(T val)
         {
             return new SharedVariable<T>(val);
         }
@@ -17,3 +17,4 @@
         public T Value { get; set; }
     }
 }
+

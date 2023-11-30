@@ -19,9 +19,9 @@ namespace RPG.Combat.AI.BehaviourTree
             blackboard.SetData<Animator>("Animator", owner.GetComponentInChildren<Animator>());
             blackboard.SetData<Rigidbody>("RigidBody", owner.GetComponentInChildren<Rigidbody>());
             blackboard.SetData<Transform>("Target", Managers.Instance.Game.CurrentPlayer.transform);
-            blackboard.SetData<SharedVariable<float>>("BossBattleElapsedTime", 0f);
-            blackboard.SetData<SharedVariable<float>>("BossBattleLimitTime", 500f);
-            blackboard.SetData<SharedVariable<float>>("BossAttackRange", (blackboard["Boss"] as Boss).Data.AttackRange);
+            blackboard.SetData<SharedVariable<float>>("BossBattleElapsedTime", (SharedVariable<float>)0f);
+            blackboard.SetData<SharedVariable<float>>("BossBattleLimitTime", (SharedVariable<float>)500f);
+            blackboard.SetData<SharedVariable<float>>("BossAttackRange", (SharedVariable<float>)(blackboard["Boss"] as Boss).Data.AttackRange);
         }
     }
 }
