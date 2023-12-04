@@ -1,10 +1,6 @@
-﻿using Cysharp.Threading.Tasks;
-using RPG.Combat;
+﻿using RPG.Combat;
 using RPG.Core.Data;
 using RPG.Core.Manager;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace RPG.Control
@@ -73,6 +69,11 @@ namespace RPG.Control
             if (initialized == false) return;
             UpdateDirection();
             UpdateAnimationParameter();
+        }
+
+        private void FixedUpdate()
+        {
+            if (initialized == false) return;
             Move();
         }
 

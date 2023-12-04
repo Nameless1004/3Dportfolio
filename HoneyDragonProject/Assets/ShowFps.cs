@@ -19,6 +19,8 @@ public class ShowFps : MonoBehaviour
     {
         Application.targetFrameRate = targetFrameRate;
     }
+
+#if UNITY_EDITOR
     private void Update()
     {
         float time = 1f / displayRatePerSec;
@@ -41,4 +43,6 @@ public class ShowFps : MonoBehaviour
         style.normal.textColor = color;
         GUI.Label(position, text, style);
     }
+#endif
+
 }

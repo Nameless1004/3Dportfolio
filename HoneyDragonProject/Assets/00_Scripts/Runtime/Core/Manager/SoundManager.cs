@@ -38,6 +38,21 @@ namespace RPG.Core.Manager
             audioSources[(int)SoundType.BGM].loop = true;
         }
 
+        public void StopBGM()
+        {
+            audioSources[(int)SoundType.BGM].Stop();
+        }
+
+        public void PauseBGM()
+        {
+            audioSources[(int)SoundType.BGM].Pause();
+        }
+
+        public void ResumeBGM()
+        {
+            audioSources[(int)SoundType.BGM].Play();
+        }
+
         public void PlaySound(SoundType type, string path)
         {
             switch (type)

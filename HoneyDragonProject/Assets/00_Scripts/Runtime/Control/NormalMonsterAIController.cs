@@ -76,9 +76,13 @@ namespace RPG.Control
         private void Update()
         {
             if (Target == null) return;
-
-            MoveUseFlowField();
             Rotate();
+        }
+
+        private void FixedUpdate()
+        {
+            if (Target == null) return;
+            MoveUseFlowField();
         }
 
         public void OnDie()

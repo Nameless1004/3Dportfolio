@@ -71,7 +71,7 @@ namespace RPG.Combat.Skill
                         }
                     });
                 }
-                await UniTask.Delay(200, false, PlayerLoopTiming.Update, linkedToken);
+                await UniTask.Delay(400, false, PlayerLoopTiming.Update, linkedToken);
             }
         }
 

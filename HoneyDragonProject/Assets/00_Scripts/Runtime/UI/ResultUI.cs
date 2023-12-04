@@ -35,6 +35,7 @@ namespace RPG.Core.UI
         public override void Close()
         {
             group.interactable = false;
+            Managers.Instance.Sound.StopBGM();
             SimpleFadeOut(FadeOutTime).Forget();
         }
 

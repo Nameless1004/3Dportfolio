@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RPG.Core.Manager;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,7 @@ namespace RPG.Core.UI
         {
             Time.timeScale = 1f;
             SimpleFadeOut(0.5f).Forget();
+            Managers.Instance.Sound.ResumeBGM();
         }
 
         public override void Open()
@@ -29,6 +31,7 @@ namespace RPG.Core.UI
             Time.timeScale = 0f;
             
             SimpleFadeIn(0.5f).Forget();
+            Managers.Instance.Sound.PauseBGM();
         }
 
         public void OnQuitButtonClicked()
@@ -43,6 +46,7 @@ namespace RPG.Core.UI
         public void OnRestartButtonClicked()
         {
             Close();
+            Managers.Instance.Sound.StopBGM();
             SceneManager.LoadScene((int)Scene.SceneType.Lobby);
         }
 
